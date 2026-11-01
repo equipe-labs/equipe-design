@@ -1,4 +1,4 @@
-# design-remix (working name)
+# equipe-design
 
 Extract design tokens from sites you like, remix them into your own brand, and export a design system you can ship:
 DTCG tokens, CSS variables, Tailwind v4 `@theme`, shadcn theme, Swift, Kotlin, Figma variables — with contrast guardrails.
