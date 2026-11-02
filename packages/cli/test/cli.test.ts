@@ -6,9 +6,10 @@ import { helpText, loadCommands, main } from '../src/main.ts';
 const bin = fileURLToPath(new URL('../bin/equipe-design.js', import.meta.url));
 
 describe('equipe-design CLI', () => {
-  it('--help lists the registered commands', () => {
+  it('--help lists the registered commands and the intended use', () => {
     const out = execFileSync(process.execPath, [bin, '--help'], { encoding: 'utf8' });
-    expect(out).toMatch(/Commands:\n {2}extract .*\n {2}report .*\n/);
+    expect(out).toContain('Commands:\n');
+    for (const name of ['extract', 'report', 'remix', 'emit']) expect(out).toMatch(new RegExp(`\\n {2}${name} `));
     expect(out).toContain('Intended use:');
   });
 
