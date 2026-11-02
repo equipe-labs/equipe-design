@@ -1,7 +1,7 @@
 // No logins and no workarounds. There is no option to pass cookies, storage state or
 // extra headers: every run gets a new, empty browser profile (Playwright's default
 // context) that is thrown away at the end. The engine never attaches to an existing
-// browser (no connectOverCDP, no user data dir), so the person's signed-in browser and the
+// browser (never attaches to a running one, no user data dir), so the person's signed-in browser and the
 // squad's shared `browser` tool are out of reach. No stealth, proxies or captcha handling.
 
 export interface PageCheck {
