@@ -5,7 +5,17 @@ DTCG tokens, CSS variables, Tailwind v4 `@theme`, shadcn theme, Swift, Kotlin, F
 
 Values only: no logos, images, font files or copied CSS. You pick the references; the output is yours, renamed and re-toned to your brand.
 
-Status: early. The repository skeleton and the extraction result schema 0.1 are in; the engine, remix and exporters are being built.
+Status: early. The extraction engine works; remix and exporters are being built.
+
+## Try it
+
+```bash
+npm install                                   # once, in this repository (needs Google Chrome installed)
+npx equipe-design extract https://equipe.im   # → equipe-design/<host>-<time>/extract.json + report.md
+npx equipe-design report equipe-design/*/extract.json   # print the evidence and limits report again
+```
+
+`report.md` is the page to read first: roles with their light/dark pair, the brand colour verdict, components and states, and what could not be seen. Exit code 2 means a guardrail stopped the run (robots.txt, a login wall, a bot check).
 
 ## Intended use
 
@@ -21,6 +31,7 @@ To report a misuse or a problem with a result, open an issue.
 | Folder | Package | What it is |
 |---|---|---|
 | `packages/schema` | `@equipe-design/schema` | JSON Schema for `extract.json` (schema 0.1), its TypeScript types, a validator, and three example results |
+| `packages/engine` | `@equipe-design/engine` | The extraction engine: `extract()` and `report()`. See [its README](packages/engine/README.md) |
 | `packages/cli` | `equipe-design` | The `equipe-design` command. Every file in `src/commands/` is a command and registers itself |
 | `packages/mcp` | `@equipe-design/mcp` | MCP server `design` (stdio). Every file in `src/tools/` is a tool and registers itself |
 

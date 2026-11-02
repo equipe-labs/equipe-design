@@ -6,17 +6,17 @@ import { helpText, loadCommands, main } from '../src/main.ts';
 const bin = fileURLToPath(new URL('../bin/equipe-design.js', import.meta.url));
 
 describe('equipe-design CLI', () => {
-  it('--help shows an empty command list while no command is registered', () => {
+  it('--help lists the registered commands', () => {
     const out = execFileSync(process.execPath, [bin, '--help'], { encoding: 'utf8' });
-    expect(out).toContain('Commands:\n  (none yet)\n');
+    expect(out).toMatch(/Commands:\n {2}extract .*\n {2}report .*\n/);
     expect(out).toContain('Intended use:');
   });
 
   it('fails on an unknown command', async () => {
     let err = '';
-    const code = await main(['extract'], process.stdout, { write: (s: string) => ((err += s), true) } as never);
+    const code = await main(['nope'], process.stdout, { write: (s: string) => ((err += s), true) } as never);
     expect(code).toBe(1);
-    expect(err).toContain('unknown command "extract"');
+    expect(err).toContain('unknown command "nope"');
   });
 
   it('registers every file in commands/ by itself, sorted', async () => {

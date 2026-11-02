@@ -1,0 +1,16 @@
+{
+  "name": "@equipe-design/engine",
+  "version": "0.1.0",
+  "description": "equipe-design extraction engine: capture computed styles from pages, normalise them and infer roles, brand and components, with evidence and limits.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": ["src"],
+  "engines": { "node": ">=22.18" },
+  "dependencies": {
+    "@equipe-design/schema": "0.1.0",
+    "playwright-core": "^1.56.0"
+  }
+}

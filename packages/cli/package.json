@@ -4,8 +4,18 @@
   "description": "Extract design tokens from pages, remix them into your own brand, and export a design system.",
   "license": "Apache-2.0",
   "type": "module",
-  "bin": { "equipe-design": "./bin/equipe-design.js" },
-  "files": ["bin", "src"],
-  "engines": { "node": ">=22.18" },
-  "dependencies": { "@equipe-design/schema": "0.1.0" }
+  "bin": {
+    "equipe-design": "./bin/equipe-design.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "@equipe-design/schema": "0.1.0",
+    "@equipe-design/engine": "0.1.0"
+  }
 }
