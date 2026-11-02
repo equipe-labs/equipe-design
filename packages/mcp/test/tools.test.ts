@@ -5,8 +5,8 @@ import { handle } from '../src/server.ts';
 import type { Tool } from '../src/tool.ts';
 
 describe('MCP tool registry', () => {
-  it('serves the four design tools', async () => {
-    expect((await loadTools()).map((t) => t.name)).toEqual(['design_emit', 'design_extract', 'design_remix', 'design_report']);
+  it('serves the design tools', async () => {
+    expect((await loadTools()).map((t) => t.name)).toEqual(['design_emit', 'design_extract', 'design_library_get', 'design_library_pull', 'design_library_search', 'design_remix', 'design_report']);
   });
 
   it('registers every file in tools/ by itself', async () => {
