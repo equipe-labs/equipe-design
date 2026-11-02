@@ -1,0 +1,10 @@
+{
+  "name": "@equipe-design/remix",
+  "version": "0.1.0",
+  "description": "Remix extracted or library design tokens into your own brand color, with an AA contrast check.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "files": ["src"],
+  "dependencies": { "@equipe-design/schema": "0.1.0" }
+}
