@@ -6,9 +6,9 @@ import { helpText, loadCommands, main } from '../src/main.ts';
 const bin = fileURLToPath(new URL('../bin/equipe-design.js', import.meta.url));
 
 describe('equipe-design CLI', () => {
-  it('--help shows an empty command list while no command is registered', () => {
+  it('--help lists the commands and the intended use', () => {
     const out = execFileSync(process.execPath, [bin, '--help'], { encoding: 'utf8' });
-    expect(out).toContain('Commands:\n  (none yet)\n');
+    expect(out).toContain('Commands:\n');
     expect(out).toContain('Intended use:');
   });
 

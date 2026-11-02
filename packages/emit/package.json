@@ -1,0 +1,10 @@
+{
+  "name": "@equipe-design/emit",
+  "version": "0.1.0",
+  "description": "Write design tokens as DTCG, CSS variables, Tailwind v4, shadcn, Swift and Kotlin.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "files": ["src", "templates"],
+  "dependencies": { "@equipe-design/remix": "0.1.0" }
+}
