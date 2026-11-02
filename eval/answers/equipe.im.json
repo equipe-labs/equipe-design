@@ -1,0 +1,200 @@
+{
+  "host": "equipe.im",
+  "url": "https://equipe.im/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {
+      "label": "equipe design tokens (generated CSS)",
+      "url": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css"
+    },
+    {
+      "label": "T-257 03 equipe.im 정답 대조",
+      "url": "outputs/T-257 추출 엔진 비교/03 equipe.im 정답 대조.md"
+    }
+  ],
+  "dark": {
+    "method": "media",
+    "toggle": "@media (prefers-color-scheme: dark) variables; <html data-theme>",
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css"
+  },
+  "colors": {
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css",
+    "note": "24 = 23 opaque colour tokens + line. action-hover, action-pressed and err are not used on the home page (T-257).",
+    "items": [
+      {
+        "name": "bg",
+        "role": "background",
+        "light": "#f6f5f1",
+        "dark": "#0a0a0c"
+      },
+      {
+        "name": "surface",
+        "role": "surface",
+        "light": "#ffffff",
+        "dark": "#16171a"
+      },
+      {
+        "name": "raised",
+        "role": "raised",
+        "light": "#ffffff",
+        "dark": "#1b1c20"
+      },
+      {
+        "name": "sunken",
+        "light": "#eae7e0",
+        "dark": "#111114"
+      },
+      {
+        "name": "text",
+        "role": "text",
+        "light": "#15161a",
+        "dark": "#efede7"
+      },
+      {
+        "name": "muted",
+        "role": "muted-text",
+        "light": "#4f5159",
+        "dark": "#a3a5ab"
+      },
+      {
+        "name": "accent",
+        "role": "primary",
+        "light": "#1d4ed8",
+        "dark": "#8fb0ff"
+      },
+      {
+        "name": "on-accent",
+        "role": "on-primary",
+        "light": "#ffffff",
+        "dark": "#0b1226"
+      },
+      {
+        "name": "focus",
+        "role": "ring",
+        "light": "#1d4ed8",
+        "dark": "#8fb0ff"
+      },
+      {
+        "name": "dot",
+        "light": "#3f6ff5",
+        "dark": null
+      },
+      {
+        "name": "line",
+        "role": "border",
+        "light": "#0a0a0c24",
+        "dark": "#e9e6df24"
+      },
+      {
+        "name": "border-strong",
+        "role": "border-strong",
+        "light": "#74767d",
+        "dark": "#7c7e85"
+      },
+      {
+        "name": "action",
+        "light": "#15161a",
+        "dark": "#efede7"
+      },
+      {
+        "name": "on-action",
+        "light": "#f6f5f1",
+        "dark": "#0a0a0c"
+      },
+      {
+        "name": "action-hover",
+        "light": "#2a2c33",
+        "dark": "#dad7cf",
+        "usedOnPage": false
+      },
+      {
+        "name": "action-pressed",
+        "light": "#3a3c44",
+        "dark": "#c9c6be",
+        "usedOnPage": false
+      },
+      {
+        "name": "inverse",
+        "light": "#15161a",
+        "dark": "#efede7"
+      },
+      {
+        "name": "on-inverse",
+        "light": "#f6f5f1",
+        "dark": "#0a0a0c"
+      },
+      {
+        "name": "inverse-accent",
+        "light": "#8fb0ff",
+        "dark": "#1d4ed8"
+      },
+      {
+        "name": "ok",
+        "role": "success",
+        "light": "#1f6b33",
+        "dark": "#7fcb8e"
+      },
+      {
+        "name": "work",
+        "role": "warning",
+        "light": "#825600",
+        "dark": "#e2b865"
+      },
+      {
+        "name": "wait",
+        "light": "#a04610",
+        "dark": "#ec9a62"
+      },
+      {
+        "name": "err",
+        "role": "destructive",
+        "light": "#ad2e27",
+        "dark": "#ee7b74",
+        "usedOnPage": false
+      },
+      {
+        "name": "on-err",
+        "light": "#ffffff",
+        "dark": "#0a0a0c"
+      }
+    ]
+  },
+  "spacing": {
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css",
+    "px": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      32,
+      48,
+      72,
+      112
+    ]
+  },
+  "radius": {
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css",
+    "px": [
+      6,
+      8,
+      12,
+      16,
+      24
+    ]
+  },
+  "typography": {
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css",
+    "families": [
+      "Inter Variable",
+      "JetBrains Mono Variable"
+    ]
+  },
+  "brand": {
+    "source": "https://github.com/equipe-labs/equipe/blob/main/design/build/css/tokens.css",
+    "value": "#1d4ed8"
+  },
+  "notes": [
+    "The site declares the same values under short names (--bg, --text, --accent); values match tokens.css (T-257, 2026-11-02)."
+  ]
+}
