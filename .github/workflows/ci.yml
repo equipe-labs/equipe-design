@@ -24,3 +24,21 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npx equipe-design --help
+
+  kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: fwilhe2/setup-kotlin@main
+      # the kotlinc test is skipped when kotlinc is missing, so fail early instead
+      - run: kotlinc -version
+      - run: npm ci
+      - run: npx vitest run packages/emit -t kotlin
