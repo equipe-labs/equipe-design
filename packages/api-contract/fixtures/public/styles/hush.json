@@ -1,0 +1,197 @@
+{
+  "style": {
+    "slug": "hush",
+    "name": "Hush",
+    "origin": "original",
+    "category": "minimal",
+    "tags": [
+      "neutral",
+      "light-first"
+    ],
+    "brand": {
+      "hex": "#2456c9",
+      "hue": 263.4
+    },
+    "hasDark": true,
+    "fonts": [
+      "Hanken Grotesk",
+      "JetBrains Mono"
+    ],
+    "preview": {
+      "light": {
+        "background": "#ffffff",
+        "surface": "#f7f7f7",
+        "text": "#1a1a1a",
+        "muted-text": "#717171",
+        "primary": "#2b2b2b",
+        "on-primary": "#ffffff",
+        "accent": "#2456c9",
+        "border": "#e1e1e1"
+      },
+      "dark": {
+        "background": "#111113",
+        "surface": "#1d1d1f",
+        "text": "#eeeeee",
+        "muted-text": "#9a9a9b",
+        "primary": "#f2f2f2",
+        "on-primary": "#000000",
+        "accent": "#8ab0ff",
+        "border": "#2e2e2f"
+      }
+    },
+    "releaseId": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a01",
+    "version": 1,
+    "updatedAt": "2026-11-02T09:30:00Z",
+    "description": "Quiet greys, one blue for links. Minimal."
+  },
+  "release": {
+    "roles": {
+      "light": {
+        "background": "#ffffff",
+        "surface": "#f7f7f7",
+        "raised": "#fafafa",
+        "text": "#1a1a1a",
+        "muted-text": "#717171",
+        "primary": "#2b2b2b",
+        "on-primary": "#ffffff",
+        "secondary": "#f1f1f1",
+        "accent": "#2456c9",
+        "border": "#e1e1e1",
+        "border-strong": "#818181",
+        "ring": "#2b2b2b",
+        "destructive": "#c62828",
+        "success": "#1b7a43",
+        "warning": "#8f5b00"
+      },
+      "dark": {
+        "background": "#111113",
+        "surface": "#1d1d1f",
+        "raised": "#29292b",
+        "text": "#eeeeee",
+        "muted-text": "#9a9a9b",
+        "primary": "#f2f2f2",
+        "on-primary": "#000000",
+        "secondary": "#26262a",
+        "accent": "#8ab0ff",
+        "border": "#2e2e2f",
+        "border-strong": "#8b8b8b",
+        "ring": "#f2f2f2",
+        "destructive": "#ff7b72",
+        "success": "#4cc38a",
+        "warning": "#e8b44a"
+      }
+    },
+    "scales": {
+      "space": [
+        2,
+        4,
+        8,
+        12,
+        16,
+        24,
+        32,
+        48
+      ],
+      "radius": [
+        4,
+        6,
+        10
+      ]
+    },
+    "typography": {
+      "fonts": {
+        "sans": [
+          "Hanken Grotesk",
+          "Pretendard",
+          "Noto Sans KR",
+          "sans-serif"
+        ],
+        "mono": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "monospace"
+        ],
+        "display": null
+      },
+      "roles": {
+        "display": {
+          "family": "sans",
+          "size": 40,
+          "weight": 600,
+          "lineHeight": 1.25,
+          "letterSpacing": -0.01
+        },
+        "h1": {
+          "family": "sans",
+          "size": 33,
+          "weight": 600,
+          "lineHeight": 1.25,
+          "letterSpacing": -0.01
+        },
+        "h2": {
+          "family": "sans",
+          "size": 28,
+          "weight": 600,
+          "lineHeight": 1.25,
+          "letterSpacing": -0.01
+        },
+        "h3": {
+          "family": "sans",
+          "size": 23,
+          "weight": 600,
+          "lineHeight": 1.25,
+          "letterSpacing": -0.01
+        },
+        "body": {
+          "family": "sans",
+          "size": 16,
+          "weight": 400,
+          "lineHeight": 1.6,
+          "letterSpacing": 0
+        },
+        "small": {
+          "family": "sans",
+          "size": 13,
+          "weight": 400,
+          "lineHeight": 1.6,
+          "letterSpacing": 0
+        },
+        "mono": {
+          "family": "mono",
+          "size": 13,
+          "weight": 400,
+          "lineHeight": 1.6,
+          "letterSpacing": 0
+        }
+      }
+    },
+    "components": [],
+    "limits": [
+      {
+        "scope": "fonts.mono",
+        "text": "the system has no monospace font, JetBrains Mono (OFL) is added"
+      }
+    ],
+    "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a01",
+    "version": 1,
+    "origin": "original",
+    "publishedAt": "2026-11-02T09:30:00Z",
+    "formats": [
+      "dtcg",
+      "dtcg-legacy",
+      "css",
+      "tailwind",
+      "shadcn"
+    ],
+    "measured": null
+  },
+  "releases": [
+    {
+      "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a01",
+      "version": 1,
+      "publishedAt": "2026-11-02T09:30:00Z",
+      "changes": null
+    }
+  ],
+  "notice": "An original style made for the equipe design library. Fonts are open-licensed (OFL)."
+}

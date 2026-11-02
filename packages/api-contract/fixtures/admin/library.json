@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "hush",
+    "name": "Hush",
+    "origin": "original",
+    "description": "Quiet greys, one blue for links. Minimal.",
+    "category": "minimal",
+    "tags": [
+      "neutral",
+      "light-first"
+    ]
+  },
+  {
+    "slug": "klaxon",
+    "name": "Klaxon",
+    "origin": "original",
+    "description": "Black, white and a loud yellow. High contrast.",
+    "category": "high-contrast",
+    "tags": [
+      "bold",
+      "accessible"
+    ]
+  },
+  {
+    "slug": "tessel",
+    "name": "Tessel",
+    "origin": "extracted",
+    "description": "Deep blue on white with a matching dark theme.",
+    "category": "devtool",
+    "tags": [
+      "blue",
+      "dark-mode"
+    ],
+    "source": {
+      "serviceName": "equipe.im",
+      "homepage": "https://equipe.im/",
+      "allowedUrls": [
+        "https://equipe.im/"
+      ]
+    }
+  }
+]
