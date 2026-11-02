@@ -25,6 +25,7 @@ It visits external sites, so it is run by hand — never on a schedule.
 | `src/score.ts` | The metrics |
 | `src/run.ts` | Runs, scores, writes `scoreboard.md` and `scores.json` |
 | `out/` | Runs (git-ignored) |
+| `results/` | Scoreboards kept in git (2026-11-02: first full run, 6 sites × 3 tools) |
 
 ## Sites
 
