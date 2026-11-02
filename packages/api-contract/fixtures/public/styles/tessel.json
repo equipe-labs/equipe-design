@@ -1,0 +1,257 @@
+{
+  "style": {
+    "slug": "tessel",
+    "name": "Tessel",
+    "origin": "extracted",
+    "category": "devtool",
+    "tags": [
+      "blue",
+      "dark-mode"
+    ],
+    "brand": {
+      "hex": "#1d4ed8",
+      "hue": 264.4
+    },
+    "hasDark": true,
+    "fonts": [
+      "Inter Variable",
+      "JetBrains Mono Variable"
+    ],
+    "preview": {
+      "light": {
+        "background": "#f6f5f1",
+        "surface": "#ecebe7",
+        "text": "#15161a",
+        "muted-text": "#656567",
+        "primary": "#1d4ed8",
+        "on-primary": "#ffffff",
+        "accent": "#1d4ed8",
+        "border": "#d0cfcc"
+      },
+      "dark": {
+        "background": "#0a0a0c",
+        "surface": "#141416",
+        "text": "#efede7",
+        "muted-text": "#898886",
+        "primary": "#8fb0ff",
+        "on-primary": "#000000",
+        "accent": "#8fb0ff",
+        "border": "#232324"
+      }
+    },
+    "releaseId": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a03",
+    "version": 1,
+    "updatedAt": "2026-11-02T09:30:00Z",
+    "description": "Deep blue on white with a matching dark theme."
+  },
+  "release": {
+    "roles": {
+      "light": {
+        "background": "#f6f5f1",
+        "text": "#15161a",
+        "primary": "#1d4ed8",
+        "border": "#d0cfcc",
+        "surface": "#ecebe7",
+        "raised": "#f1f0ec",
+        "muted-text": "#656567",
+        "secondary": "#e4e3e0",
+        "border-strong": "#707072",
+        "accent": "#1d4ed8",
+        "on-primary": "#ffffff",
+        "ring": "#1d4ed8",
+        "destructive": "#c62828",
+        "success": "#1b7a43",
+        "warning": "#8f5b00"
+      },
+      "dark": {
+        "background": "#0a0a0c",
+        "text": "#efede7",
+        "primary": "#8fb0ff",
+        "border": "#232324",
+        "surface": "#141416",
+        "raised": "#1c1c1d",
+        "muted-text": "#898886",
+        "secondary": "#161618",
+        "border-strong": "#7d7c7a",
+        "accent": "#8fb0ff",
+        "on-primary": "#000000",
+        "ring": "#8fb0ff",
+        "destructive": "#ff8a80",
+        "success": "#5fd68f",
+        "warning": "#f0b44c"
+      }
+    },
+    "scales": {
+      "space": [
+        4,
+        8,
+        12,
+        16,
+        24,
+        32,
+        48,
+        72,
+        112
+      ],
+      "radius": [
+        6,
+        8,
+        12,
+        16,
+        24
+      ]
+    },
+    "typography": {
+      "fonts": {
+        "sans": [
+          "Inter Variable",
+          "system-ui",
+          "sans-serif"
+        ],
+        "mono": [
+          "JetBrains Mono Variable",
+          "ui-monospace",
+          "monospace"
+        ],
+        "display": null
+      },
+      "roles": {
+        "display": {
+          "family": "sans",
+          "size": 56,
+          "weight": 600,
+          "lineHeight": 1.05,
+          "letterSpacing": -0.02
+        },
+        "h1": {
+          "family": "sans",
+          "size": 40,
+          "weight": 700,
+          "lineHeight": 1.15,
+          "letterSpacing": -0.015
+        },
+        "h2": {
+          "family": "sans",
+          "size": 32,
+          "weight": 600,
+          "lineHeight": 1.2,
+          "letterSpacing": -0.01
+        },
+        "h3": {
+          "family": "sans",
+          "size": 24,
+          "weight": 600,
+          "lineHeight": 1.3,
+          "letterSpacing": 0
+        },
+        "body": {
+          "family": "sans",
+          "size": 16,
+          "weight": 400,
+          "lineHeight": 1.5,
+          "letterSpacing": 0
+        },
+        "small": {
+          "family": "sans",
+          "size": 14,
+          "weight": 400,
+          "lineHeight": 1.5,
+          "letterSpacing": 0
+        },
+        "mono": {
+          "family": "mono",
+          "size": 14,
+          "weight": 400,
+          "lineHeight": 1.5,
+          "letterSpacing": 0
+        }
+      }
+    },
+    "components": [
+      {
+        "kind": "button",
+        "variants": [
+          {
+            "name": "primary",
+            "background": "#1d4ed8",
+            "text": "#ffffff",
+            "border": null,
+            "radiusPx": 12,
+            "states": {
+              "default": true,
+              "hover": true,
+              "focus-visible": true,
+              "active": true,
+              "disabled": false
+            }
+          },
+          {
+            "name": "secondary",
+            "background": null,
+            "text": "#15161a",
+            "border": "#0a0a0c",
+            "radiusPx": 12,
+            "states": {
+              "default": true,
+              "hover": true,
+              "focus-visible": true,
+              "active": false,
+              "disabled": false
+            }
+          }
+        ]
+      }
+    ],
+    "limits": [
+      {
+        "scope": "*",
+        "text": "사용자가 준 URL 1개만 읽음 — 다른 페이지에만 있는 컴포넌트·색은 빠짐"
+      },
+      {
+        "scope": "observed.color",
+        "text": "action-hover·action-pressed·err 같은 색은 이 페이지에서 쓰이지 않음(변수로만 선언) — 역할 일부가 비어 있음"
+      },
+      {
+        "scope": "inferred.components.k1.*.disabled",
+        "text": "페이지에 disabled·error 예시가 없음. 속성 주입은 기본으로 하지 않음 — 상태 표의 disabled 칸, destructive 역할이 빈칸"
+      },
+      {
+        "scope": "inferred.components.k1.k1v2.active",
+        "text": ":active 강제로 계산 스타일 차이가 없음. JS로 그리는 상태일 수 있음 — 눌림 상태 미확인"
+      },
+      {
+        "scope": "source.modes.highContrast",
+        "text": "prefers-contrast: more 규칙이 스타일시트에 없음 — 고대비 값 없음(‘없음’이 아니라 ‘미관찰’)"
+      },
+      {
+        "scope": "observed.typography.families",
+        "text": "폰트 파일은 정책상 받지 않음 — 글꼴은 이름·굵기·크기만"
+      }
+    ],
+    "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a03",
+    "version": 1,
+    "origin": "extracted",
+    "publishedAt": "2026-11-02T09:30:00Z",
+    "formats": [
+      "dtcg",
+      "dtcg-legacy",
+      "css",
+      "tailwind",
+      "shadcn"
+    ],
+    "measured": {
+      "engineVersion": "equipe-design 0.1.0",
+      "schemaVersion": "0.1",
+      "finishedAt": "2026-11-02T09:00:00Z"
+    }
+  },
+  "releases": [
+    {
+      "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a03",
+      "version": 1,
+      "publishedAt": "2026-11-02T09:30:00Z",
+      "changes": null
+    }
+  ],
+  "notice": "Values measured from public pages: colours, sizes and font names only — no logos, font files, images or text. Not affiliated with or endorsed by any company. Remix it into your own brand before you use it."
+}
