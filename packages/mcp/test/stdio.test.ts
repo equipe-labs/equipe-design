@@ -20,9 +20,9 @@ describe('equipe-design mcp over stdio', () => {
     rmSync(out, { recursive: true, force: true });
   });
 
-  it('lists the four tools', async () => {
+  it('lists the design tools', async () => {
     const r = (await client.request('tools/list')).result as { tools: { name: string }[] };
-    expect(r.tools.map((t) => t.name)).toEqual(['design_emit', 'design_extract', 'design_remix', 'design_report']);
+    expect(r.tools.map((t) => t.name)).toEqual(['design_emit', 'design_extract', 'design_library_get', 'design_library_pull', 'design_library_search', 'design_remix', 'design_report']);
   });
 
   it('design_extract returns paths and a summary, not the JSON', async () => {

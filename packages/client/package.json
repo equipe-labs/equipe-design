@@ -1,0 +1,19 @@
+{
+  "name": "@equipe-design/client",
+  "version": "0.1.0",
+  "description": "Client for the equipe design library API v1, and local remix of library styles.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./local": "./src/local.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@equipe-design/api-contract": "0.1.0",
+    "@equipe-design/emit": "0.1.0",
+    "@equipe-design/remix": "0.1.0"
+  }
+}
