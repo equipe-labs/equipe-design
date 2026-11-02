@@ -1,0 +1,135 @@
+{
+  "host": "ui.shadcn.com",
+  "url": "https://ui.shadcn.com/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {
+      "label": "ui.shadcn.com site stylesheet (:root and .dark, Next.js CSS chunk)",
+      "url": "https://ui.shadcn.com/"
+    },
+    {
+      "label": "shadcn Theming docs",
+      "url": "https://ui.shadcn.com/docs/theming"
+    }
+  ],
+  "dark": {
+    "method": "class",
+    "toggle": "html.dark",
+    "source": "https://ui.shadcn.com/"
+  },
+  "colors": {
+    "source": "https://ui.shadcn.com/",
+    "items": [
+      {
+        "name": "background",
+        "var": "--background",
+        "role": "background",
+        "light": "#ffffff",
+        "dark": "#0a0a0a"
+      },
+      {
+        "name": "foreground",
+        "var": "--foreground",
+        "role": "text",
+        "light": "#000000",
+        "dark": "#fafafa"
+      },
+      {
+        "name": "card",
+        "var": "--card",
+        "role": "surface",
+        "light": "#ffffff",
+        "dark": "#171717"
+      },
+      {
+        "name": "primary",
+        "var": "--primary",
+        "role": "primary",
+        "light": "#000000",
+        "dark": "#e5e5e5"
+      },
+      {
+        "name": "primary-foreground",
+        "var": "--primary-foreground",
+        "role": "on-primary",
+        "light": "#fafafa",
+        "dark": "#171717"
+      },
+      {
+        "name": "secondary",
+        "var": "--secondary",
+        "role": "secondary",
+        "light": "#f5f5f5",
+        "dark": "#262626"
+      },
+      {
+        "name": "muted",
+        "var": "--muted",
+        "light": "#f5f5f5",
+        "dark": "#262626"
+      },
+      {
+        "name": "muted-foreground",
+        "var": "--muted-foreground",
+        "role": "muted-text",
+        "light": "#737373",
+        "dark": "#a1a1a1"
+      },
+      {
+        "name": "accent",
+        "var": "--accent",
+        "role": "accent",
+        "light": "#f5f5f5",
+        "dark": "#404040"
+      },
+      {
+        "name": "destructive",
+        "var": "--destructive",
+        "role": "destructive",
+        "light": "#e40014",
+        "dark": "#ff6568"
+      },
+      {
+        "name": "border",
+        "var": "--border",
+        "role": "border",
+        "light": "#e5e5e5",
+        "dark": "#ffffff1a"
+      },
+      {
+        "name": "input",
+        "var": "--input",
+        "light": "#e5e5e5",
+        "dark": "#ffffff26"
+      },
+      {
+        "name": "ring",
+        "var": "--ring",
+        "role": "ring",
+        "light": "#a1a1a1",
+        "dark": "#737373"
+      }
+    ]
+  },
+  "radius": {
+    "source": "https://ui.shadcn.com/",
+    "px": [
+      6,
+      8,
+      10,
+      14
+    ],
+    "note": "--radius .625rem; sm/md/lg/xl = ×0.6/×0.8/×1/×1.4"
+  },
+  "typography": {
+    "source": "https://ui.shadcn.com/",
+    "families": [
+      "Geist",
+      "Geist Mono"
+    ]
+  },
+  "notes": [
+    "The site's own variables differ from the Theming docs' default (site --foreground #000, docs oklch(0.145 0 0)); the answer is what the site declares, checked 2026-11-02.",
+    "Each variable is declared twice: hex first, then lab() for browsers that support it; values are the same colours."
+  ]
+}
