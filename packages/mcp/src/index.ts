@@ -2,6 +2,9 @@ import { readdirSync } from 'node:fs';
 import type { Tool } from './tool.ts';
 
 export type { Tool };
+export { serve, handle, PROTOCOL_VERSIONS, type ServerInfo } from './server.ts';
+export { getEngine, setEngine, fakeEngine, type Engine, type ExtractRequest, type ExtractOutcome } from './engine.ts';
+export { ownBrowserLaunch, assertOwnBrowser, scrubEnv, SharedBrowserError, type LaunchPlan } from './browser.ts';
 
 export const SERVER_NAME = 'design';
 
