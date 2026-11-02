@@ -1,0 +1,112 @@
+{
+  "$comment": "예시 결과(스키마 0.1): robots.txt가 경로를 막아 첫 요청 전에 멈춘 실행(robots-blocked.example). 페이지를 열지 않았으므로 observed는 비어 있고 inferred는 없다. CLI 종료 코드 2.",
+  "schemaVersion": "0.1",
+  "tool": {
+    "name": "equipe-design",
+    "version": "0.1.0",
+    "chrome": null
+  },
+  "run": {
+    "id": "2026-11-02T11-00-00Z-robots-blocked.example",
+    "startedAt": "2026-11-02T11:00:00Z",
+    "durationMs": 310,
+    "userAgent": "equipe-design/0.1.0 (+https://github.com/equipe-labs/equipe-design)",
+    "options": {
+      "widths": [
+        1440,
+        390
+      ],
+      "modes": "auto",
+      "states": true,
+      "maxPages": 5
+    },
+    "stoppedBy": "robots-disallowed"
+  },
+  "notice": "Values observed on the pages below, for analysis and inspiration. Not affiliated with the site's owner. Token names are neutral and new; no CSS, font, image or text was copied.",
+  "source": {
+    "pages": [
+      {
+        "url": "https://robots-blocked.example/app/",
+        "finalUrl": null,
+        "status": null,
+        "robots": {
+          "checked": true,
+          "allowed": false,
+          "rule": "Disallow: /app/"
+        },
+        "loginWall": false,
+        "visibleElements": 0,
+        "widths": [],
+        "modes": []
+      }
+    ],
+    "modes": {
+      "light": {
+        "observed": false,
+        "limit": "L1"
+      },
+      "dark": {
+        "observed": false,
+        "limit": "L1"
+      }
+    },
+    "stylesheets": {
+      "readable": 0,
+      "crossOriginParsedInMemory": 0,
+      "unreadable": 0
+    }
+  },
+  "observed": {
+    "color": [],
+    "typography": {
+      "families": [],
+      "styles": []
+    },
+    "spacing": [],
+    "radius": [],
+    "shadow": [],
+    "motion": [],
+    "elevation": [],
+    "breakpoints": [],
+    "variables": []
+  },
+  "inferred": {},
+  "limits": [
+    {
+      "id": "L1",
+      "kind": "robots-disallowed",
+      "scope": "*",
+      "reason": "robots.txt의 'Disallow: /app/' 규칙이 이 경로를 막음(UA equipe-design 기준)",
+      "effect": "페이지를 열지 않아 아무 값도 없음",
+      "fix": "robots.txt가 허용하는 페이지를 주거나, 내 사이트라면 robots.txt에 허용 규칙을 더하기"
+    }
+  ],
+  "guardrails": {
+    "robots": "disallowed",
+    "loginUsed": false,
+    "freshBrowserProfile": true,
+    "pagesVisited": 0,
+    "maxPages": 5,
+    "mutatingRequestsBlocked": 0,
+    "stored": {
+      "cssText": false,
+      "fontFiles": false,
+      "images": false,
+      "pageText": false,
+      "screenshots": false
+    },
+    "brandNameInTokenNames": false
+  },
+  "summary": {
+    "colors": 0,
+    "roles": {
+      "filled": 0,
+      "empty": 0
+    },
+    "brand": null,
+    "darkPairs": 0,
+    "components": 0,
+    "limits": 1,
+    "lowConfidence": []
+  }
+}

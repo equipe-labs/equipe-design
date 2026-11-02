@@ -1,0 +1,27 @@
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { describe, expect, it } from 'vitest';
+import { helpText, loadCommands, main } from '../src/main.ts';
+
+const bin = fileURLToPath(new URL('../bin/equipe-design.js', import.meta.url));
+
+describe('equipe-design CLI', () => {
+  it('--help shows an empty command list while no command is registered', () => {
+    const out = execFileSync(process.execPath, [bin, '--help'], { encoding: 'utf8' });
+    expect(out).toContain('Commands:\n  (none yet)\n');
+    expect(out).toContain('Intended use:');
+  });
+
+  it('fails on an unknown command', async () => {
+    let err = '';
+    const code = await main(['extract'], process.stdout, { write: (s: string) => ((err += s), true) } as never);
+    expect(code).toBe(1);
+    expect(err).toContain('unknown command "extract"');
+  });
+
+  it('registers every file in commands/ by itself, sorted', async () => {
+    const commands = await loadCommands(new URL('./fixtures/commands/', import.meta.url));
+    expect(commands.map((c) => c.name)).toEqual(['alpha', 'hello']);
+    expect(helpText(commands)).toMatch(/Commands:\n {2}alpha {2}First in the list\n {2}hello {2}Say hello\n/);
+  });
+});
