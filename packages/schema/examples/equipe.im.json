@@ -1,0 +1,1344 @@
+{
+  "$comment": "예시 결과(스키마 0.1): equipe.im 홈 1페이지. 색·간격·반경 값은 equipe/design/build/css/tokens.css에서 가져왔고, count·evidence·confidence 같은 수치는 형식을 보여 주는 예시 값이다(실측 아님). 배열은 항목을 몇 개만 남겼다. 원본: T-279 extract.example.json.",
+  "schemaVersion": "0.1",
+  "tool": {
+    "name": "equipe-design",
+    "version": "0.1.0",
+    "chrome": "142.0 (예시)"
+  },
+  "run": {
+    "id": "2026-11-02T09-00-00Z-equipe.im",
+    "startedAt": "2026-11-02T09:00:00Z",
+    "durationMs": 9400,
+    "userAgent": "equipe-design/0.1.0 (+https://github.com/equipe-labs/equipe-design)",
+    "options": {
+      "widths": [
+        1440,
+        390
+      ],
+      "modes": "auto",
+      "states": true,
+      "maxPages": 5
+    },
+    "stoppedBy": null
+  },
+  "notice": "Values observed on the pages below, for analysis and inspiration. Not affiliated with the site's owner. Token names are neutral and new; no CSS, font, image or text was copied.",
+  "source": {
+    "pages": [
+      {
+        "url": "https://equipe.im/",
+        "finalUrl": "https://equipe.im/",
+        "status": 200,
+        "robots": {
+          "checked": true,
+          "allowed": true,
+          "rule": null
+        },
+        "loginWall": false,
+        "visibleElements": 812,
+        "widths": [
+          1440,
+          390
+        ],
+        "modes": [
+          "light",
+          "dark"
+        ]
+      }
+    ],
+    "modes": {
+      "light": {
+        "observed": true,
+        "method": "default"
+      },
+      "dark": {
+        "observed": true,
+        "method": "media-query",
+        "detectors": {
+          "mediaQuery": {
+            "found": true,
+            "rules": 3
+          },
+          "classToggle": {
+            "found": false,
+            "tried": [
+              "html.dark",
+              "[data-theme=dark]",
+              "[data-mode=dark]",
+              ".theme-dark"
+            ]
+          },
+          "mediaVariables": {
+            "found": true,
+            "variablesThatDiffer": 24
+          }
+        }
+      },
+      "highContrast": {
+        "observed": false,
+        "limit": "L5"
+      }
+    },
+    "stylesheets": {
+      "readable": 2,
+      "crossOriginParsedInMemory": 0,
+      "unreadable": 0
+    }
+  },
+  "observed": {
+    "color": [
+      {
+        "id": "c1",
+        "value": {
+          "hex": "#f6f5f1",
+          "oklch": [
+            0.968,
+            0.006,
+            95.1
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 214,
+        "areaShare": 0.71,
+        "uses": {
+          "background": 198,
+          "text": 0,
+          "border": 0,
+          "fill": 16
+        },
+        "cssVariables": [
+          "--bg"
+        ],
+        "mergedFrom": [
+          "rgb(246, 245, 241)"
+        ],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "body",
+            "axRole": null,
+            "prop": "background-color",
+            "rect": [
+              0,
+              0,
+              1440,
+              9120
+            ]
+          },
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "header.site-header",
+            "axRole": "banner",
+            "prop": "background-color",
+            "rect": [
+              0,
+              0,
+              1440,
+              64
+            ]
+          }
+        ],
+        "confidence": 0.98
+      },
+      {
+        "id": "c2",
+        "value": {
+          "hex": "#15161a",
+          "oklch": [
+            0.205,
+            0.008,
+            274.6
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 388,
+        "areaShare": 0.04,
+        "uses": {
+          "background": 6,
+          "text": 371,
+          "border": 0,
+          "fill": 11
+        },
+        "cssVariables": [
+          "--text"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "main p",
+            "axRole": "paragraph",
+            "prop": "color",
+            "rect": [
+              120,
+              640,
+              560,
+              72
+            ]
+          }
+        ],
+        "confidence": 0.97
+      },
+      {
+        "id": "c3",
+        "value": {
+          "hex": "#1d4ed8",
+          "oklch": [
+            0.488,
+            0.217,
+            264.4
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 41,
+        "areaShare": 0.006,
+        "uses": {
+          "background": 9,
+          "text": 24,
+          "border": 4,
+          "fill": 4,
+          "outline": 0
+        },
+        "cssVariables": [
+          "--accent"
+        ],
+        "mergedFrom": [],
+        "spread": {
+          "sections": 6,
+          "componentClusters": 4
+        },
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "a.btn.btn-primary",
+            "axRole": "link",
+            "prop": "background-color",
+            "rect": [
+              120,
+              420,
+              196,
+              48
+            ]
+          },
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "main a",
+            "axRole": "link",
+            "prop": "color",
+            "rect": [
+              300,
+              1880,
+              84,
+              24
+            ]
+          }
+        ],
+        "confidence": 0.95
+      },
+      {
+        "id": "c4",
+        "value": {
+          "hex": "#ffffff",
+          "oklch": [
+            1,
+            0,
+            0
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 3,
+        "uses": {
+          "text": 3
+        },
+        "cssVariables": [
+          "--on-accent"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "a.btn.btn-primary",
+            "axRole": "link",
+            "prop": "color",
+            "rect": [
+              120,
+              420,
+              196,
+              48
+            ]
+          }
+        ],
+        "confidence": 0.7
+      },
+      {
+        "id": "c5",
+        "value": {
+          "hex": "#0a0a0c",
+          "oklch": [
+            0.146,
+            0.004,
+            285.9
+          ],
+          "alpha": 0.14
+        },
+        "mode": "light",
+        "count": 96,
+        "uses": {
+          "border": 96
+        },
+        "cssVariables": [
+          "--line"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "div.card",
+            "axRole": "article",
+            "prop": "border-top-color",
+            "rect": [
+              120,
+              1200,
+              380,
+              260
+            ]
+          }
+        ],
+        "confidence": 0.9
+      },
+      {
+        "id": "c6",
+        "value": {
+          "hex": "#74767d",
+          "oklch": [
+            0.566,
+            0.011,
+            273.2
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 12,
+        "uses": {
+          "border": 12
+        },
+        "cssVariables": [
+          "--border-strong"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "input.field",
+            "axRole": "textbox",
+            "prop": "border-top-color",
+            "rect": [
+              120,
+              2400,
+              320,
+              44
+            ]
+          }
+        ],
+        "confidence": 0.8
+      },
+      {
+        "id": "c7",
+        "value": {
+          "hex": "#1e40af",
+          "oklch": [
+            0.424,
+            0.181,
+            265.6
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 3,
+        "uses": {
+          "background": 3
+        },
+        "cssVariables": [],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "a.btn.btn-primary",
+            "axRole": "link",
+            "prop": "background-color",
+            "rect": [
+              120,
+              420,
+              196,
+              48
+            ]
+          }
+        ],
+        "confidence": 0.5
+      },
+      {
+        "id": "c8",
+        "value": {
+          "hex": "#1e3a8a",
+          "oklch": [
+            0.379,
+            0.138,
+            265.5
+          ],
+          "alpha": 1
+        },
+        "mode": "light",
+        "count": 3,
+        "uses": {
+          "background": 3
+        },
+        "cssVariables": [],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "a.btn.btn-primary",
+            "axRole": "link",
+            "prop": "background-color",
+            "rect": [
+              120,
+              420,
+              196,
+              48
+            ]
+          }
+        ],
+        "confidence": 0.5
+      },
+      {
+        "id": "c9",
+        "value": {
+          "hex": "#0a0a0c",
+          "oklch": [
+            0.146,
+            0.004,
+            285.9
+          ],
+          "alpha": 1
+        },
+        "mode": "dark",
+        "count": 214,
+        "areaShare": 0.71,
+        "uses": {
+          "background": 198,
+          "text": 0,
+          "border": 0,
+          "fill": 16
+        },
+        "cssVariables": [
+          "--bg"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "dark",
+            "selector": "body",
+            "axRole": null,
+            "prop": "background-color",
+            "rect": [
+              0,
+              0,
+              1440,
+              9120
+            ]
+          }
+        ],
+        "confidence": 0.98
+      },
+      {
+        "id": "c10",
+        "value": {
+          "hex": "#efede7",
+          "oklch": [
+            0.946,
+            0.008,
+            91.5
+          ],
+          "alpha": 1
+        },
+        "mode": "dark",
+        "count": 388,
+        "uses": {
+          "text": 371,
+          "background": 6,
+          "fill": 11
+        },
+        "cssVariables": [
+          "--text"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "dark",
+            "selector": "main p",
+            "axRole": "paragraph",
+            "prop": "color",
+            "rect": [
+              120,
+              640,
+              560,
+              72
+            ]
+          }
+        ],
+        "confidence": 0.97
+      },
+      {
+        "id": "c11",
+        "value": {
+          "hex": "#8fb0ff",
+          "oklch": [
+            0.764,
+            0.12,
+            266.3
+          ],
+          "alpha": 1
+        },
+        "mode": "dark",
+        "count": 41,
+        "uses": {
+          "background": 9,
+          "text": 24,
+          "border": 4,
+          "fill": 4
+        },
+        "cssVariables": [
+          "--accent"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "dark",
+            "selector": "a.btn.btn-primary",
+            "axRole": "link",
+            "prop": "background-color",
+            "rect": [
+              120,
+              420,
+              196,
+              48
+            ]
+          }
+        ],
+        "confidence": 0.93
+      },
+      {
+        "id": "c13",
+        "value": {
+          "hex": "#e9e6df",
+          "oklch": [
+            0.925,
+            0.01,
+            87.5
+          ],
+          "alpha": 0.14
+        },
+        "mode": "dark",
+        "count": 96,
+        "uses": {
+          "border": 96
+        },
+        "cssVariables": [
+          "--line"
+        ],
+        "mergedFrom": [],
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "dark",
+            "selector": "div.card",
+            "axRole": "article",
+            "prop": "border-top-color",
+            "rect": [
+              120,
+              1200,
+              380,
+              260
+            ]
+          }
+        ],
+        "confidence": 0.88
+      }
+    ],
+    "typography": {
+      "families": [
+        {
+          "name": "Inter Variable",
+          "generic": "sans-serif",
+          "count": 702,
+          "loadedVia": "webfont",
+          "license": "OFL-1.1 (known family)",
+          "fileStored": false,
+          "oflAlternatives": []
+        },
+        {
+          "name": "JetBrains Mono Variable",
+          "generic": "monospace",
+          "count": 64,
+          "loadedVia": "webfont",
+          "license": "OFL-1.1 (known family)",
+          "fileStored": false,
+          "oflAlternatives": []
+        }
+      ],
+      "styles": [
+        {
+          "id": "t1",
+          "family": "Inter Variable",
+          "size": {
+            "value": 56,
+            "unit": "px"
+          },
+          "weight": 600,
+          "lineHeight": 1.05,
+          "letterSpacing": {
+            "value": -0.02,
+            "unit": "em"
+          },
+          "count": 1,
+          "tags": {
+            "h1": 1
+          },
+          "widths": {
+            "1440": {
+              "value": 56,
+              "unit": "px"
+            },
+            "390": {
+              "value": 36,
+              "unit": "px"
+            }
+          },
+          "fluid": {
+            "detected": true,
+            "from": "clamp() in stylesheet"
+          },
+          "evidence": [
+            {
+              "page": 0,
+              "width": 1440,
+              "mode": "light",
+              "selector": "h1",
+              "axRole": "heading",
+              "prop": "font-size",
+              "rect": [
+                120,
+                220,
+                900,
+                118
+              ]
+            }
+          ],
+          "confidence": 0.9
+        },
+        {
+          "id": "t4",
+          "family": "Inter Variable",
+          "size": {
+            "value": 16,
+            "unit": "px"
+          },
+          "weight": 400,
+          "lineHeight": 1.5,
+          "letterSpacing": {
+            "value": 0,
+            "unit": "em"
+          },
+          "count": 233,
+          "tags": {
+            "p": 140,
+            "li": 61,
+            "a": 32
+          },
+          "evidence": [
+            {
+              "page": 0,
+              "width": 1440,
+              "mode": "light",
+              "selector": "main p",
+              "axRole": "paragraph",
+              "prop": "font-size",
+              "rect": [
+                120,
+                640,
+                560,
+                72
+              ]
+            }
+          ],
+          "confidence": 0.96
+        },
+        {
+          "id": "t5",
+          "family": "Inter Variable",
+          "size": {
+            "value": 15,
+            "unit": "px"
+          },
+          "weight": 500,
+          "lineHeight": 1.2,
+          "letterSpacing": {
+            "value": 0,
+            "unit": "em"
+          },
+          "count": 9,
+          "tags": {
+            "a": 9
+          },
+          "evidence": [
+            {
+              "page": 0,
+              "width": 1440,
+              "mode": "light",
+              "selector": "a.btn.btn-primary",
+              "axRole": "link",
+              "prop": "font-size",
+              "rect": [
+                120,
+                420,
+                196,
+                48
+              ]
+            }
+          ],
+          "confidence": 0.85
+        }
+      ]
+    },
+    "spacing": [
+      {
+        "value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "count": 188,
+        "props": {
+          "padding": 102,
+          "gap": 54,
+          "margin": 32
+        },
+        "cssVariables": [
+          "--s-4"
+        ],
+        "confidence": 0.97
+      },
+      {
+        "value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "count": 121,
+        "props": {
+          "padding": 40,
+          "gap": 61,
+          "margin": 20
+        },
+        "cssVariables": [
+          "--s-5"
+        ],
+        "confidence": 0.96
+      },
+      {
+        "value": {
+          "value": 38,
+          "unit": "px"
+        },
+        "count": 1,
+        "props": {
+          "margin": 1
+        },
+        "cssVariables": [],
+        "confidence": 0.2
+      }
+    ],
+    "radius": [
+      {
+        "value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "count": 57,
+        "shapes": {
+          "card": 31,
+          "button": 0,
+          "field": 26
+        },
+        "confidence": 0.95
+      },
+      {
+        "value": {
+          "value": 999,
+          "unit": "px"
+        },
+        "count": 14,
+        "shapes": {
+          "pill": 14
+        },
+        "kind": "full",
+        "confidence": 0.9
+      }
+    ],
+    "shadow": [
+      {
+        "value": [
+          {
+            "offsetX": 0,
+            "offsetY": 8,
+            "blur": 24,
+            "spread": 0,
+            "color": {
+              "hex": "#15161a",
+              "alpha": 0.08
+            },
+            "inset": false
+          }
+        ],
+        "count": 6,
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "div.card",
+            "axRole": null,
+            "prop": "box-shadow",
+            "rect": [
+              120,
+              1200,
+              380,
+              260
+            ]
+          }
+        ],
+        "confidence": 0.8
+      }
+    ],
+    "motion": [
+      {
+        "property": "transition",
+        "duration": {
+          "value": 160,
+          "unit": "ms"
+        },
+        "easing": [
+          0.2,
+          0,
+          0,
+          1
+        ],
+        "count": 22,
+        "on": [
+          "a",
+          "button"
+        ],
+        "confidence": 0.7
+      }
+    ],
+    "elevation": [
+      {
+        "zIndex": 50,
+        "position": "sticky",
+        "count": 1,
+        "kind": "header",
+        "evidence": [
+          {
+            "page": 0,
+            "width": 1440,
+            "mode": "light",
+            "selector": "header.site-header",
+            "axRole": "banner",
+            "prop": "z-index",
+            "rect": [
+              0,
+              0,
+              1440,
+              64
+            ]
+          }
+        ],
+        "confidence": 0.75
+      }
+    ],
+    "breakpoints": [
+      {
+        "value": {
+          "value": 720,
+          "unit": "px"
+        },
+        "query": "(max-width: 720px)",
+        "rulesCount": 18,
+        "confidence": 0.85
+      }
+    ],
+    "variables": [
+      {
+        "name": "--bg",
+        "declaredIn": [
+          {
+            "selector": ":root",
+            "condition": null
+          },
+          {
+            "selector": ":root",
+            "condition": "@media (prefers-color-scheme: dark)"
+          }
+        ],
+        "values": {
+          "light": "#f6f5f1",
+          "dark": "#0a0a0c"
+        },
+        "resolvesTo": {
+          "light": "c1",
+          "dark": "c9"
+        },
+        "usedByElements": 214
+      }
+    ]
+  },
+  "inferred": {
+    "scales": {
+      "spacing": {
+        "base": {
+          "value": 4,
+          "unit": "px"
+        },
+        "steps": [
+          4,
+          8,
+          12,
+          16,
+          24,
+          32,
+          48,
+          72,
+          112
+        ],
+        "fit": 0.94,
+        "outliers": [
+          {
+            "value": 38,
+            "count": 1,
+            "reason": "4의 배수가 아니고 1회만 나옴"
+          }
+        ],
+        "reasons": [
+          "CSS 변수 --s-1…--s-9가 이 9단계를 선언함",
+          "관찰 간격의 94%(가중)가 9단계 중 하나와 ±0.5px 안"
+        ],
+        "confidence": 0.93
+      },
+      "radius": {
+        "steps": [
+          6,
+          8,
+          12,
+          16,
+          24
+        ],
+        "full": true,
+        "outliers": [],
+        "reasons": [
+          "5단계가 각각 3회 이상, 2개 이상 컴포넌트 군집에서 나옴",
+          "999px은 'full'(알약)로 따로 분류"
+        ],
+        "confidence": 0.88
+      },
+      "fontSize": {
+        "steps": [
+          12,
+          14,
+          16,
+          18,
+          22,
+          28,
+          36,
+          56
+        ],
+        "ratio": null,
+        "reasons": [
+          "모듈러 비율 적합도가 낮아(0.61) 비율 대신 관찰 단계만 냄"
+        ],
+        "confidence": 0.8
+      }
+    },
+    "roles": [
+      {
+        "role": "background",
+        "light": "c1",
+        "dark": "c9",
+        "reasons": [
+          "body 배경 최빈색(면적 71%)",
+          "변수 이름 --bg"
+        ],
+        "alternatives": [],
+        "confidence": 0.97
+      },
+      {
+        "role": "text",
+        "light": "c2",
+        "dark": "c10",
+        "reasons": [
+          "본문 글자 최빈색",
+          "변수 이름 --text"
+        ],
+        "alternatives": [],
+        "confidence": 0.95
+      },
+      {
+        "role": "primary",
+        "light": "c3",
+        "dark": "c11",
+        "reasons": [
+          "주 버튼 면 + 링크 글자 + 6개 구역에 퍼짐",
+          "변수 이름 --accent",
+          "다크 짝은 같은 변수 --accent의 @media 값"
+        ],
+        "alternatives": [],
+        "confidence": 0.9
+      },
+      {
+        "role": "border",
+        "light": "c5",
+        "dark": "c13",
+        "reasons": [
+          "1px 테두리 최빈색"
+        ],
+        "alternatives": [
+          "c6"
+        ],
+        "confidence": 0.8
+      },
+      {
+        "role": "destructive",
+        "light": null,
+        "dark": null,
+        "reasons": [],
+        "alternatives": [],
+        "confidence": 0,
+        "limit": "L3"
+      }
+    ],
+    "brand": {
+      "status": "found",
+      "color": "c3",
+      "candidates": [
+        {
+          "color": "c3",
+          "score": 0.86,
+          "signals": {
+            "interactiveUse": 0.9,
+            "spread": 0.8,
+            "variableName": 1,
+            "themeColorMeta": 0,
+            "decorativeOnly": false,
+            "singleSubtree": false
+          }
+        }
+      ],
+      "reasons": [
+        "유채색 후보가 1개뿐",
+        "버튼·링크·포커스에 쓰이고 6개 구역에 퍼짐"
+      ],
+      "confidence": 0.86
+    },
+    "typeRoles": [
+      {
+        "role": "display",
+        "style": "t1",
+        "reasons": [
+          "h1, 가장 큰 크기, 1회"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "role": "body",
+        "style": "t4",
+        "reasons": [
+          "p·li 최빈 스타일"
+        ],
+        "confidence": 0.95
+      }
+    ],
+    "components": [
+      {
+        "id": "k1",
+        "kind": "button",
+        "detectedBy": [
+          "ax-role",
+          "style-cluster"
+        ],
+        "instances": 9,
+        "variants": [
+          {
+            "id": "k1v1",
+            "suggestedName": "primary",
+            "nameIsSuggestion": true,
+            "count": 3,
+            "fingerprint": {
+              "background": "c3",
+              "color": "c4",
+              "border": null,
+              "radius": {
+                "value": 12,
+                "unit": "px"
+              },
+              "height": {
+                "value": 48,
+                "unit": "px"
+              },
+              "paddingX": {
+                "value": 24,
+                "unit": "px"
+              },
+              "typeStyle": "t5"
+            },
+            "states": {
+              "default": {
+                "observed": true
+              },
+              "hover": {
+                "observed": true,
+                "method": "forcePseudoState",
+                "diff": {
+                  "background-color": "c3 -> c7"
+                }
+              },
+              "focus-visible": {
+                "observed": true,
+                "method": "forcePseudoState",
+                "diff": {
+                  "outline": "none -> 2px solid c3",
+                  "outline-offset": "0px -> 2px"
+                }
+              },
+              "active": {
+                "observed": true,
+                "method": "forcePseudoState",
+                "diff": {
+                  "background-color": "c3 -> c8"
+                }
+              },
+              "disabled": {
+                "observed": false,
+                "limit": "L3"
+              }
+            },
+            "evidence": [
+              {
+                "page": 0,
+                "width": 1440,
+                "mode": "light",
+                "selector": "a.btn.btn-primary",
+                "axRole": "link",
+                "prop": "*",
+                "rect": [
+                  120,
+                  420,
+                  196,
+                  48
+                ]
+              }
+            ]
+          },
+          {
+            "id": "k1v2",
+            "suggestedName": "secondary",
+            "nameIsSuggestion": true,
+            "count": 6,
+            "fingerprint": {
+              "background": null,
+              "color": "c2",
+              "border": "c5",
+              "radius": {
+                "value": 12,
+                "unit": "px"
+              },
+              "height": {
+                "value": 48,
+                "unit": "px"
+              },
+              "paddingX": {
+                "value": 24,
+                "unit": "px"
+              },
+              "typeStyle": "t5"
+            },
+            "states": {
+              "default": {
+                "observed": true
+              },
+              "hover": {
+                "observed": true,
+                "method": "forcePseudoState",
+                "diff": {
+                  "border-color": "c5 -> c6"
+                }
+              },
+              "focus-visible": {
+                "observed": true,
+                "method": "forcePseudoState",
+                "diff": {
+                  "outline": "none -> 2px solid c3"
+                }
+              },
+              "active": {
+                "observed": false,
+                "limit": "L4"
+              },
+              "disabled": {
+                "observed": false,
+                "limit": "L3"
+              }
+            },
+            "evidence": [
+              {
+                "page": 0,
+                "width": 1440,
+                "mode": "light",
+                "selector": "a.btn.btn-ghost",
+                "axRole": "link",
+                "prop": "*",
+                "rect": [
+                  332,
+                  420,
+                  168,
+                  48
+                ]
+              }
+            ]
+          }
+        ],
+        "sizes": [
+          {
+            "height": {
+              "value": 48,
+              "unit": "px"
+            },
+            "count": 9
+          }
+        ],
+        "reasons": [
+          "a 요소지만 버튼 모양(배경·패딩·반경)이라 시각 기준으로 button으로 묶음",
+          "변형은 배경 유무로 갈림"
+        ],
+        "confidence": 0.82
+      }
+    ]
+  },
+  "limits": [
+    {
+      "id": "L1",
+      "kind": "single-page",
+      "scope": "*",
+      "reason": "사용자가 준 URL 1개만 읽음",
+      "effect": "다른 페이지에만 있는 컴포넌트·색은 빠짐",
+      "fix": "URL을 더 주기(최대 5개)"
+    },
+    {
+      "id": "L2",
+      "kind": "unused-on-page",
+      "scope": "observed.color",
+      "reason": "action-hover·action-pressed·err 같은 색은 이 페이지에서 쓰이지 않음(변수로만 선언)",
+      "effect": "역할 일부가 비어 있음",
+      "fix": "그 색이 나오는 페이지를 주기"
+    },
+    {
+      "id": "L3",
+      "kind": "state-not-on-page",
+      "scope": "inferred.components.k1.*.disabled",
+      "reason": "페이지에 disabled·error 예시가 없음. 속성 주입은 기본으로 하지 않음",
+      "effect": "상태 표의 disabled 칸, destructive 역할이 빈칸",
+      "fix": "--inject-states 옵션(속성 주입) 또는 해당 화면 URL"
+    },
+    {
+      "id": "L4",
+      "kind": "state-no-diff",
+      "scope": "inferred.components.k1.k1v2.active",
+      "reason": ":active 강제로 계산 스타일 차이가 없음. JS로 그리는 상태일 수 있음",
+      "effect": "눌림 상태 미확인",
+      "fix": "없음(스크린샷 diff로도 차이 없음)"
+    },
+    {
+      "id": "L5",
+      "kind": "mode-unobserved",
+      "scope": "source.modes.highContrast",
+      "reason": "prefers-contrast: more 규칙이 스타일시트에 없음",
+      "effect": "고대비 값 없음(‘없음’이 아니라 ‘미관찰’)",
+      "fix": null
+    },
+    {
+      "id": "L6",
+      "kind": "policy",
+      "scope": "observed.typography.families",
+      "reason": "폰트 파일은 정책상 받지 않음",
+      "effect": "글꼴은 이름·굵기·크기만",
+      "fix": null
+    }
+  ],
+  "guardrails": {
+    "robots": "allowed",
+    "loginUsed": false,
+    "freshBrowserProfile": true,
+    "pagesVisited": 1,
+    "maxPages": 5,
+    "mutatingRequestsBlocked": 0,
+    "stored": {
+      "cssText": false,
+      "fontFiles": false,
+      "images": false,
+      "pageText": false,
+      "screenshots": false
+    },
+    "brandNameInTokenNames": false
+  },
+  "summary": {
+    "colors": 24,
+    "roles": {
+      "filled": 11,
+      "empty": 2
+    },
+    "brand": "c3 #1d4ed8",
+    "darkPairs": 17,
+    "components": 6,
+    "limits": 6,
+    "lowConfidence": [
+      "observed.spacing[38px]"
+    ]
+  }
+}

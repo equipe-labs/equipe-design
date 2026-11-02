@@ -1,0 +1,9 @@
+{
+  "name": "@equipe-design/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "stdio MCP server for equipe-design (server name: design).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" }
+}
