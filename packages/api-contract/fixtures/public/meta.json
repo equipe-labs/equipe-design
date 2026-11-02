@@ -1,0 +1,12 @@
+{
+  "apiVersion": "1",
+  "schemaVersion": "0.1",
+  "engineVersion": "equipe-design 0.1.0",
+  "remixVersion": "0.1.0",
+  "styles": {
+    "total": 3,
+    "extracted": 1,
+    "original": 2
+  },
+  "lastPublishedAt": "2026-11-02T09:30:00Z"
+}

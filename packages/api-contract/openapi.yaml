@@ -1,0 +1,827 @@
+openapi: 3.1.0
+info:
+  title: equipe design library API
+  version: 1.0.0
+  summary: Browse, download and remix the design styles in the equipe design library.
+  description: |
+    Prose contract: `docs/library-api.md`. Types: `packages/api-contract/src/index.ts` (zod).
+
+    Public paths need no sign-in and never return where an extracted style came from:
+    styles are shown by the name we gave them only. Admin paths are for our publishing Mac.
+
+    Every error is `{"error": {"code", "message"}}`.
+  license:
+    name: Apache-2.0
+    identifier: Apache-2.0
+servers:
+  - url: https://equipe.im/api/design/v1
+    description: Production (equipe.im rewrites to the library project)
+tags:
+  - name: styles
+    description: The library's styles, extracted and original.
+  - name: tokens
+    description: Token files of a release.
+  - name: remix
+    description: Remix one to three styles into your brand.
+  - name: meta
+    description: Versions and counts.
+  - name: admin
+    description: Publishing. Our Mac only, with the publish token.
+security: []
+
+paths:
+  /styles:
+    get:
+      tags: [styles]
+      operationId: listStyles
+      summary: List and search styles
+      description: Withdrawn styles are left out. Paused ones are listed (their last release stays public).
+      parameters:
+        - name: q
+          in: query
+          description: Search in style names and tags.
+          schema: { type: string, maxLength: 60 }
+        - name: category
+          in: query
+          schema: { $ref: '#/components/schemas/Category' }
+        - name: tag
+          in: query
+          schema: { $ref: '#/components/schemas/Tag' }
+        - name: origin
+          in: query
+          schema: { $ref: '#/components/schemas/Origin' }
+        - name: hasDark
+          in: query
+          schema: { type: boolean }
+        - name: hue
+          in: query
+          description: OKLCH hue in degrees; matches brand colours within ±20°.
+          schema: { type: number, minimum: 0, exclusiveMaximum: 360 }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [updated, name], default: updated }
+      responses:
+        '200':
+          description: Cards for the list.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/CacheShort' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StyleList' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /styles/{slug}:
+    parameters:
+      - $ref: '#/components/parameters/Slug'
+    get:
+      tags: [styles]
+      operationId: getStyle
+      summary: One style with its current release
+      responses:
+        '200':
+          description: Detail.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/CacheShort' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StyleDetail' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /styles/{slug}/releases:
+    parameters:
+      - $ref: '#/components/parameters/Slug'
+    get:
+      tags: [styles]
+      operationId: listReleases
+      summary: Published releases of a style, newest first
+      responses:
+        '200':
+          description: Release history.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/CacheShort' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReleaseList' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /styles/{slug}/tokens/{format}:
+    parameters:
+      - $ref: '#/components/parameters/Slug'
+      - $ref: '#/components/parameters/Format'
+    get:
+      tags: [tokens]
+      operationId: redirectCurrentTokens
+      summary: Redirect to the current release's tokens
+      responses:
+        '302':
+          description: To `/releases/{releaseId}/tokens/{format}` (query string kept).
+          headers:
+            Location:
+              description: The current release's token URL.
+              schema: { type: string }
+            Cache-Control: { $ref: '#/components/headers/CacheShort' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /releases/{releaseId}/tokens/{format}:
+    parameters:
+      - $ref: '#/components/parameters/ReleaseId'
+      - $ref: '#/components/parameters/Format'
+      - name: file
+        in: query
+        description: One file of the set (e.g. `tokens.css`), sent as itself instead of the JSON wrapper.
+        schema: { type: string, maxLength: 120 }
+    get:
+      tags: [tokens]
+      operationId: getTokens
+      summary: Token files of one release in one format
+      description: A release never changes, so this is cached for a year.
+      responses:
+        '200':
+          description: The files.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/CacheImmutable' }
+            ETag: { $ref: '#/components/headers/ETag' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenFiles' }
+            text/css:
+              schema: { type: string }
+        '304':
+          description: Not modified (If-None-Match matched).
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /remix:
+    post:
+      tags: [remix]
+      operationId: remix
+      summary: Remix styles into your brand colour
+      description: |
+        Computed per request with `@equipe-design/remix` and not stored. No `Cache-Control`;
+        the server keeps a small in-memory cache keyed by the input hash. Body at most 8 KB.
+        `keepBrand` is not offered: keeping a source's own brand colour is CLI-only.
+        CORS allows `https://equipe.im` only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RemixRequest' }
+      responses:
+        '200':
+          description: One to three variants.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/NoStore' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RemixResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /meta:
+    get:
+      tags: [meta]
+      operationId: getMeta
+      summary: Versions and counts
+      responses:
+        '200':
+          description: Meta.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/CacheShort' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Meta' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /admin/styles/{slug}:
+    parameters:
+      - $ref: '#/components/parameters/Slug'
+    put:
+      tags: [admin]
+      operationId: upsertStyle
+      summary: Register or update a style
+      description: The slug must be made from `name`. An extracted style needs `source`; an original must not have one.
+      security: [{ publishToken: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StyleUpsert' }
+      responses:
+        '200':
+          description: Saved.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/NoStore' }
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [style, created]
+                properties:
+                  style: { $ref: '#/components/schemas/Slug' }
+                  created: { type: boolean }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /admin/releases:
+    post:
+      tags: [admin]
+      operationId: uploadRelease
+      summary: Upload a release (extract + tokens, or tokens only for an original)
+      description: |
+        The server checks `extract` with `@equipe-design/schema` (shape, forbidden CSS text, references),
+        that every page URL in it is one of the style's `allowedUrls`, that no public string in `body`
+        or a token name holds the source's name or host, and compares with the current release.
+        A small change is published at once (`auto-approved`); a big one waits (`pending`).
+      security: [{ publishToken: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReleaseUpload' }
+      responses:
+        '201':
+          description: Stored.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/NoStore' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReleaseUploadResult' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /admin/releases/{releaseId}/publish:
+    parameters:
+      - $ref: '#/components/parameters/ReleaseId'
+    post:
+      tags: [admin]
+      operationId: publishRelease
+      summary: Make a pending release the current one
+      security: [{ publishToken: [] }]
+      responses:
+        '200':
+          description: Published; CDN cache for the style is purged.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/NoStore' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PublishResult' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /admin/styles/{slug}/withdraw:
+    parameters:
+      - $ref: '#/components/parameters/Slug'
+    post:
+      tags: [admin]
+      operationId: withdrawStyle
+      summary: Take a style down
+      description: Hidden from lists; its detail and token paths answer 410.
+      security: [{ publishToken: [] }]
+      responses:
+        '200':
+          description: Withdrawn.
+          headers:
+            Cache-Control: { $ref: '#/components/headers/NoStore' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WithdrawResult' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+components:
+  securitySchemes:
+    publishToken:
+      type: http
+      scheme: bearer
+      description: '`EQUIPE_DESIGN_PUBLISH_TOKEN`, kept in Vercel (Sensitive) and the Mac''s `~/.config/equipe-design/publish.env`.'
+
+  parameters:
+    Slug:
+      name: slug
+      in: path
+      required: true
+      description: Made from our style name.
+      schema: { $ref: '#/components/schemas/Slug' }
+    ReleaseId:
+      name: releaseId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    Format:
+      name: format
+      in: path
+      required: true
+      schema: { $ref: '#/components/schemas/PublicFormat' }
+
+  headers:
+    CacheShort:
+      description: Lists and details.
+      schema: { type: string, const: 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400' }
+    CacheImmutable:
+      description: Release files never change.
+      schema: { type: string, const: 'public, max-age=31536000, immutable' }
+    NoStore:
+      description: Not cached.
+      schema: { type: string, const: 'no-store' }
+    ETag:
+      description: The token set's sha256.
+      schema: { type: string }
+
+  responses:
+    BadRequest:
+      description: A parameter or body field is wrong (`bad_request`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Unauthorized:
+      description: Missing or wrong publish token (`unauthorized`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    NotFound:
+      description: No such style or release (`not_found`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Gone:
+      description: The style was withdrawn (`gone`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Conflict:
+      description: Same content already uploaded, or the release isn't publishable (`conflict`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    PayloadTooLarge:
+      description: Body over the limit (`payload_too_large`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Unprocessable:
+      description: Well-formed but refused — schema or guardrail check, URL outside allowedUrls, source name in output (`unprocessable`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    RateLimited:
+      description: Too many requests (`rate_limited`). The WAF may answer first, with its own body.
+      headers:
+        Retry-After:
+          description: Seconds.
+          schema: { type: integer }
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+    Internal:
+      description: Server error (`internal`).
+      content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+  schemas:
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [bad_request, unauthorized, not_found, gone, conflict, payload_too_large, unprocessable, rate_limited, internal]
+            message: { type: string }
+
+    Hex: { type: string, pattern: '^#[0-9a-f]{6}$' }
+    Slug: { type: string, pattern: '^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$' }
+    StyleName: { type: string, pattern: '^[A-Z][A-Za-z]*(?: [A-Z][A-Za-z]*)?$', maxLength: 40 }
+    Category: { type: string, pattern: '^[a-z0-9-]{2,30}$' }
+    Tag: { type: string, pattern: '^[a-z0-9-]{1,30}$' }
+    Origin: { type: string, enum: [extracted, original] }
+    Role:
+      type: string
+      enum: [background, surface, raised, text, muted-text, primary, on-primary, secondary, accent, border, border-strong, ring, destructive, success, warning]
+    PublicFormat: { type: string, enum: [dtcg, dtcg-legacy, css, tailwind, shadcn, figma] }
+    UploadFormat: { type: string, enum: [dtcg, dtcg-legacy, css, tailwind, shadcn, figma, swift, kotlin] }
+    RemixFormat: { type: string, enum: [dtcg, css, tailwind, shadcn] }
+    Timestamp: { type: string, format: date-time }
+    FileMap:
+      type: object
+      description: File name → file text.
+      propertyNames: { pattern: '^[A-Za-z0-9._/-]{1,120}$' }
+      additionalProperties: { type: string }
+
+    ColorMap:
+      type: object
+      additionalProperties: false
+      required: [background, surface, raised, text, muted-text, primary, on-primary, secondary, accent, border, border-strong, ring, destructive, success, warning]
+      properties:
+        background: { $ref: '#/components/schemas/Hex' }
+        surface: { $ref: '#/components/schemas/Hex' }
+        raised: { $ref: '#/components/schemas/Hex' }
+        text: { $ref: '#/components/schemas/Hex' }
+        muted-text: { $ref: '#/components/schemas/Hex' }
+        primary: { $ref: '#/components/schemas/Hex' }
+        on-primary: { $ref: '#/components/schemas/Hex' }
+        secondary: { $ref: '#/components/schemas/Hex' }
+        accent: { $ref: '#/components/schemas/Hex' }
+        border: { $ref: '#/components/schemas/Hex' }
+        border-strong: { $ref: '#/components/schemas/Hex' }
+        ring: { $ref: '#/components/schemas/Hex' }
+        destructive: { $ref: '#/components/schemas/Hex' }
+        success: { $ref: '#/components/schemas/Hex' }
+        warning: { $ref: '#/components/schemas/Hex' }
+    PreviewMap:
+      type: object
+      additionalProperties: false
+      required: [background, surface, text, muted-text, primary, on-primary, accent, border]
+      properties:
+        background: { $ref: '#/components/schemas/Hex' }
+        surface: { $ref: '#/components/schemas/Hex' }
+        text: { $ref: '#/components/schemas/Hex' }
+        muted-text: { $ref: '#/components/schemas/Hex' }
+        primary: { $ref: '#/components/schemas/Hex' }
+        on-primary: { $ref: '#/components/schemas/Hex' }
+        accent: { $ref: '#/components/schemas/Hex' }
+        border: { $ref: '#/components/schemas/Hex' }
+    TypeStyle:
+      type: object
+      additionalProperties: false
+      required: [family, size, weight, lineHeight, letterSpacing]
+      properties:
+        family: { type: string, enum: [sans, mono, display] }
+        size: { type: number, exclusiveMinimum: 0, description: px }
+        weight: { type: integer, minimum: 1, maximum: 1000 }
+        lineHeight: { type: number, exclusiveMinimum: 0, description: unitless }
+        letterSpacing: { type: number, description: em }
+
+    StyleCard:
+      allOf: [{ $ref: '#/components/schemas/StyleCardFields' }]
+      unevaluatedProperties: false
+    StyleCardFields:
+      type: object
+      required: [slug, name, origin, category, tags, brand, hasDark, fonts, preview, releaseId, version, updatedAt]
+      properties:
+        slug: { $ref: '#/components/schemas/Slug' }
+        name: { $ref: '#/components/schemas/StyleName' }
+        origin: { $ref: '#/components/schemas/Origin' }
+        category: { $ref: '#/components/schemas/Category' }
+        tags: { type: array, items: { $ref: '#/components/schemas/Tag' } }
+        brand:
+          type: object
+          additionalProperties: false
+          required: [hex, hue]
+          properties:
+            hex: { oneOf: [{ $ref: '#/components/schemas/Hex' }, { type: 'null' }] }
+            hue: { type: [number, 'null'], minimum: 0, exclusiveMaximum: 360 }
+        hasDark: { type: boolean }
+        fonts: { type: array, maxItems: 4, items: { type: string, maxLength: 80 } }
+        preview:
+          type: object
+          additionalProperties: false
+          required: [light, dark]
+          properties:
+            light: { $ref: '#/components/schemas/PreviewMap' }
+            dark: { oneOf: [{ $ref: '#/components/schemas/PreviewMap' }, { type: 'null' }] }
+        releaseId: { type: string, format: uuid }
+        version: { type: integer, minimum: 1 }
+        updatedAt: { $ref: '#/components/schemas/Timestamp' }
+    StyleList:
+      type: object
+      additionalProperties: false
+      required: [styles, total]
+      properties:
+        styles: { type: array, items: { $ref: '#/components/schemas/StyleCard' } }
+        total: { type: integer, minimum: 0 }
+
+    Component:
+      type: object
+      additionalProperties: false
+      required: [kind, variants]
+      properties:
+        kind: { type: string, pattern: '^[a-z-]{2,30}$' }
+        variants:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [name, background, text, border, radiusPx, states]
+            properties:
+              name: { type: string, maxLength: 40 }
+              background: { oneOf: [{ $ref: '#/components/schemas/Hex' }, { type: 'null' }] }
+              text: { oneOf: [{ $ref: '#/components/schemas/Hex' }, { type: 'null' }] }
+              border: { oneOf: [{ $ref: '#/components/schemas/Hex' }, { type: 'null' }] }
+              radiusPx: { type: [number, 'null'], minimum: 0 }
+              states:
+                type: object
+                description: true = seen on the page, false = not seen (a limit says why).
+                propertyNames: { enum: [default, hover, focus-visible, active, disabled] }
+                additionalProperties: { type: boolean }
+    Limit:
+      type: object
+      additionalProperties: false
+      required: [scope, text]
+      properties:
+        scope: { type: string, maxLength: 120 }
+        text: { type: string, maxLength: 400 }
+    ReleaseBody:
+      allOf: [{ $ref: '#/components/schemas/ReleaseBodyFields' }]
+      unevaluatedProperties: false
+    ReleaseBodyFields:
+      type: object
+      description: What a release shows on the detail page. Built on the Mac, re-checked on upload.
+      required: [roles, scales, typography, components, limits]
+      properties:
+        roles:
+          type: object
+          additionalProperties: false
+          required: [light, dark]
+          properties:
+            light: { $ref: '#/components/schemas/ColorMap' }
+            dark: { oneOf: [{ $ref: '#/components/schemas/ColorMap' }, { type: 'null' }] }
+        scales:
+          type: object
+          additionalProperties: false
+          required: [space, radius]
+          properties:
+            space: { type: array, maxItems: 16, items: { type: number, minimum: 0 } }
+            radius: { type: array, maxItems: 12, items: { type: number, minimum: 0 } }
+        typography:
+          type: object
+          additionalProperties: false
+          required: [fonts, roles]
+          properties:
+            fonts:
+              type: object
+              additionalProperties: false
+              required: [sans, mono, display]
+              properties:
+                sans: { type: array, items: { type: string } }
+                mono: { type: array, items: { type: string } }
+                display: { type: [array, 'null'], items: { type: string } }
+            roles:
+              type: object
+              additionalProperties: false
+              required: [display, h1, h2, h3, body, small, mono]
+              properties:
+                display: { $ref: '#/components/schemas/TypeStyle' }
+                h1: { $ref: '#/components/schemas/TypeStyle' }
+                h2: { $ref: '#/components/schemas/TypeStyle' }
+                h3: { $ref: '#/components/schemas/TypeStyle' }
+                body: { $ref: '#/components/schemas/TypeStyle' }
+                small: { $ref: '#/components/schemas/TypeStyle' }
+                mono: { $ref: '#/components/schemas/TypeStyle' }
+        components: { type: array, items: { $ref: '#/components/schemas/Component' } }
+        limits: { type: array, items: { $ref: '#/components/schemas/Limit' } }
+    ReleaseDetail:
+      allOf:
+        - $ref: '#/components/schemas/ReleaseBodyFields'
+        - type: object
+          required: [id, version, origin, publishedAt, formats, measured]
+          properties:
+            id: { type: string, format: uuid }
+            version: { type: integer, minimum: 1 }
+            origin: { $ref: '#/components/schemas/Origin' }
+            publishedAt: { $ref: '#/components/schemas/Timestamp' }
+            formats: { type: array, items: { $ref: '#/components/schemas/PublicFormat' } }
+            measured:
+              description: How it was measured; null for an original style.
+              oneOf:
+                - type: object
+                  additionalProperties: false
+                  required: [engineVersion, schemaVersion, finishedAt]
+                  properties:
+                    engineVersion: { type: string }
+                    schemaVersion: { type: string }
+                    finishedAt: { $ref: '#/components/schemas/Timestamp' }
+                - type: 'null'
+      unevaluatedProperties: false
+    ReleaseSummary:
+      type: object
+      additionalProperties: false
+      required: [id, version, publishedAt, changes]
+      properties:
+        id: { type: string, format: uuid }
+        version: { type: integer, minimum: 1 }
+        publishedAt: { $ref: '#/components/schemas/Timestamp' }
+        changes: { type: [string, 'null'], maxLength: 400 }
+    ReleaseList:
+      type: object
+      additionalProperties: false
+      required: [releases]
+      properties:
+        releases: { type: array, items: { $ref: '#/components/schemas/ReleaseSummary' } }
+    StyleDetail:
+      type: object
+      additionalProperties: false
+      required: [style, release, releases, notice]
+      properties:
+        style:
+          allOf:
+            - $ref: '#/components/schemas/StyleCardFields'
+          properties:
+            description: { type: string, maxLength: 280 }
+          required: [description]
+          unevaluatedProperties: false
+        release: { $ref: '#/components/schemas/ReleaseDetail' }
+        releases: { type: array, items: { $ref: '#/components/schemas/ReleaseSummary' } }
+        notice: { type: string }
+    TokenFiles:
+      type: object
+      additionalProperties: false
+      required: [releaseId, format, files]
+      properties:
+        releaseId: { type: string, format: uuid }
+        format: { $ref: '#/components/schemas/PublicFormat' }
+        files: { $ref: '#/components/schemas/FileMap' }
+    Meta:
+      type: object
+      additionalProperties: false
+      required: [apiVersion, schemaVersion, engineVersion, remixVersion, styles, lastPublishedAt]
+      properties:
+        apiVersion: { type: string, const: '1' }
+        schemaVersion: { type: string }
+        engineVersion: { type: [string, 'null'] }
+        remixVersion: { type: string }
+        styles:
+          type: object
+          additionalProperties: false
+          required: [total, extracted, original]
+          properties:
+            total: { type: integer, minimum: 0 }
+            extracted: { type: integer, minimum: 0 }
+            original: { type: integer, minimum: 0 }
+        lastPublishedAt: { oneOf: [{ $ref: '#/components/schemas/Timestamp' }, { type: 'null' }] }
+
+    RemixSource:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [style]
+          properties:
+            style: { $ref: '#/components/schemas/Slug' }
+            roles: { type: array, minItems: 1, items: { $ref: '#/components/schemas/Role' } }
+        - type: object
+          additionalProperties: false
+          required: [release]
+          properties:
+            release: { type: string, format: uuid }
+            roles: { type: array, minItems: 1, items: { $ref: '#/components/schemas/Role' } }
+    RemixRequest:
+      type: object
+      additionalProperties: false
+      required: [sources, brand, prefix]
+      properties:
+        sources: { type: array, minItems: 1, maxItems: 3, items: { $ref: '#/components/schemas/RemixSource' } }
+        brand:
+          type: object
+          additionalProperties: false
+          required: [color]
+          properties:
+            color: { $ref: '#/components/schemas/Hex' }
+        prefix: { type: string, pattern: '^[a-z0-9-]{1,32}$' }
+        variants: { type: integer, minimum: 1, maximum: 3, default: 2 }
+        fontAlt: { type: boolean, default: true }
+        formats:
+          type: array
+          minItems: 1
+          maxItems: 4
+          default: [css, dtcg]
+          items: { $ref: '#/components/schemas/RemixFormat' }
+    RemixResponse:
+      type: object
+      additionalProperties: false
+      required: [remixVersion, sources, variants, notice]
+      properties:
+        remixVersion: { type: string }
+        sources:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [style, releaseId]
+            properties:
+              style: { $ref: '#/components/schemas/Slug' }
+              releaseId: { type: string, format: uuid }
+        variants:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, strategy, files, contrastFails, fonts]
+            properties:
+              id: { type: string, pattern: '^v[1-3]$' }
+              strategy: { type: string, enum: [accent, tinted, filled] }
+              files:
+                type: object
+                propertyNames: { $ref: '#/components/schemas/RemixFormat' }
+                additionalProperties: { $ref: '#/components/schemas/FileMap' }
+              contrastFails: { type: integer, minimum: 0 }
+              fonts:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  required: [family, role]
+                  properties:
+                    family: { type: string }
+                    role: { type: string, enum: [sans, mono, display] }
+        notice: { type: string }
+
+    StyleSource:
+      type: object
+      description: Internal. Where an extracted style comes from; never returned by a public path.
+      additionalProperties: false
+      required: [serviceName, homepage, allowedUrls]
+      properties:
+        serviceName: { type: string, minLength: 1, maxLength: 80 }
+        homepage: { type: string, format: uri, pattern: '^https://' }
+        allowedUrls:
+          type: array
+          minItems: 1
+          maxItems: 5
+          description: Same origin as homepage.
+          items: { type: string, format: uri, pattern: '^https://' }
+    StyleUpsert:
+      type: object
+      additionalProperties: false
+      required: [name, origin, category]
+      properties:
+        name: { $ref: '#/components/schemas/StyleName' }
+        origin: { $ref: '#/components/schemas/Origin' }
+        description: { type: string, maxLength: 280, default: '' }
+        category: { $ref: '#/components/schemas/Category' }
+        tags: { type: array, maxItems: 12, default: [], items: { $ref: '#/components/schemas/Tag' } }
+        source: { $ref: '#/components/schemas/StyleSource' }
+    UploadTokens:
+      type: object
+      required: [dtcg]
+      properties:
+        dtcg: { $ref: '#/components/schemas/FileMap' }
+      propertyNames: { $ref: '#/components/schemas/UploadFormat' }
+      additionalProperties: { $ref: '#/components/schemas/FileMap' }
+    ReleaseUpload:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [origin, style, runId, ranOn, extract, reportMd, body, tokens]
+          properties:
+            origin: { type: string, const: extracted }
+            style: { $ref: '#/components/schemas/Slug' }
+            runId: { type: string, format: uuid }
+            ranOn: { type: string, pattern: '^[a-z0-9-]{2,40}$' }
+            extract: { type: object, description: 'extract.json, schema 0.1 (@equipe-design/schema).' }
+            reportMd: { type: string }
+            body: { $ref: '#/components/schemas/ReleaseBody' }
+            tokens: { $ref: '#/components/schemas/UploadTokens' }
+        - type: object
+          additionalProperties: false
+          required: [origin, style, body, tokens]
+          properties:
+            origin: { type: string, const: original }
+            style: { $ref: '#/components/schemas/Slug' }
+            body: { $ref: '#/components/schemas/ReleaseBody' }
+            tokens: { $ref: '#/components/schemas/UploadTokens' }
+    ReleaseUploadResult:
+      type: object
+      additionalProperties: false
+      required: [releaseId, version, review, published, changes]
+      properties:
+        releaseId: { type: string, format: uuid }
+        version: { type: integer, minimum: 1 }
+        review: { type: string, enum: [pending, auto-approved] }
+        published: { type: boolean }
+        changes: { type: [string, 'null'] }
+    PublishResult:
+      type: object
+      additionalProperties: false
+      required: [releaseId, style, publishedAt]
+      properties:
+        releaseId: { type: string, format: uuid }
+        style: { $ref: '#/components/schemas/Slug' }
+        publishedAt: { $ref: '#/components/schemas/Timestamp' }
+    WithdrawResult:
+      type: object
+      additionalProperties: false
+      required: [style, status]
+      properties:
+        style: { $ref: '#/components/schemas/Slug' }
+        status: { type: string, const: withdrawn }
