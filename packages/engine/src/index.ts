@@ -4,3 +4,4 @@ export { writeRun, type RunFiles } from './write.ts';
 export { ChromeNotFound, findChrome } from './capture/page.ts';
 export { parseRobots, matchRobots, RobotsGuard } from './guard/robots.ts';
 export { planPages, MAX_PAGES } from './guard/budget.ts';
+export { mcpEngine, type McpExtractRequest } from './mcp.ts';

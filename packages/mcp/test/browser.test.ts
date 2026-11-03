@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { assertOwnBrowser, ownBrowserLaunch, scrubEnv, SharedBrowserError } from '../src/browser.ts';
-import { setEngine, type ExtractRequest } from '../src/engine.ts';
+import { getEngine, setEngine, type ExtractRequest } from '../src/engine.ts';
 import { tool as extract } from '../src/tools/design_extract.ts';
 import { Client } from './client.ts';
 
@@ -66,6 +66,14 @@ describe('own browser only', () => {
     expect(seen!.browser.mode).toBe('launch');
     expect(seen!.browser.env.PLAYWRIGHT_MCP_CDP_ENDPOINT).toBeUndefined();
     expect(() => statSync(seen!.browser.userDataDir)).toThrow();
+  });
+
+  it('the real engine is the default, and it refuses a shared browser before starting one', async () => {
+    const engine = await getEngine({});
+    expect(engine).toMatchObject({ name: 'equipe-design engine', fake: false });
+    expect((await getEngine({ EQUIPE_DESIGN_ENGINE: 'fake' })).fake).toBe(true);
+    const shared = { mode: 'launch', headless: true, userDataDir: tmpdir(), args: ['--remote-debugging-port=9222'], env: {} };
+    await expect(engine.extract({ urls: ['https://equipe.im/'], outDir: tmpdir(), browser: shared as never })).rejects.toThrow(SharedBrowserError);
   });
 
   it('no package source connects to an existing browser', () => {
