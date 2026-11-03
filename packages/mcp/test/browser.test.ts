@@ -2,11 +2,12 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { createServer, type Server } from 'node:net';
 import { homedir, tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { assertOwnBrowser, ownBrowserLaunch, scrubEnv, SharedBrowserError } from '../src/browser.ts';
-import { getEngine, setEngine, type ExtractRequest } from '../src/engine.ts';
+import { getEngine, setEngine, type CrawlRequest, type ExtractRequest } from '../src/engine.ts';
+import { crawlCliOptions } from '@equipe-design/engine/crawl-options';
 import { tool as extract } from '../src/tools/design_extract.ts';
 import { Client } from './client.ts';
 
@@ -68,6 +69,31 @@ describe('own browser only', () => {
     expect(() => statSync(seen!.browser.userDataDir)).toThrow();
   });
 
+  it('design_extract crawl: the CLI\'s options, checked the same way, and still the engine\'s own browser', async () => {
+    let seen: CrawlRequest | undefined;
+    setEngine({
+      name: 'spy', fake: true,
+      async extract() {
+        throw new Error('not this one');
+      },
+      async crawl(req) {
+        seen = req;
+        assertOwnBrowser(req.browser);
+        return { crawlPath: '/x/crawl.json', reportPath: '/x/crawl.md', screens: 3, discovered: 9, skipped: { 'action-link': 2 }, stoppedBy: null, stopReason: null };
+      },
+    });
+    try {
+      const r = (await extract.handler({ urls: ['https://app.example.com/'], outDir: tmpdir(), crawl: true, session: 'state.json', maxPages: 0, delayMs: 800 })) as Record<string, unknown>;
+      expect(r).toMatchObject({ crawlPath: '/x/crawl.json', summary: 'screens 3 · found 9 · skipped action-link 2' });
+      expect(seen!.crawl).toEqual(crawlCliOptions().fromValues({ session: resolve('state.json'), 'max-pages': '0', delay: '800' }));
+      expect(seen!.browser.mode).toBe('launch');
+      await expect(extract.handler({ urls: ['https://a.test/'], outDir: tmpdir(), crawl: true, delayMs: 10 })).rejects.toThrow(/delayMs/);
+      await expect(extract.handler({ urls: ['https://a.test/'], outDir: tmpdir(), maxPages: 3 })).rejects.toThrow(/goes with "crawl"/);
+    } finally {
+      setEngine(undefined);
+    }
+  });
+
   it('the real engine is the default, and it refuses a shared browser before starting one', async () => {
     const engine = await getEngine({});
     expect(engine).toMatchObject({ name: 'equipe-design engine', fake: false });
@@ -76,7 +102,7 @@ describe('own browser only', () => {
     await expect(engine.extract({ urls: ['https://equipe.im/'], outDir: tmpdir(), browser: shared as never })).rejects.toThrow(SharedBrowserError);
   });
 
-  it('no package source connects to an existing browser', () => {
+  it('no package source connects to an existing browser, except crawl/session.ts copying a session from the address the user gave', () => {
     const root = fileURLToPath(new URL('../../', import.meta.url));
     const connect = /connectOverCDP|\.connect\(\s*\{[^}]*(browserURL|browserWSEndpoint|wsEndpoint)|cdpEndpoint|--remote-debugging-port|localhost:\d+\/mcp/;
     const hits: string[] = [];
@@ -85,11 +111,15 @@ describe('own browser only', () => {
         const p = join(dir, n);
         if (n === 'node_modules' || n === 'test') continue;
         if (statSync(p).isDirectory()) walk(p);
-        else if (/\.(ts|js|mjs)$/.test(n) && !p.endsWith(join('mcp', 'src', 'browser.ts')) && connect.test(readFileSync(p, 'utf8'))) hits.push(p);
+        else if (/\.(ts|js|mjs)$/.test(n) && !p.endsWith(join('mcp', 'src', 'browser.ts')) && !p.endsWith(join('engine', 'src', 'crawl', 'session.ts')) && connect.test(readFileSync(p, 'utf8'))) hits.push(p);
       }
     };
     walk(root);
     expect(hits).toEqual([]);
+    // That one file connects only to an endpoint passed in, never one read from the environment.
+    const session = readFileSync(join(root, 'engine', 'src', 'crawl', 'session.ts'), 'utf8');
+    expect(session).not.toMatch(/process\.env/);
+    expect(session.match(/connectOverCDP\(([^,]+),/)?.[1]).toBe('ep.href');
   });
 });
 
