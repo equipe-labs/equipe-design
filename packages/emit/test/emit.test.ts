@@ -13,6 +13,19 @@ const example = JSON.parse(readFileSync(join(here, '../../schema/examples/equipe
 const first = () => remix([loadSource(example)], { color: '#0f766e', name: 'acme' }, { variants: 1 })[0]!;
 const all = (files: DtcgFiles) => emit(files, [...FORMATS]);
 const have = (cmd: string) => spawnSync('which', [cmd]).status === 0;
+// Why the Swift check can't run here, or null when it can. swiftc ships on Linux too, but
+// SwiftUI only exists on Apple platforms, so probe the import itself.
+const swiftUnavailable = (): string | null => {
+  if (!have('swiftc')) return 'swiftc not on PATH';
+  const dir = mkdtempSync(join(tmpdir(), 'eqd-swiftui-'));
+  try {
+    writeFileSync(join(dir, 'Probe.swift'), 'import SwiftUI\n');
+    const r = spawnSync('swiftc', ['-typecheck', join(dir, 'Probe.swift')], { encoding: 'utf8' });
+    return r.status === 0 ? null : `swiftc can't import SwiftUI (${process.platform}): ${(r.stderr || r.stdout).trim().split('\n')[0]}`;
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+};
 
 describe('toDtcg (2025.10)', () => {
   const files = toDtcg(first());
@@ -90,8 +103,11 @@ describe('formats', () => {
     expect(hsl).toMatch(/:root \{\n {2}--background: 0 0% 100%;/);
     expect(hsl).toContain('.dark {');
   });
-  it('swift: type-checks with swiftc', () => {
-    if (!have('swiftc')) return;
+  it('swift: type-checks with swiftc', (ctx) => {
+    const why = swiftUnavailable();
+    // CI's macOS job sets EQD_REQUIRE_SWIFT so a missing SwiftUI fails there instead of skipping.
+    if (why && process.env.EQD_REQUIRE_SWIFT) throw new Error(why);
+    if (why) return ctx.skip(why);
     const dir = mkdtempSync(join(tmpdir(), 'eqd-swift-'));
     try {
       writeFileSync(join(dir, 'Tokens.swift'), out['EqTokens.swift']!);

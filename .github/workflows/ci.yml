@@ -24,3 +24,17 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npx equipe-design --help
+
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: swiftc -version
+      - run: npx vitest run packages/emit -t swift --reporter=verbose
+        env:
+          EQD_REQUIRE_SWIFT: '1'
