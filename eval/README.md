@@ -25,7 +25,7 @@ It visits external sites, so it is run by hand — never on a schedule.
 | `src/score.ts` | The metrics |
 | `src/run.ts` | Runs, scores, writes `scoreboard.md` and `scores.json` |
 | `out/` | Runs (git-ignored) |
-| `results/` | Scoreboards kept in git (2026-11-02: first full run, 6 sites × 3 tools) |
+| `results/` | Scoreboards kept in git (2026-11-02: first full run, 6 sites × 3 tools; 2026-11-03: after T-343's engine fixes) |
 
 ## Sites
 
@@ -47,7 +47,7 @@ public token set is not what a page reader sees — see `notes/primer-carbon.md`
 |---|---|
 | Colours | Answer colours used on the page whose light value appears anywhere in the tool's output (ΔE_OK < 0.02, alpha ignored). `usedOnPage: false` answers are left out of the denominator. Dark values the tool missed are named |
 | Dark pairs | Unique opaque (light, dark) answer pairs the tool reproduced · how many of the tool's own pairs are right. designlang's pairs are its Figma variables; equipe-design's are its roles plus variables; Dembrandt has none |
-| Dark values | For answer colours with a role: the tool's dark value for that variable (or role) equals the answer's |
+| Dark values | For answer colours with a role: the tool's dark value for that variable (or role) equals the answer's. equipe-design's variable value is the observed colour it resolves to (`resolvesTo`), not its declared text, which may be `lab()` or `var(--x)` (until 2026-11-03 the declared text was read, so `lab()` sites scored by role instead) |
 | Spacing / radius | recall = answer steps in the tool's steps; precision = tool steps that are answer steps / all tool steps (radius counts non-px values like `50%` too) |
 | Type | Font family names (ignoring `Variable`/quotes) and, where given, font-size steps |
 | Brand | ✓ same colour (or `none`); △ `uncertain` with the right top candidate, or a grey when the answer is `none`; ✗ otherwise |
