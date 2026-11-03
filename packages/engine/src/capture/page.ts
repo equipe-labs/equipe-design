@@ -1,8 +1,10 @@
 import { existsSync } from 'node:fs';
 import { chromium, type Browser, type BrowserContext, type CDPSession, type Page } from 'playwright-core';
+
+export type StorageState = Exclude<Parameters<Browser['newContext']>[0], undefined>['storageState'] & object;
 import { PAGE_TIMEOUT_MS } from '../guard/budget.ts';
 import type { PageCheck } from '../guard/session.ts';
-import { blockMutatingRequests } from './route.ts';
+import { blockMutatingRequests, type DenyRule, type RouteGuard } from './route.ts';
 import { install, type Rgba, type SheetScan, type StateProps, type SweepResult, type VarValue } from './inpage.ts';
 
 type Eqd = {
@@ -67,7 +69,17 @@ export interface OpenedPage {
   requests: string[];
 }
 
-export async function openPage(browser: Browser, url: URL, opts: { width: number; userAgent: string }): Promise<OpenedPage> {
+export interface ReadingContextOptions {
+  width: number;
+  userAgent: string;
+  /** A signed-in session (Playwright storageState), only for crawl runs the user started with one. */
+  storageState?: StorageState;
+  /** Extra read-only rules: a reason to abort this request even though it is a GET. */
+  deny?: DenyRule;
+}
+
+/** A new browser context that only reads: GET/HEAD only, no WebSockets, no service workers, no downloads. */
+export async function newReadingContext(browser: Browser, opts: ReadingContextOptions): Promise<{ context: BrowserContext; route: RouteGuard }> {
   const context = await browser.newContext({
     viewport: { width: opts.width, height: 900 },
     userAgent: opts.userAgent,
@@ -75,9 +87,27 @@ export async function openPage(browser: Browser, url: URL, opts: { width: number
     reducedMotion: 'reduce',
     serviceWorkers: 'block',
     acceptDownloads: false,
+    ...(opts.storageState ? { storageState: opts.storageState } : {}),
   });
-  const route = await blockMutatingRequests(context);
+  const route = await blockMutatingRequests(context, opts.deny);
+  return { context, route };
+}
+
+export async function openPage(browser: Browser, url: URL, opts: ReadingContextOptions): Promise<OpenedPage> {
+  const { context, route } = await newReadingContext(browser, opts);
+  try {
+    return await openInContext(context, route, url);
+  } catch (e) {
+    await context.close();
+    throw e;
+  }
+}
+
+/** Opens `url` in a new tab of a reading context. The caller closes the tab (or the context). */
+export async function openInContext(context: BrowserContext, route: RouteGuard, url: URL): Promise<OpenedPage> {
   const page = await context.newPage();
+  // A confirm()/prompt() is answered "cancel", so a script can't ask its way into an action.
+  page.on('dialog', (d) => void d.dismiss().catch(() => undefined));
   const sheetBodies = new Map<string, Promise<string>>();
   const requests: string[] = [];
   page.on('request', (r) => requests.push(r.url()));
@@ -95,7 +125,7 @@ export async function openPage(browser: Browser, url: URL, opts: { width: number
   } catch (e) {
     if (/Timeout/i.test(String(e))) timedOut = true;
     else {
-      await context.close();
+      await page.close().catch(() => undefined);
       throw e;
     }
   }

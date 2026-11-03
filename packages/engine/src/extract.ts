@@ -40,7 +40,7 @@ export interface ExtractResult {
 
 type PageRecord = Extraction['source']['pages'][number];
 
-interface DarkDetect {
+export interface DarkDetect {
   method: ModeObservation['method'] | null;
   mediaRules: number;
   toggles: string[];
@@ -382,7 +382,7 @@ function sizesOf(obs: ReturnType<typeof observe>) {
 }
 
 let cachedUA: string | null = null;
-async function userAgentFor(browser: Browser): Promise<string> {
+export async function userAgentFor(browser: Browser): Promise<string> {
   if (cachedUA) return cachedUA;
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
@@ -393,7 +393,13 @@ async function userAgentFor(browser: Browser): Promise<string> {
   return cachedUA;
 }
 
-async function capturePage(
+export interface CaptureHooks {
+  /** Called right after each sweep, with the page in that mode and width (crawl takes screenshots here). */
+  onSweep?: (mode: Mode, width: number) => Promise<void>;
+}
+
+/** Reads one opened page: every width × mode sweep, variables, and forced states (on index 0). The engine's input. */
+export async function capturePage(
   opened: OpenedPage,
   index: number,
   widths: number[],
@@ -401,7 +407,9 @@ async function capturePage(
   statesEnabled: boolean,
   dark: DarkDetect,
   log: (s: string) => void,
+  hooks: CaptureHooks = {},
 ) {
+  const shot = hooks.onSweep ?? (async () => undefined);
   const { page } = opened;
   const banners = await hideCookieBanners(page);
   await callInPage(page, 'scroll');
@@ -438,6 +446,7 @@ async function capturePage(
   let firstMode: Mode = defaultDark ? 'dark' : 'light';
   vars[firstMode] = await callInPage(page, 'resolveVars', { names, scopes });
   sweeps.push({ mode: firstMode, width: maxW, result: first });
+  await shot(firstMode, maxW);
   log(`  ${first.elements.length}개 요소, 배경 ${toHex(bgColor)}`);
 
   // The other mode: prefers-color-scheme first, then a class/data toggle.
@@ -453,6 +462,7 @@ async function capturePage(
         if (index === 0) dark.method = 'media-query';
         vars.dark = await callInPage(page, 'resolveVars', { names, scopes });
         sweeps.push({ mode: 'dark', width: maxW, result: r });
+        await shot('dark', maxW);
       } else {
         await page.emulateMedia({ colorScheme: 'light' });
       }
@@ -470,6 +480,7 @@ async function capturePage(
           }
           vars.dark = await callInPage(page, 'resolveVars', { names, scopes });
           sweeps.push({ mode: 'dark', width: maxW, result: r });
+          await shot('dark', maxW);
           break;
         }
         // undo in place: the toggle only touched <html>/<body> classes and attributes
@@ -512,10 +523,12 @@ async function capturePage(
       await sleep(100);
     } else await setMode(firstMode);
     sweeps.push({ mode: firstMode, width: w, result: await callInPage(page, 'sweep') });
+    await shot(firstMode, w);
     if (darkMode) {
       await setMode('dark');
       await sleep(100);
       sweeps.push({ mode: 'dark', width: w, result: await callInPage(page, 'sweep') });
+      await shot('dark', w);
     }
   }
 

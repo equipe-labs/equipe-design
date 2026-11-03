@@ -1,8 +1,9 @@
-// No logins and no workarounds. There is no option to pass cookies, storage state or
-// extra headers: every run gets a new, empty browser profile (Playwright's default
-// context) that is thrown away at the end. The engine never attaches to an existing
-// browser (never attaches to a running one, no user data dir), so the person's signed-in browser and the
-// squad's shared `browser` tool are out of reach. No stealth, proxies or captcha handling.
+// Login walls and bot checks: stop, never work around them. `extract` takes no session: every
+// run gets a new, empty browser profile that is thrown away at the end, and it never attaches to
+// a running browser. A crawl (`extract --crawl`) may be given the user's own session — a
+// storageState file or the address of the browser their agent signed in with — and then reads
+// behind the login as that user (crawl/session.ts). Neither types a password, and there is no
+// stealth, proxy or captcha handling.
 
 export interface PageCheck {
   passwordFields: number;
