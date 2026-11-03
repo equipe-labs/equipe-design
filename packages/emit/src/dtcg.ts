@@ -1,6 +1,6 @@
 // Model -> DTCG files (README 1.5): primitive -> semantic (light/dark) -> component.
 import { readFileSync } from 'node:fs';
-import { loadSource, mix, toOklch, normalizeHex, parseHex, bestOn, ROLES, TYPE_ROLES, type Model, type Remix, type RoleName } from '@equipe-design/remix';
+import { loadSource, mix, toOklch, normalizeHex, parseHex, bestOn, sunkenOf, tintAlpha, ROLES, TINT_ALPHA, TYPE_ROLES, type Model, type Remix, type RoleName } from '@equipe-design/remix';
 import type { Extraction } from '@equipe-design/schema';
 import type { DtcgFiles, Json, JsonObject, Resolved, Rgba, ShadowV, Token, Typo } from './tokens.ts';
 
@@ -176,15 +176,15 @@ function legacyColors(c: Record<RoleName, string>, dark: boolean, colV: (hex: st
   const act = c.accent;
   const toward = dark ? '#ffffff' : '#000000';
   const out: Record<string, Json> = {
-    bg: colV(B), surface: colV(c.surface), raised: colV(c.raised), sunken: colV(mix(B, T, dark ? 0.03 : 0.06)),
+    bg: colV(B), surface: colV(c.surface), raised: colV(c.raised), sunken: colV(sunkenOf(c, dark ? 'dark' : 'light')),
     text: colV(T), muted: colV(c['muted-text']), accent: colV(act), 'on-accent': colV(bestOn(act)),
-    'accent-bg': colV(act, 0.12), focus: colV(c.ring), dot: colV(c['muted-text']), line: colV(c.border), 'border-strong': colV(c['border-strong']),
+    'accent-bg': colV(act, tintAlpha(c, 'accent', TINT_ALPHA.selected)), focus: colV(c.ring), dot: colV(c['muted-text']), line: colV(c.border), 'border-strong': colV(c['border-strong']),
     action: colV(c.primary), 'on-action': colV(c['on-primary']),
     'action-hover': colV(mix(c.primary, toward, 0.12)), 'action-pressed': colV(mix(c.primary, toward, 0.22)),
     hover: colV(T, 0.06), pressed: colV(T, 0.1), scrim: colV('#000000', dark ? 0.6 : 0.4),
     inverse: colV(T), 'on-inverse': colV(B), 'inverse-accent': colV(mix(act, dark ? '#000000' : '#ffffff', 0.4)),
-    ok: colV(c.success), 'ok-bg': colV(c.success, 0.14), work: colV(act), 'work-bg': colV(act, 0.14), wait: colV(c.warning), 'wait-bg': colV(c.warning, 0.14),
-    err: colV(c.destructive), 'err-bg': colV(c.destructive, 0.14), 'on-err': colV(bestOn(c.destructive)),
+    ok: colV(c.success), 'ok-bg': colV(c.success, tintAlpha(c, 'success')), work: colV(act), 'work-bg': colV(act, tintAlpha(c, 'accent')), wait: colV(c.warning), 'wait-bg': colV(c.warning, tintAlpha(c, 'warning')),
+    err: colV(c.destructive), 'err-bg': colV(c.destructive, tintAlpha(c, 'destructive')), 'on-err': colV(bestOn(c.destructive)),
   };
   const color: JsonObject = { $type: 'color' };
   for (const [k, v] of Object.entries(out)) color[k] = { $value: v };
@@ -215,6 +215,56 @@ function toLegacy(model: Model, files: DtcgFiles, colV: (hex: string, a?: number
     'semantic.color.dark.json': legacyColors(model.colors.dark, true, colV),
     'component.json': tpl('component.json'),
   };
+}
+
+// ───────────── tokens.json: the one file `equipe design check` and equipe's design screen read ─────────────
+// What equipe's design/scripts/build.mjs makes from the legacy layout: the light tree as written (aliases kept),
+// and where a token's dark value differs, that value in $extensions.mode.dark. Roles come before the raw palette.
+const isToken = (n: unknown): n is JsonObject => !!n && typeof n === 'object' && !Array.isArray(n) && '$value' in n;
+
+function mergeTree(a: JsonObject, b: JsonObject): JsonObject {
+  for (const [k, v] of Object.entries(b)) {
+    const at = a[k];
+    if (v && typeof v === 'object' && !Array.isArray(v) && !isToken(v) && at && typeof at === 'object' && !Array.isArray(at)) mergeTree(at, v);
+    else a[k] = v;
+  }
+  return a;
+}
+
+export function equipeTokensJson(files: DtcgFiles): JsonObject {
+  const tree = (mode: 'light' | 'dark'): JsonObject => {
+    const out: JsonObject = {};
+    for (const f of ['primitive.json', 'semantic.json', `semantic.color.${mode}.json`, 'component.json']) {
+      const part = files[f];
+      if (!part) throw new Error(`tokens.json: ${f} is missing`);
+      mergeTree(out, structuredClone(part) as JsonObject);
+    }
+    return out;
+  };
+  const light = tree('light');
+  const dark = tree('dark');
+  const walk = (l: JsonObject, d: JsonObject | undefined, at: string[]) => {
+    for (const k of Object.keys(d ?? {})) if (!k.startsWith('$') && !(k in l)) throw new Error(`tokens.json: ${[...at, k].join('.')} is in dark only`);
+    for (const [k, v] of Object.entries(l)) {
+      if (k.startsWith('$') || !v || typeof v !== 'object' || Array.isArray(v)) continue;
+      const dv = d?.[k] as JsonObject | undefined;
+      if (!isToken(v)) {
+        walk(v, dv, [...at, k]);
+        continue;
+      }
+      if (!isToken(dv)) throw new Error(`tokens.json: ${[...at, k].join('.')} is in light only`);
+      if (JSON.stringify(v.$value) !== JSON.stringify(dv.$value)) v.$extensions = { ...((v.$extensions as JsonObject | undefined) ?? {}), mode: { dark: dv.$value as Json } };
+    }
+  };
+  walk(light, dark, []);
+  const groups = { ...light };
+  delete groups.$description;
+  const color = groups.color as JsonObject | undefined;
+  if (color && 'raw' in color) {
+    const { raw, ...roles } = color;
+    groups.color = { ...roles, raw };
+  }
+  return { $description: 'design tokens — light is $value; dark is $extensions.mode.dark. Written by equipe-design emit --dtcg-legacy from dtcg/*.json.', ...groups };
 }
 
 /** The reverse of toDtcg for files in its layout: lets `emit` re-write a tokens folder (for example as legacy). */

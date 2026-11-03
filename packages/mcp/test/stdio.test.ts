@@ -67,6 +67,7 @@ describe('equipe-design mcp over stdio', () => {
     expect(emitted.isError, emitted.text).toBeUndefined();
     const files = emitted.structured.files as string[];
     expect(files).toContain(join(out, 'design', 'tokens.css'));
+    expect(files).toContain(join(out, 'design', 'tokens.json'));
     expect(readFileSync(join(out, 'design', 'tokens.css'), 'utf8')).toMatch(/--eq-/);
   }, 120_000);
 });

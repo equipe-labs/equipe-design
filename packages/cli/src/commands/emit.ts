@@ -8,7 +8,7 @@ const USAGE = [
   '         [--prefix eq] [--dtcg-legacy] [--shadcn-format oklch|hsl] [--kotlin-package pkg] [--forbid label,label]',
   '',
   '<tokens-dir> holds primitive.json, semantic.json, semantic.color.light.json (and .dark.json), component.json — what `remix` writes.',
-  '--dtcg-legacy writes the layout equipe\'s design/scripts/build.mjs reads (strings like "4px").',
+  '--dtcg-legacy writes the layout equipe\'s design/scripts/build.mjs reads (strings like "4px"), and beside it the one tokens.json `equipe design check` reads.',
   'Fails (exit 1) when a source site\'s label (from ../remix.json or --forbid) is in a token name or file name.',
 ].join('\n');
 
