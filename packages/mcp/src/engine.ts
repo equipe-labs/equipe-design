@@ -7,6 +7,7 @@ import { join, resolve } from 'node:path';
 import { validateExtraction, type Extraction } from '@equipe-design/schema';
 import { assertOwnBrowser, type LaunchPlan } from './browser.ts';
 import { renderReport } from './report.ts';
+import type { CrawlOptions } from '@equipe-design/engine/crawl-options';
 
 export interface ExtractRequest {
   /** 1–5 http(s) URLs, read into one extraction. */
@@ -20,6 +21,21 @@ export interface ExtractRequest {
   browser: LaunchPlan;
 }
 
+export interface CrawlRequest extends ExtractRequest {
+  /** Checked crawl options (the engine's `crawlOptionsFrom`). */
+  crawl: CrawlOptions;
+}
+
+export interface CrawlOutcome {
+  crawlPath: string;
+  reportPath: string;
+  screens: number;
+  discovered: number;
+  skipped: Record<string, number>;
+  stoppedBy: string | null;
+  stopReason: string | null;
+}
+
 export interface ExtractOutcome {
   extractPath: string;
   reportPath: string;
@@ -30,6 +46,8 @@ export interface Engine {
   /** True when results are example data, not measured. */
   fake: boolean;
   extract(req: ExtractRequest): Promise<ExtractOutcome>;
+  /** Engines that can crawl a site (the fake one can't). */
+  crawl?(req: CrawlRequest): Promise<CrawlOutcome>;
 }
 
 const EXAMPLES = new URL('../../schema/examples/', import.meta.url);
@@ -78,6 +96,10 @@ export async function getEngine(env: NodeJS.ProcessEnv = process.env): Promise<E
       async extract(req) {
         assertOwnBrowser(req.browser);
         return mcpEngine.extract(req);
+      },
+      async crawl(req) {
+        assertOwnBrowser(req.browser);
+        return mcpEngine.crawl(req);
       },
     };
   }

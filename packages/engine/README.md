@@ -8,6 +8,17 @@ const { extraction, exitCode } = await extract(['https://equipe.im/']);
 writeRun(extraction, 'out/equipe.im');
 ```
 
+`crawl(starts, opts)` reads a whole site from one page — sitemap, same-origin links, the app's navigation — optionally signed in with the user's own session, and writes `crawl.json`, `crawl.md` and `screens/NNN/` (each screen's sweeps in the same `PageData` shape `extract` analyses, screenshots, opened menus). Read-only rules, options and defaults: [docs/crawl.md](../../docs/crawl.md).
+
+| Crawl step | Where |
+|---|---|
+| Options (one table for CLI and MCP) | `src/crawl/options.ts` |
+| Session: storageState file or CDP address → only that site's cookies/storage | `src/crawl/session.ts` |
+| Sitemaps (robots `Sitemap:`, indexes) | `src/crawl/sitemap.ts` |
+| What not to follow or press, URL shapes | `src/crawl/rules.ts` |
+| Opening menus, dialogs, dropdowns, tabs | `src/crawl/reveal.ts` |
+| The loop, screenshots, report | `src/crawl/crawl.ts` |
+
 ## Pipeline
 
 | Step | Where | What it does |

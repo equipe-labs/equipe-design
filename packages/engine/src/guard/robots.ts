@@ -61,6 +61,15 @@ export function parseRobots(text: string, token = PRODUCT_TOKEN): RobotsRule[] {
   return chosen.flatMap((g) => g.rules);
 }
 
+export function sitemapLines(text: string): string[] {
+  const out: string[] = [];
+  for (const line of text.split(/\r\n|\r|\n/)) {
+    const m = /^\s*sitemap\s*:\s*(\S+)/i.exec(line);
+    if (m) out.push(m[1]!);
+  }
+  return out;
+}
+
 function patternToRegExp(pattern: string): RegExp {
   const anchored = pattern.endsWith('$');
   const body = (anchored ? pattern.slice(0, -1) : pattern)
@@ -97,7 +106,7 @@ const ruleText = (r: RobotsRule) => `${r.allow ? 'Allow' : 'Disallow'}: ${r.path
 
 /** Fetches /robots.txt once per origin and decides for each URL. */
 export class RobotsGuard {
-  private cache = new Map<string, Promise<{ rules: RobotsRule[] | 'all' | 'none' | 'exempt'; note?: string }>>();
+  private cache = new Map<string, Promise<{ rules: RobotsRule[] | 'all' | 'none' | 'exempt'; note?: string; sitemaps?: string[] }>>();
   private userAgent: string;
   private fetchImpl: typeof fetch;
   constructor(userAgent: string, fetchImpl: typeof fetch = fetch) {
@@ -117,7 +126,10 @@ export class RobotsGuard {
             redirect: 'follow',
             signal: AbortSignal.timeout(15_000),
           });
-          if (res.status >= 200 && res.status < 300) return { rules: parseRobots(await res.text()) };
+          if (res.status >= 200 && res.status < 300) {
+            const text = await res.text();
+            return { rules: parseRobots(text), sitemaps: sitemapLines(text) };
+          }
           if (res.status >= 400 && res.status < 500) return { rules: 'all' as const, note: `robots.txt 없음(HTTP ${res.status}) — 전부 허용으로 봄` };
           if (local) return { rules: 'exempt' as const, note: `로컬 주소의 robots.txt가 HTTP ${res.status} — 로컬 예외` };
           return { rules: 'none' as const, note: `robots.txt가 HTTP ${res.status} — RFC 9309에 따라 전부 막힘으로 봄` };
@@ -129,6 +141,12 @@ export class RobotsGuard {
       this.cache.set(key, p);
     }
     return p;
+  }
+
+  /** The `Sitemap:` URLs robots.txt names (any group; they are not agent-specific). */
+  async sitemaps(url: URL): Promise<string[]> {
+    if (url.protocol === 'file:') return [];
+    return (await this.load(url)).sitemaps ?? [];
   }
 
   async check(url: URL): Promise<RobotsDecision> {

@@ -2,6 +2,11 @@
 // over a pipe. It never connects to an existing browser — above all not the equipe members'
 // shared one (a `browser` MCP server on a localhost port, with the person's sign-ins in it):
 // its cookies would follow the engine onto every page it reads.
+//
+// A crawl with `cdp` is the one exception, and only to the address the agent passes in that
+// call: the engine connects once to copy that one site's session, disconnects, and reads in its
+// own browser like any run (engine/src/crawl/session.ts). Endpoints in the environment are still
+// never used.
 
 import { mkdtempSync } from 'node:fs';
 import { homedir, tmpdir } from 'node:os';
