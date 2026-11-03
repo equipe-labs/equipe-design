@@ -56,6 +56,24 @@ describe('remix', () => {
     expect(contrast(c.success, over(c.success, Math.round(TINT_FLOOR * 255) / 255, '#ffffff'))).toBeGreaterThanOrEqual(4.5);
   });
 
+  it('moves text on the brand fill to the new brand hue when it carried the old one, and keeps white / black', () => {
+    const tinted = structuredClone(example);
+    const src = loadSource(tinted);
+    src.model.colors.dark!['on-primary'] = '#0b1226'; // navy from the blue brand, as equipe.im's dark mode has it
+    const oldHue = toOklch('#0b1226').h;
+    for (const r of remix([src], { color: BRAND, name: 'acme' }, { variants: 2 })) {
+      const on = toOklch(r.model.colors.dark!['on-primary']);
+      const gap = Math.min(Math.abs(on.h - oldHue), 360 - Math.abs(on.h - oldHue));
+      expect(on.c < 0.02 || gap > 30, `${r.id} dark on-primary ${r.model.colors.dark!['on-primary']}`).toBe(true);
+      expect(r.model.colors.light['on-primary']).toBe(src.model.colors.light['on-primary']);
+      expect(r.contrast.fails).toEqual([]);
+    }
+    for (const r of remix([src], { name: 'acme' }, { keepBrand: true, ownSite: true, variants: 2 })) {
+      expect(r.model.colors.dark!['on-primary']).toBe('#0b1226');
+      expect(r.model.colors.light['on-primary']).toBe(src.model.colors.light['on-primary']);
+    }
+  });
+
   it('refuses --keep-brand without --own-site, and with both keeps the colour and records it', () => {
     const src = loadSource(example);
     expect(() => remix([src], { name: 'acme' }, { keepBrand: true })).toThrow(RemixError);
