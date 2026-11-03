@@ -74,6 +74,9 @@ export function brandRamp(hex: string): Record<number, string> {
   return out;
 }
 
+const ON_TINT_MIN = 0.02;
+const hueGap = (a: number, b: number) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+
 const nearestStep = (l: number) =>
   Object.keys(STEP_L).map(Number).reduce((best, s) => (Math.abs(STEP_L[s]! - l) < Math.abs(STEP_L[best]! - l) ? s : best), 500);
 
@@ -130,6 +133,7 @@ export function remix(sources: Source[], brand: { color?: string; name: string }
       if (!roles.length) roles = ['accent', 'ring'];
       brandRoles[mode] = roles;
       if (!keep) {
+        const was = toOklch(c.primary);
         const exact = new Set<RoleName>(mode === 'light' ? roles.filter((r) => originals.light && c[r] === originals.light) : []);
         if (mode === 'light' && !exact.size) exact.add(roles.includes('accent') ? 'accent' : roles[0]!);
         for (const r of roles) {
@@ -139,6 +143,11 @@ export function remix(sources: Source[], brand: { color?: string; name: string }
           }
           const step = nearestStep(toOklch(c[r]).l);
           set(r, ramp[step]!, { kind: 'brand', note: `brand ramp step ${step}`, from: c[r] });
+        }
+        // Text on the brand fill that carries the old brand's hue follows the new one (white / black stay).
+        const on = toOklch(c['on-primary']);
+        if (on.c >= ON_TINT_MIN && was.c >= ON_TINT_MIN && hueGap(on.h, was.h) <= 60) {
+          set('on-primary', fromOklch({ ...on, h: hue }), { kind: 'brand', note: 'text on the brand fill, moved to the brand hue', from: c['on-primary'] });
         }
       }
       if (strategy === 'tinted') {
