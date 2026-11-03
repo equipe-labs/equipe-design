@@ -8,7 +8,7 @@ export const tool: Tool = {
   name: 'design_emit',
   description:
     `Write a remix's tokens as ${FORMATS.join(', ')}. dtcgLegacy writes the layout equipe's design/ folder reads ` +
-    "(then run `equipe design check`). Fails when a source site's name would end up in a token or file name.",
+    "plus the one tokens.json equipe reads (then run `equipe design check` on outDir). Fails when a source site's name would end up in a token or file name.",
   inputSchema: {
     type: 'object',
     properties: {

@@ -122,9 +122,65 @@ describe('formats', () => {
 describe('--dtcg-legacy', () => {
   const legacy = emit(toDtcg(first()), ['dtcg'], { legacy: true });
   it('writes strings like "4px" in equipe\'s five files', () => {
-    expect(Object.keys(legacy).sort()).toEqual(['dtcg/component.json', 'dtcg/primitive.json', 'dtcg/semantic.color.dark.json', 'dtcg/semantic.color.light.json', 'dtcg/semantic.json']);
+    expect(Object.keys(legacy).sort()).toEqual(['dtcg/component.json', 'dtcg/primitive.json', 'dtcg/semantic.color.dark.json', 'dtcg/semantic.color.light.json', 'dtcg/semantic.json', 'tokens.json']);
     expect(legacy['dtcg/primitive.json']).toMatch(/"\$value": "\d+px"/);
     expect(legacy['dtcg/semantic.color.light.json']).toMatch(/"action": \{\s+"\$value": "#0f766e"/);
+  });
+
+  // tokens.json as equipe's design/scripts/build.mjs writes it: one tree, light in $value, dark in $extensions.mode.dark.
+  type Node = { $value?: unknown; $extensions?: { mode?: { dark?: unknown } }; [k: string]: unknown };
+  const tokensJson = JSON.parse(legacy['tokens.json']!) as Record<string, Node>;
+  const at = (name: string): Node => name.split('.').reduce<Node>((n, k) => n[k] as Node, tokensJson as Node);
+  const value = (name: string, dark: boolean): string => {
+    const n = at(name);
+    const v = (dark && n.$extensions?.mode && 'dark' in n.$extensions.mode ? n.$extensions.mode.dark : n.$value) as string;
+    const ref = /^\{(.+)\}$/.exec(v);
+    return ref ? value(ref[1]!, dark) : v;
+  };
+  it('writes the one tokens.json equipe reads: light as $value, dark in $extensions.mode.dark, aliases kept', () => {
+    expect(at('color.bg').$value).toMatch(/^#[0-9a-f]{6}$/);
+    expect(at('color.bg').$extensions?.mode?.dark).toMatch(/^#[0-9a-f]{6}$/);
+    expect(at('color.bg').$extensions?.mode?.dark).not.toBe(at('color.bg').$value);
+    expect(at('badge.ok-bg').$value).toBe('{color.ok-bg}');
+    expect(at('badge.ok-bg').$extensions).toBeUndefined();
+    expect(Object.keys(at('color')).at(-1)).toBe('raw');
+    expect(value('space.4', false)).toMatch(/px$/);
+  });
+  // The same measure as `equipe design check`: a component's text on its own fill, laid over the page.
+  const rgb = (hex: string) => [1, 3, 5, 7].map((i) => (i < 7 || hex.length > 7 ? parseInt(hex.slice(i, i + 2), 16) : 255));
+  const lum = ([r, g, b]: number[]) => [r!, g!, b!].map((v) => (v / 255 <= 0.04045 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4)).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i]!, 0);
+  const over = (fg: number[], bg: number[]) => fg.slice(0, 3).map((v, i) => Math.round(v * (fg[3]! / 255) + bg[i]! * (1 - fg[3]! / 255))).concat(255);
+  const ratio = (a: number[], b: number[]) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x! + 0.05) / (y! + 0.05); };
+  it.each([false, true])('component text reads AA on its own fill (badges, chips, buttons) — dark %s', (dark) => {
+    const page = over(rgb(value('color.bg', dark)), [255, 255, 255, 255]);
+    const misses: string[] = [];
+    for (const group of ['badge', 'chip', 'button']) {
+      for (const leaf of Object.keys(at(group))) {
+        const stem = /^(.*)-fg$/.exec(leaf)?.[1] ?? (leaf === 'fg' ? '' : null);
+        const fill = stem === null ? undefined : [stem ? `${stem}-bg` : 'bg'].find((f) => f in at(group));
+        if (!fill) continue;
+        const r = ratio(over(rgb(value(`${group}.${leaf}`, dark)), over(rgb(value(`${group}.${fill}`, dark)), page)), over(rgb(value(`${group}.${fill}`, dark)), page));
+        if (r < 4.5) misses.push(`${group}.${leaf} ${r.toFixed(2)}`);
+      }
+    }
+    expect(misses).toEqual([]);
+  });
+  it.skipIf(!have('equipe'))('`equipe design check` reads it and passes tokens, dark and contrast', () => {
+    for (const id of ['a', 'b']) {
+      const r = remix([loadSource(example)], { color: '#0f766e', name: 'Tidewater' }, { variants: 2 }).find((x) => x.id === id)!;
+      const dir = mkdtempSync(join(tmpdir(), 'eqd-check-'));
+      try {
+        writeFileSync(join(dir, 'tokens.json'), emit(toDtcg(r), ['dtcg'], { legacy: true })['tokens.json']!);
+        const res = spawnSync('equipe', ['design', 'check', '--json', dir], { encoding: 'utf8' });
+        const findings = JSON.parse(res.stdout) as { level: string; area: string; message: string }[];
+        const errors = findings.filter((f) => f.level === 'error' && ['tokens', 'dark', 'contrast'].includes(f.area));
+        expect(errors, id).toEqual([]);
+        expect(findings.filter((f) => f.area === 'contrast' && f.level === 'ok')).toHaveLength(2);
+        expect(findings.some((f) => f.area === 'dark' && f.level === 'ok')).toBe(true);
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
+    }
   });
   const equipeDesign = join(process.env.HOME ?? '', 'Abel/equipe/design');
   const canBuild = existsSync(join(equipeDesign, 'scripts/build.mjs')) && existsSync(join(process.env.EQUIPE_DESIGN_NODE_MODULES ?? '/tmp/eqbuild', 'node_modules/style-dictionary'));
@@ -134,7 +190,7 @@ describe('--dtcg-legacy', () => {
       for (const f of ['scripts', 'package.json']) cpSync(join(equipeDesign, f), join(dir, f), { recursive: true });
       cpSync(join(process.env.EQUIPE_DESIGN_NODE_MODULES ?? '/tmp/eqbuild', 'node_modules'), join(dir, 'node_modules'), { recursive: true });
       mkdirSync(join(dir, 'tokens'));
-      for (const [name, text] of Object.entries(legacy)) writeFileSync(join(dir, 'tokens', name.replace('dtcg/', '')), text);
+      for (const [name, text] of Object.entries(legacy)) if (name.startsWith('dtcg/')) writeFileSync(join(dir, 'tokens', name.replace('dtcg/', '')), text);
       execFileSync(process.execPath, ['scripts/build.mjs'], { cwd: dir, stdio: 'pipe' });
       for (const f of ['build/css/tokens.css', 'build/swift/EquipeTokens.swift', 'build/kotlin/EquipeTokens.kt']) expect(existsSync(join(dir, f)), f).toBe(true);
     } finally {
