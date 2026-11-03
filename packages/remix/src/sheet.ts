@@ -9,7 +9,7 @@ import { contrast } from './color.ts';
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 const stack = (a: string[]) => a.map((f) => (/[\s\d]/.test(f) && !/^ui-/.test(f) ? `'${f}'` : f)).join(', ');
-const CHROME = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const chromePath = () => process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 function panel(r: Remix, mode: Mode, c: ColorMap): string {
   const m = r.model;
@@ -71,15 +71,26 @@ export function sheetHtml(r: Remix): string {
   </div>`;
 }
 
-/** Renders the sheet with headless Chrome. Returns false when Chrome is not installed. */
+/**
+ * Renders the sheet with headless Chrome. Returns false when Chrome is not installed.
+ * Chrome gets a new, empty profile of its own (deleted after), never the person's — the same rule
+ * as the engine's browser (packages/mcp/src/browser.ts).
+ */
 export function renderSheet(r: Remix, png: string): boolean {
-  if (!existsSync(CHROME)) return false;
+  const chrome = chromePath();
+  if (!existsSync(chrome)) return false;
   const dir = mkdtempSync(join(tmpdir(), 'eqd-sheet-'));
   try {
     const html = join(dir, 'sheet.html');
+    const profile = join(dir, 'profile');
+    mkdirSync(profile);
     writeFileSync(html, sheetHtml(r));
     mkdirSync(dirname(png), { recursive: true });
-    execFileSync(CHROME, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=1', `--screenshot=${png}`, '--window-size=1400,820', `file://${html}`], { stdio: 'ignore', timeout: 60_000 });
+    execFileSync(
+      chrome,
+      ['--headless=new', `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=1', `--screenshot=${png}`, '--window-size=1400,820', `file://${html}`],
+      { stdio: 'ignore', timeout: 60_000 },
+    );
     return existsSync(png);
   } finally {
     rmSync(dir, { recursive: true, force: true });

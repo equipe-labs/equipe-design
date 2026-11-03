@@ -1,6 +1,6 @@
-// What `design_extract` runs. The real engine (`@equipe-design/engine`, ticket A) exports
-// `mcpEngine: Engine`; until it does, a fake engine answers for the schema's example sites so
-// the tools can be tried end to end. `EQUIPE_DESIGN_ENGINE=fake` picks the fake one on purpose.
+// What `design_extract` runs: the real engine (`@equipe-design/engine`'s `mcpEngine`).
+// The fake engine answers only for the schema's example sites and is for tests:
+// `EQUIPE_DESIGN_ENGINE=fake` (or setEngine) picks it on purpose; it is never a fallback.
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -65,16 +65,23 @@ export function setEngine(engine: Engine | undefined): void {
   override = engine;
 }
 
+let real: Engine | undefined;
+
 export async function getEngine(env: NodeJS.ProcessEnv = process.env): Promise<Engine> {
   if (override) return override;
   if (env.EQUIPE_DESIGN_ENGINE === 'fake') return fakeEngine;
-  try {
-    const mod = (await import('@equipe-design/engine' as string)) as { mcpEngine?: Engine };
-    if (mod.mcpEngine) return mod.mcpEngine;
-  } catch {
-    /* not built yet */
+  if (!real) {
+    const { mcpEngine } = await import('@equipe-design/engine');
+    real = {
+      name: mcpEngine.name,
+      fake: false,
+      async extract(req) {
+        assertOwnBrowser(req.browser);
+        return mcpEngine.extract(req);
+      },
+    };
   }
-  return fakeEngine;
+  return real;
 }
 
 export function readExtraction(path: string): Extraction {
