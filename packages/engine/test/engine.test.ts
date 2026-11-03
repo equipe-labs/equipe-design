@@ -91,6 +91,18 @@ describe.skipIf(!hasChrome)('guardrails in the browser', () => {
     expect(button.variants[0]!.states.hover.diff!['background-color']).toMatch(/^c\d+ -> c\d+$/);
   }, 60_000);
 
+  it('finds a class-toggled dark mode after a toggle that changes nothing, without reloading the page', async () => {
+    site = await startSite();
+    const { extraction: x } = await extract([`${site.url}/class`], { states: false });
+    expect(x.source.modes.dark).toMatchObject({ observed: true, method: 'class-toggle' });
+    const hex = new Map(x.observed.color.map((c) => [c.id, c.value.hex]));
+    const bg = x.inferred.roles!.find((r) => r.role === 'background')!;
+    expect([hex.get(bg.light!), hex.get(bg.dark!)]).toEqual(['#f6f5f1', '#0a0a0c']);
+    // The narrow light sweep runs after the toggle was taken off again: still light.
+    expect(x.observed.color.some((c) => c.mode === 'light' && c.value.hex === '#0a0a0c')).toBe(false);
+    expect(pageRequests(site).filter((r) => r.path === '/class')).toHaveLength(1);
+  }, 60_000);
+
   it('writes only extract.json and report.md: no CSS, font or image files', async () => {
     site = await startSite();
     const { extraction: x } = await extract([`${site.url}/`], { widths: [800] });

@@ -49,11 +49,23 @@ export function inferScale(values: ScaleInput[], kind: 'spacing' | 'radius'): Sc
     steps = declared;
     reasons.push(`길이만 담은 CSS 변수 묶음이 ${declared.length}단계를 선언함`);
   } else if (kind === 'radius') {
-    // Radius variables are often few (two or three named sizes); observed steps add to them.
-    steps = [...new Set([...declared, ...observedSteps])].sort((a, b) => a - b);
-    if (declared.length) reasons.push(`CSS 변수가 ${declared.length}단계(${declared.join(', ')}px)를 선언함`);
-    const extra = observedSteps.filter((v) => !declaredSet.has(v));
-    if (extra.length) reasons.push(`${extra.join(', ')}px는 ${base}의 배수이고 3회 이상, 2개 이상 구역에서 나옴`);
+    const seen = new Set(pool.filter((v) => v.count > 0).map((v) => v.value));
+    const used = declared.filter((v) => seen.has(v));
+    if (used.length >= 3) {
+      // A real group of radius variables, most of it used: the group is the scale. Framework
+      // defaults declare more sizes than a page draws, so declared sizes no element used stay out,
+      // and values outside the group are outliers, as for spacing.
+      steps = used;
+      reasons.push(`CSS 변수 묶음이 ${declared.length}단계를 선언했고 그중 ${used.length}단계(${used.join(', ')}px)를 요소가 씀`);
+      const unused = declared.filter((v) => !seen.has(v));
+      if (unused.length) reasons.push(`선언만 되고 이 페이지 요소가 쓰지 않은 ${unused.join(', ')}px는 단계에서 뺌`);
+    } else {
+      // Radius variables are often few (two or three named sizes); observed steps add to them.
+      steps = [...new Set([...declared, ...observedSteps])].sort((a, b) => a - b);
+      if (declared.length) reasons.push(`CSS 변수가 ${declared.length}단계(${declared.join(', ')}px)를 선언함`);
+      const extra = observedSteps.filter((v) => !declaredSet.has(v));
+      if (extra.length) reasons.push(`${extra.join(', ')}px는 ${base}의 배수이고 3회 이상, 2개 이상 구역에서 나옴`);
+    }
   } else {
     steps = [...new Set(observedSteps)].sort((a, b) => a - b);
     reasons.push(`기준 단위 ${base}px: 관찰값의 ${Math.round(bestShare * 100)}%(가중)가 ${base}의 배수`, `단계는 ${base}의 배수 중 3회 이상, 2개 이상 구역에서 나온 값`);
@@ -63,7 +75,7 @@ export function inferScale(values: ScaleInput[], kind: 'spacing' | 'radius'): Sc
   if (hasFull) reasons.push("높이의 절반 이상인 값(알약·원)은 'full'로 따로 분류");
 
   const outliers = pool
-    .filter((v) => !near(v.value, steps))
+    .filter((v) => v.count > 0 && !near(v.value, steps))
     .sort((a, b) => b.count - a.count)
     .slice(0, 20)
     .map((v) => ({

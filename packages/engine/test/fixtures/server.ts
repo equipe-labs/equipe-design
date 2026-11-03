@@ -28,6 +28,20 @@ const HOME = PAGE(`
 <section><div class="card"><p>One</p></div><div class="card"><p>Two</p></div><div class="card"><p>Three</p></div></section>
 <footer><p>Footer <a href="/c">C</a></p></footer>`);
 
+// Dark by a class on <html>, with a [data-theme] rule that changes nothing tried first.
+const CLASS_TOGGLE = `<!doctype html><html><head><meta charset="utf-8"><title>t</title>
+<style>
+:root { --bg: #f6f5f1; --text: #15161a; --accent: #1d4ed8; }
+html.dark { --bg: #0a0a0c; --text: #efede7; --accent: #8fb0ff; }
+[data-theme=dark] .never { color: red; }
+[data-theme=dark] .never-either { color: blue; }
+body { background: var(--bg); color: var(--text); font: 16px/24px system-ui, sans-serif; margin: 0; padding: 16px; }
+a { color: var(--accent); }
+</style></head><body>
+<header><a href="/">Home</a> <a href="/a">A</a></header>
+<section><h1>Title</h1><p>Some text here for the page.</p></section>
+<section><p>More text <a href="/b">B</a></p></section></body></html>`;
+
 const LOGIN = PAGE(`<form><label>Email <input type="email"></label><label>Password <input type="password"></label><button>Sign in</button></form>`);
 
 const POSTING = PAGE(
@@ -52,7 +66,7 @@ export async function startSite(opts: { robots?: string | null } = {}): Promise<
       res.writeHead(204).end();
       return;
     }
-    const html = path === '/login' ? LOGIN : path === '/post' ? POSTING : HOME;
+    const html = path === '/login' ? LOGIN : path === '/post' ? POSTING : path === '/class' ? CLASS_TOGGLE : HOME;
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }).end(html);
   });
   await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));

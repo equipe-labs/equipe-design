@@ -472,10 +472,9 @@ async function capturePage(
           sweeps.push({ mode: 'dark', width: maxW, result: r });
           break;
         }
-        // undo: reload is the simplest way back to the untouched page
-        await page.reload({ waitUntil: 'load' });
-        await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => undefined);
-        await freeze();
+        // undo in place: the toggle only touched <html>/<body> classes and attributes
+        await callInPage(page, 'undoToggle');
+        await sleep(50);
       }
     }
   }
@@ -508,11 +507,9 @@ async function capturePage(
     await page.setViewportSize({ width: w, height: 844 });
     await sleep(200);
     if (darkMode && darkMode !== 'media') {
-      // class toggles were applied in place; light first needs a clean page
-      await page.reload({ waitUntil: 'load' });
-      await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => undefined);
-      await hideCookieBanners(page);
-      await freeze();
+      // class toggles were applied in place; take them off for the light sweep
+      await callInPage(page, 'undoToggle');
+      await sleep(100);
     } else await setMode(firstMode);
     sweeps.push({ mode: firstMode, width: w, result: await callInPage(page, 'sweep') });
     if (darkMode) {
@@ -524,12 +521,8 @@ async function capturePage(
 
   // Back to the widest width in the first mode for the component state pass.
   await page.setViewportSize({ width: maxW, height: 900 });
-  if (darkMode && darkMode !== 'media') {
-    await page.reload({ waitUntil: 'load' });
-    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => undefined);
-    await hideCookieBanners(page);
-    await freeze();
-  } else await setMode(firstMode);
+  if (darkMode && darkMode !== 'media') await callInPage(page, 'undoToggle');
+  else await setMode(firstMode);
   await sleep(100);
   const base = await callInPage(page, 'sweep');
   const candidates = findCandidates(base);
@@ -550,12 +543,15 @@ async function capturePage(
   return { page: pageData, cand: { candidates, mode: firstMode, width: maxW }, visible: first.elements.length, sheets, extras, banners };
 }
 
-function changed(a: { elements: { path: string; bg: number; fg: number }[]; colors: Rgba[] }, b: typeof a): boolean {
+function changed(a: { elements: { path: string; tag: string; bg: number; fg: number }[]; colors: Rgba[] }, b: typeof a): boolean {
   const key = (r: typeof a, i: number) => (i >= 0 ? r.colors[i]!.join(',') : '-');
   const m = new Map(a.elements.map((e) => [e.path, `${key(a, e.bg)}|${key(a, e.fg)}`]));
   let diff = 0;
   let n = 0;
   for (const e of b.elements) {
+    // <html> keeps the browser's default colours, which flip with color-scheme alone (the toggle
+    // sets it); whether the page itself changed starts at <body>.
+    if (e.tag === 'html') continue;
     const prev = m.get(e.path);
     if (prev === undefined) continue;
     n++;

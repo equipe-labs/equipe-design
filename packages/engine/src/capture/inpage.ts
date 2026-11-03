@@ -554,8 +554,16 @@ export function install(): void {
   };
 
   // ---- modes ---------------------------------------------------------------------
+  let beforeToggle: { html: string | null; body: string | null; attrs: [string, string | null][]; scheme: string } | null = null;
   const applyToggle = (kind: string): boolean => {
     const html = document.documentElement;
+    beforeToggle ??= {
+      html: html.getAttribute('class'),
+      body: document.body?.getAttribute('class') ?? null,
+      attrs: kind.startsWith('class:') ? [] : [[kind, html.getAttribute(kind)]],
+      scheme: html.style.colorScheme,
+    };
+    if (!kind.startsWith('class:') && !beforeToggle.attrs.some(([a]) => a === kind)) beforeToggle.attrs.push([kind, html.getAttribute(kind)]);
     const before = getComputedStyle(document.body ?? html).backgroundColor + getComputedStyle(document.body ?? html).color;
     if (kind.startsWith('class:')) {
       const cls = kind.slice(6);
@@ -568,6 +576,19 @@ export function install(): void {
     html.style.colorScheme = 'dark';
     const after = getComputedStyle(document.body ?? html).backgroundColor + getComputedStyle(document.body ?? html).color;
     return before !== after;
+  };
+
+  /** Put <html> and <body> back as they were before the first applyToggle. */
+  const undoToggle = (): void => {
+    const b = beforeToggle;
+    if (!b) return;
+    const html = document.documentElement;
+    const set = (el: Element | null, name: string, v: string | null) => (v === null ? el?.removeAttribute(name) : el?.setAttribute(name, v));
+    set(html, 'class', b.html);
+    set(document.body, 'class', b.body);
+    for (const [a, v] of b.attrs) set(html, a, v);
+    html.style.colorScheme = b.scheme;
+    beforeToggle = null;
   };
 
   // ---- states --------------------------------------------------------------------
@@ -624,5 +645,5 @@ export function install(): void {
     await new Promise((r) => setTimeout(r, 100));
   };
 
-  w.__eqd = { sweep, scanSheets, scanText, resolveVars, countUsage, applyToggle, markTargets, readState, pageCheck, scroll };
+  w.__eqd = { sweep, scanSheets, scanText, resolveVars, countUsage, applyToggle, undoToggle, markTargets, readState, pageCheck, scroll };
 }

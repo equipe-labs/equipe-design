@@ -31,6 +31,8 @@ export interface ColorRecord {
   /** Box area of the non-link, non-decorative text elements in this colour (widest sweep). */
   textArea: number;
   interactive: Set<string>;
+  /** Icons (SVG, aria-hidden) inside a button or link: the control's decoration, not its own colour. */
+  interactiveIcon: Set<string>;
   /** Elements inside the home link at the top (the logo). */
   home: Set<string>;
   decorative: Set<string>;
@@ -171,6 +173,7 @@ export function observe(pages: PageData[], opts: { primaryMode: Mode }): Observa
       area: 0,
       textArea: 0,
       interactive: new Set(),
+      interactiveIcon: new Set(),
       home: new Set(),
       decorative: new Set(),
       samples: [],
@@ -268,7 +271,7 @@ export function observe(pages: PageData[], opts: { primaryMode: Mode }): Observa
       rec.sections.add(`${h.page}|${h.el.sec}`);
       if (h.use === 'background' && isWidest) rec.area += h.el.rect[2] * h.el.rect[3];
       if (h.use === 'text' && isWidest && !h.el.interactive && !h.el.decor) rec.textArea += h.el.rect[2] * h.el.rect[3];
-      if (h.el.interactive) rec.interactive.add(ek);
+      if (h.el.interactive) (h.el.decor ? rec.interactiveIcon : rec.interactive).add(ek);
       if (h.el.home && isWidest) rec.home.add(ek);
       if (h.el.decor) rec.decorative.add(ek);
       rec.samples.push({ page: h.page, path: h.el.path, prop: h.prop });

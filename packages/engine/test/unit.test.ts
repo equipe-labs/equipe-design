@@ -90,6 +90,12 @@ describe('scales', () => {
     expect(s.steps).toEqual([4, 8, 24]);
     expect(s.outliers!.map((o) => o.value).sort((a, b) => a - b)).toEqual([7, 12, 16]);
   });
+  it('takes a used radius variable group as the steps: declared-but-unused sizes and values outside it stay out', () => {
+    // A framework declares xs…4xl; the page draws four of them, plus a fixed 24px.
+    const s = inferScale([v(2, 0, 0, true), v(6, 16, 3, true), v(8, 13, 3, true), v(10, 8, 3, true), v(14, 2, 2, true), v(26, 0, 0, true), v(24, 24)], 'radius');
+    expect(s.steps).toEqual([6, 8, 10, 14]);
+    expect(s.outliers!.map((o) => o.value)).toEqual([24]);
+  });
   it('keeps pill radii out of the steps', () => {
     const s = inferScale([v(8, 10, 3, true), v(12, 5, 3, true), { ...v(9999, 7), full: true }, v(6, 4)], 'radius');
     expect(s.steps).toEqual([6, 8, 12]);
