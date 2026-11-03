@@ -139,9 +139,15 @@ export function equipeResult(x: Extraction, host: string, secs?: number): ToolRe
   r.secs = secs ?? x.run.durationMs / 1000;
   const byId = new Map(x.observed.color.map((c) => [c.id, c.value.hex.toLowerCase().slice(0, 7)]));
   const all = new Set(byId.values());
+  // A variable's value is its declared text (`lab(…)`, `var(--x)`, …); the engine also says
+  // which observed colour it resolves to, which is the value to score.
+  const varHex = (v: Extraction['observed']['variables'][number], m: 'light' | 'dark') => {
+    const id = v.resolvesTo?.[m];
+    return (id ? byId.get(id) : undefined) ?? toHex(v.values[m]);
+  };
   for (const v of x.observed.variables) {
-    for (const s of [v.values.light, v.values.dark]) {
-      const h = toHex(s);
+    for (const m of ['light', 'dark'] as const) {
+      const h = varHex(v, m);
       if (h) all.add(h);
     }
   }
@@ -166,8 +172,8 @@ export function equipeResult(x: Extraction, host: string, secs?: number): ToolRe
   const darkByVar: Record<string, string | null> = {};
   const lightByVar: Record<string, string | null> = {};
   for (const v of x.observed.variables) {
-    const l = toHex(v.values.light);
-    const d = toHex(v.values.dark);
+    const l = varHex(v, 'light');
+    const d = varHex(v, 'dark');
     lightByVar[v.name] = l;
     darkByVar[v.name] = d;
     if (l && d) pairs.push({ name: v.name, light: l, dark: d });

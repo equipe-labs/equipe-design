@@ -12,6 +12,7 @@ type Eqd = {
   resolveVars(a: { names: string[]; scopes: Record<string, string[]> }): Record<string, VarValue>;
   countUsage(u: Record<string, string[]>): Record<string, number>;
   applyToggle(kind: string): boolean;
+  undoToggle(): void;
   markTargets(paths: string[]): number[];
   readState(i: number): StateProps | null;
   pageCheck(): PageCheck;
@@ -90,7 +91,7 @@ export async function openPage(browser: Browser, url: URL, opts: { width: number
   try {
     const res = await page.goto(url.href, { waitUntil: 'load', timeout: PAGE_TIMEOUT_MS });
     status = res?.status() ?? null;
-    await page.waitForLoadState('networkidle', { timeout: 10_000 }).catch(() => undefined);
+    await settle(page, 10_000);
   } catch (e) {
     if (/Timeout/i.test(String(e))) timedOut = true;
     else {
@@ -105,6 +106,37 @@ export async function openPage(browser: Browser, url: URL, opts: { width: number
   }
   const cdp = await context.newCDPSession(page);
   return { page, context, cdp, status, finalUrl, timedOut, mutatingBlocked: route.blocked, sheetBodies, requests };
+}
+
+/**
+ * Wait until the page has settled: the network is idle, or — for pages that keep fetching
+ * (analytics, consent scripts, looping animations) — no element has been added or removed for
+ * `quietMs` and the fonts are in. At most `maxMs`.
+ */
+export async function settle(page: Page, maxMs: number, quietMs = 1000): Promise<void> {
+  const quiet = page
+    .evaluate(
+      ({ quietMs, maxMs }) =>
+        new Promise<void>((done) => {
+          let last = performance.now();
+          const mo = new MutationObserver((records) => {
+            if (records.some((r) => r.addedNodes.length || r.removedNodes.length)) last = performance.now();
+          });
+          mo.observe(document.documentElement, { childList: true, subtree: true });
+          const start = performance.now();
+          const tick = () => {
+            const now = performance.now();
+            if ((now - last >= quietMs && document.fonts.status === 'loaded') || now - start >= maxMs) {
+              mo.disconnect();
+              done();
+            } else setTimeout(tick, 100);
+          };
+          tick();
+        }),
+      { quietMs, maxMs },
+    )
+    .catch(() => undefined);
+  await Promise.race([page.waitForLoadState('networkidle', { timeout: maxMs }).catch(() => undefined), quiet]);
 }
 
 export async function callInPage<K extends keyof Eqd>(page: Page, method: K, arg?: Parameters<Eqd[K]>[0]): Promise<Awaited<ReturnType<Eqd[K]>>> {

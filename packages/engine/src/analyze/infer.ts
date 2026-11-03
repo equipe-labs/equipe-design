@@ -144,18 +144,27 @@ export function inferRoles(ctx: RoleContext): Role[] {
 }
 
 const NAME_STRONG = /brand|primary|accent/i;
+// `accent-lime`, `accent-purple-bold`: a categorical palette named by hue, not the site's accent.
+const NAME_PALETTE = /accent[-_]?(red|orange|yellow|lime|green|teal|cyan|blue|indigo|purple|violet|magenta|pink|gray|grey|neutral|\d)/i;
+const NAME_BRAND = /brand/i;
+const strongName = (n: string) => NAME_STRONG.test(n.replace(NAME_PALETTE, ''));
 const NAME_WEAK = /link|highlight|theme|key|focus|ring/i;
 
 /** README 2.7: brand colour by use (buttons, links, focus, spread), not by saturation. */
 export function inferBrand(o: Observation, mode: Mode, ctx: { themeColor: Rgba | null; variantsOf: Map<string, Set<string>>; ringColors: Map<string, number> }): Brand {
   const cands = o.colors.filter((c) => c.mode === mode && c.elements.size > 0 && c.rgba[3] >= 0.5 && chroma(c.rgba) >= 0.06);
   const scored = cands.map((c) => {
-    let interactive = c.interactive.size / Math.max(1, c.elements.size);
+    // A control's own text, background or border counts fully; an icon inside it, half.
+    const icons = [...c.interactiveIcon].filter((e) => !c.interactive.has(e)).length;
+    let interactive = (c.interactive.size + 0.5 * icons) / Math.max(1, c.elements.size);
     if (ctx.ringColors.has(c.id)) interactive = Math.min(1, interactive + 0.3);
     const sections = c.sections.size;
     const clusters = ctx.variantsOf.get(c.id)?.size ?? 0;
     const names = [...c.variables];
-    const variableName = names.some((n) => NAME_STRONG.test(n)) ? 1 : names.some((n) => NAME_WEAK.test(n)) ? 0.5 : 0;
+    const variableName = names.some(strongName) ? 1 : names.some((n) => NAME_WEAK.test(n)) ? 0.5 : 0;
+    // A variable that says `brand` outright is the site naming its brand colour — counted only when
+    // a button or link is painted with it; one that only colours icons or panels is not.
+    const brandName = c.interactive.size > 0 && names.some((n) => NAME_BRAND.test(n)) ? 1 : 0;
     const variety = ['background', 'text', 'border', 'outline'].filter((k) => c.uses[k as keyof ColorRecord['uses']].size > 0).length;
     const usageVariety = Math.min(1, variety / 3);
     const themeColorMeta = ctx.themeColor && deltaE(ctx.themeColor, c.rgba) < 0.02 ? 1 : 0;
@@ -166,11 +175,12 @@ export function inferBrand(o: Observation, mode: Mode, ctx: { themeColor: Rgba |
     // One card, one illustration, or fewer than three elements: not a system-wide colour.
     const singleSubtree = sections <= 1 || c.elements.size < 3;
     const spread = singleSubtree ? 0 : Math.min(1, 0.6 * Math.min(1, sections / 4) + 0.4 * Math.min(1, clusters / 3));
-    let score = 0.3 * interactive + 0.2 * spread + 0.15 * variableName + 0.1 * usageVariety + 0.25 * identity;
+    let score = 0.3 * interactive + 0.2 * spread + 0.15 * variableName + 0.1 * usageVariety + 0.25 * identity + 0.1 * brandName;
     if (singleSubtree) score *= 0.3;
     if (decorativeOnly) score *= 0.5;
     return {
       rec: c,
+      brandName,
       cand: {
         color: c.id,
         score: round(score, 3),
@@ -195,7 +205,7 @@ export function inferBrand(o: Observation, mode: Mode, ctx: { themeColor: Rgba |
     return { status: 'none', color: null, candidates: [], reasons: ['유채색(OKLCH C ≥ 0.06)이 페이지에 없음 — 무채색 사이트'], confidence: 0.8 };
   }
   const describe = (s: (typeof scored)[number]) =>
-    `${toHex(s.rec.rgba)}: 점수 ${s.cand.score} (상호작용 ${s.cand.signals.interactiveUse}, 퍼짐 ${s.cand.signals.spread}, 변수 이름 ${s.cand.signals.variableName}, 로고·theme-color ${s.cand.signals.themeColorMeta}, 구역 ${s.rec.sections.size}개${s.cand.signals.singleSubtree ? ', 한 구역에만 있거나 3개 미만이라 ×0.3' : ''})`;
+    `${toHex(s.rec.rgba)}: 점수 ${s.cand.score} (상호작용 ${s.cand.signals.interactiveUse}, 퍼짐 ${s.cand.signals.spread}, 변수 이름 ${s.cand.signals.variableName}${s.brandName ? ' + brand 이름' : ''}, 로고·theme-color ${s.cand.signals.themeColorMeta}, 구역 ${s.rec.sections.size}개${s.cand.signals.singleSubtree ? ', 한 구역에만 있거나 3개 미만이라 ×0.3' : ''})`;
   reasons.push(`1위 ${describe(first)}`);
   if (second) reasons.push(`2위 ${describe(second)}`);
   const gap = first.cand.score - (second?.cand.score ?? 0);

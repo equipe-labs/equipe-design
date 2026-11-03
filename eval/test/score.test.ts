@@ -55,6 +55,15 @@ describe('scoring the schema example (engine stand-in)', () => {
     expect(score('brand', a, r)).toEqual({ text: '✓ `#1d4ed8`', pass: true });
     expect(score('typography', a, r).text).toBe('글꼴 2/2');
   });
+  it('scores a variable by the colour it resolves to, not its declared text', () => {
+    const x = structuredClone(example);
+    const v = x.observed.variables.find((w) => w.resolvesTo?.light && w.resolvesTo.dark)!;
+    v.values = { light: 'lab(0% 0 0)', dark: 'lab(98.26% 0 0)' };
+    const byId = new Map(x.observed.color.map((c) => [c.id, c.value.hex.toLowerCase().slice(0, 7)]));
+    const res = equipeResult(x, 'equipe.im');
+    expect(res.darkByVar![v.name]).toBe(byId.get(v.resolvesTo!.dark!));
+    expect(res.lightByVar![v.name]).toBe(byId.get(v.resolvesTo!.light!));
+  });
   it('a stopped run scores as stopped, not zero', () => {
     expect(score('colors', a, { ...r, status: 'stopped', error: 'robots-disallowed' }).text).toBe('멈춤 (robots-disallowed)');
   });
