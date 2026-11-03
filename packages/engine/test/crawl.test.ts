@@ -209,7 +209,13 @@ describe.skipIf(!hasChrome)('session from a signed-in browser (CDP)', () => {
       const exited = new Promise((r) => chrome.once('exit', r));
       chrome.kill();
       await exited;
-      rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+      // Chrome's helper processes can still be writing the profile after the main one exits
+      // (seen on Linux CI); a leftover temp dir is not a test failure.
+      try {
+        rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+      } catch {
+        /* left in tmp */
+      }
     }
   }, 60_000);
 });
