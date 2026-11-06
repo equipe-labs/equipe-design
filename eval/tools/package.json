@@ -6,5 +6,9 @@
   "dependencies": {
     "dembrandt": "0.39.2",
     "designlang": "13.3.2"
+  },
+  "overrides": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
   }
 }
