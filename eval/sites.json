@@ -7,8 +7,8 @@
       "goals": {
         "spacing": "9/9 · ≥ 0.75",
         "radius": "≥ 4/5 · ≥ 0.6",
-        "darkPairs": "≥ 15/17",
-        "colors": "21/21 + 다크 짝 전부",
+        "darkPairs": "≥ 88% (페이지 쌍)",
+        "colors": "21/21 + 페이지의 다크 짝 전부",
         "typography": "2/2",
         "brand": "✓"
       }

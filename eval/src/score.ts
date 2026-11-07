@@ -12,13 +12,18 @@ function frac(text: string, hit: number, total: number, goal?: number): Cell {
   return { text, pass: goal === undefined || total === 0 ? undefined : hit / total >= goal };
 }
 
-/** Answer colours used on the page whose light value the tool reported; dark misses listed by name. */
+type ColorItem = NonNullable<Answer['colors']>['items'][number];
+
+/** The answer's (light, dark) pair is on the page; unmarked answers count every pair. */
+const pairOnPage = (i: ColorItem) => i.pairOnPage !== false && i.usedOnPage !== false;
+
+/** Answer colours used on the page whose light value the tool reported; dark misses (pairs on the page only) listed by name. */
 export function scoreColors(a: Answer, r: ToolResult): Cell {
   const items = (a.colors?.items ?? []).filter((i) => i.usedOnPage !== false && i.light);
   if (!items.length) return NA;
   const hit = items.filter((i) => hasColor(r.colors, i.light!));
   const darkPool = r.darkColors?.length ? r.darkColors : r.colors;
-  const darkMiss = items.filter((i) => i.dark && hasColor(r.colors, i.light!) && !hasColor(darkPool, i.dark)).map((i) => i.name);
+  const darkMiss = items.filter((i) => i.dark && pairOnPage(i) && hasColor(r.colors, i.light!) && !hasColor(darkPool, i.dark)).map((i) => i.name);
   const lightMiss = items.filter((i) => !hit.includes(i)).map((i) => i.name);
   const notes = [
     lightMiss.length ? `누락 ${lightMiss.slice(0, 4).join('·')}${lightMiss.length > 4 ? ` 외 ${lightMiss.length - 4}` : ''}` : '',
@@ -31,25 +36,33 @@ export function scoreColors(a: Answer, r: ToolResult): Cell {
 }
 
 /**
- * Unique opaque answer (light, dark) pairs the tool reproduced — all of them, used on the page or
- * not (the design's 17 for equipe.im). Precision = the tool's own pairs that are right.
+ * Unique opaque answer (light, dark) pairs on the page that the tool reproduced. Pairs marked
+ * `pairOnPage: false` (or `usedOnPage: false`) are left out of the denominator and counted in the
+ * text; unmarked answers count every pair. Precision = the tool's own pairs that are right.
  */
 export function scoreDarkPairs(a: Answer, r: ToolResult, goal = 0.88): Cell {
   const want = new Map<string, { light: string; dark: string }>();
+  // Precision still counts a tool pair right when it matches an off-page answer pair.
+  const all = new Map<string, { light: string; dark: string }>();
+  const off = new Set<string>();
   for (const i of a.colors?.items ?? []) {
     const l = toHex(i.light);
     const d = toHex(i.dark);
     // Translucent overlays (#rrggbbaa) are left out: their pair depends on what is underneath.
     if (!l || !d || i.light!.length > 7 || i.dark!.length > 7) continue;
-    want.set(`${l}/${d}`, { light: l, dark: d });
+    all.set(`${l}/${d}`, { light: l, dark: d });
+    if (pairOnPage(i)) want.set(`${l}/${d}`, { light: l, dark: d });
+    else off.add(`${l}/${d}`);
   }
+  for (const k of want.keys()) off.delete(k);
   if (!want.size) return NA;
+  const offNote = off.size ? ` (페이지 밖 ${off.size}쌍 제외)` : '';
   if (r.pairs === null) return { text: '쌍 없음', pass: false };
   const ok = (p: { light: string; dark: string }, q: { light: string; dark: string }) => sameColor(p.light, q.light) && sameColor(p.dark, q.dark);
   const recall = [...want.values()].filter((w) => r.pairs!.some((p) => ok(p, w))).length;
-  const right = r.pairs.filter((p) => [...want.values()].some((w) => ok(p, w))).length;
+  const right = r.pairs.filter((p) => [...all.values()].some((w) => ok(p, w))).length;
   const label = r.pairsLabel ? `, ${r.pairsLabel}` : '';
-  return frac(`${ratio(recall, want.size)} · 맞은 쌍 ${ratio(right, r.pairs.length)}${label}`, recall, want.size, goal);
+  return frac(`${ratio(recall, want.size)}${offNote} · 맞은 쌍 ${ratio(right, r.pairs.length)}${label}`, recall, want.size, goal);
 }
 
 /** For answer colours with a role and a dark value: did the tool give the same dark value (by variable, then by role)? */

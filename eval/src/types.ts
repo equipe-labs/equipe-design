@@ -18,7 +18,17 @@ export interface Answer {
   colors?: {
     source: string;
     note?: string;
-    items: { name: string; var?: string; role?: string; light: string | null; dark: string | null; usedOnPage?: boolean }[];
+    items: {
+      name: string;
+      var?: string;
+      role?: string;
+      light: string | null;
+      dark: string | null;
+      /** false: the light value is not used on the page — left out of the colours row. */
+      usedOnPage?: boolean;
+      /** false: the (light, dark) pair is not on the page (CSS or drawn) — left out of the dark-pair denominator. Implied by `usedOnPage: false`. */
+      pairOnPage?: boolean;
+    }[];
   };
   spacing?: { source: string; px: number[]; note?: string };
   radius?: { source: string; px: number[]; note?: string };
