@@ -37,7 +37,8 @@
         "name": "raised",
         "role": "raised",
         "light": "#ffffff",
-        "dark": "#1b1c20"
+        "dark": "#1b1c20",
+        "pairOnPage": false
       },
       {
         "name": "sunken",
@@ -105,12 +106,14 @@
         "name": "action-hover",
         "light": "#2a2c33",
         "dark": "#dad7cf",
+        "pairOnPage": false,
         "usedOnPage": false
       },
       {
         "name": "action-pressed",
         "light": "#3a3c44",
         "dark": "#c9c6be",
+        "pairOnPage": false,
         "usedOnPage": false
       },
       {
@@ -126,7 +129,8 @@
       {
         "name": "inverse-accent",
         "light": "#8fb0ff",
-        "dark": "#1d4ed8"
+        "dark": "#1d4ed8",
+        "pairOnPage": false
       },
       {
         "name": "ok",
@@ -150,12 +154,14 @@
         "role": "destructive",
         "light": "#ad2e27",
         "dark": "#ee7b74",
+        "pairOnPage": false,
         "usedOnPage": false
       },
       {
         "name": "on-err",
         "light": "#ffffff",
-        "dark": "#0a0a0c"
+        "dark": "#0a0a0c",
+        "pairOnPage": false
       }
     ]
   },
@@ -195,6 +201,7 @@
     "value": "#1d4ed8"
   },
   "notes": [
-    "The site declares the same values under short names (--bg, --text, --accent); values match tokens.css (T-257, 2026-11-02)."
+    "The site declares the same values under short names (--bg, --text, --accent); values match tokens.css (T-257, 2026-11-02).",
+    "pairOnPage: false on raised, err, on-err, inverse-accent, action-hover, action-pressed: their (light, dark) pairs are not on the page — not declared in the page's CSS, and not drawn by any of the 1452 elements the browser rendered in light and dark (2026-11-03, T-343 scoreboard rows 1-2). inverse-accent's light #8fb0ff is on the page only as --accent's dark value. The dark-pair row counts 11 pairs on the page (person's decision, 2026-11-08, T-509)."
   ]
 }

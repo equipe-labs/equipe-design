@@ -7,7 +7,7 @@ import { checkAnswer, loadAnswer, loadSites, staleDays } from '../src/answers.ts
 import { equipeResult } from '../src/adapters.ts';
 import { deltaE, hasColor, scanColors, toHex } from '../src/color.ts';
 import { runEval } from '../src/run.ts';
-import { score, scoreBrand } from '../src/score.ts';
+import { score, scoreBrand, scoreColors, scoreDarkPairs } from '../src/score.ts';
 import type { Answer, ToolResult } from '../src/types.ts';
 
 const example = JSON.parse(
@@ -66,6 +66,46 @@ describe('scoring the schema example (engine stand-in)', () => {
   });
   it('a stopped run scores as stopped, not zero', () => {
     expect(score('colors', a, { ...r, status: 'stopped', error: 'robots-disallowed' }).text).toBe('멈춤 (robots-disallowed)');
+  });
+});
+
+describe('dark pairs on the page', () => {
+  const items = [
+    { name: 'bg', light: '#ffffff', dark: '#000000' },
+    { name: 'text', light: '#111111', dark: '#eeeeee' },
+    { name: 'raised', light: '#ffffff', dark: '#222222', pairOnPage: false },
+    { name: 'err', light: '#ff0000', dark: '#ff8888', usedOnPage: false },
+  ];
+  const dark = { method: 'media', source: 'x' } as const;
+  const marked = { dark, colors: { source: 'x', items } } as Answer;
+  const unmarked = { dark, colors: { source: 'x', items: items.map(({ name, light, dark }) => ({ name, light, dark })) } } as Answer;
+  const r = {
+    colors: ['#ffffff', '#111111', '#000000', '#eeeeee'],
+    darkColors: ['#000000', '#eeeeee'],
+    pairs: [
+      { light: '#ffffff', dark: '#000000' },
+      { light: '#111111', dark: '#eeeeee' },
+    ],
+  } as ToolResult;
+  it('leaves marked pairs out of the denominator and says how many', () => {
+    expect(scoreDarkPairs(marked, r)).toEqual({ text: '2/2 (페이지 밖 2쌍 제외) · 맞은 쌍 2/2', pass: true });
+  });
+  it('scores unmarked answers as before', () => {
+    expect(scoreDarkPairs(unmarked, r)).toEqual({ text: '2/4 · 맞은 쌍 2/2', pass: false });
+  });
+  it('counts a tool pair matching an off-page answer pair as right', () => {
+    const more = { ...r, pairs: [...r.pairs!, { light: '#ffffff', dark: '#222222' }] } as ToolResult;
+    expect(scoreDarkPairs(marked, more).text).toBe('2/2 (페이지 밖 2쌍 제외) · 맞은 쌍 3/3');
+  });
+  it('does not name off-page dark values as colour misses', () => {
+    expect(scoreColors(marked, r)).toEqual({ text: '3/3', pass: true });
+    expect(scoreColors(unmarked, r).text).toBe('3/4 (누락 err, 다크 raised 누락)');
+  });
+  it('equipe.im counts 11 pairs on the page', () => {
+    const a = loadAnswer('equipe.im')!;
+    const all = a.colors!.items.filter((i) => i.light && i.dark && i.light.length <= 7 && i.dark.length <= 7);
+    const pairs = all.filter((i) => i.pairOnPage !== false).map((i) => ({ light: i.light!, dark: i.dark! }));
+    expect(scoreDarkPairs(a, { pairs } as ToolResult).text).toMatch(/^11\/11 \(페이지 밖 6쌍 제외\) · /);
   });
 });
 
