@@ -6,12 +6,12 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./extract-0.1.schema.json": "./extract-0.1.schema.json"
+    "./extract-0.2.schema.json": "./extract-0.2.schema.json"
   },
   "files": [
     "src",
     "examples",
-    "extract-0.1.schema.json"
+    "extract-0.2.schema.json"
   ],
   "dependencies": {
     "ajv": "^8.20.0"

@@ -13,6 +13,8 @@ import { Limits } from './analyze/limits.ts';
 import type { PageData } from './analyze/model.ts';
 import { finishLateColors, observe } from './analyze/observe.ts';
 import { inferFontScale, inferScale } from './analyze/scale.ts';
+import { buildCatalog, detectPage, forcePaths, HINT_WORDS, LABEL_KEYWORDS, PRESENCE_ATTRS, probe, SHADCN_CATALOG } from './catalog/index.ts';
+import { VALUE_ATTRS } from './catalog/probe.ts';
 
 export const VERSION: string = (JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }).version;
 export const REPO_URL = 'https://github.com/equipe-labs/equipe-design';
@@ -24,6 +26,8 @@ export interface ExtractOptions {
   widths?: number[];
   modes?: 'auto' | 'light' | 'dark' | 'both';
   states?: boolean;
+  /** Pages to read at most (default and ceiling for callers without a crawl: 5; raise it to read a docs site's example pages). */
+  maxPages?: number;
   /** Progress lines for the CLI (stderr). */
   log?: (line: string) => void;
   /** For tests: a fetch for robots.txt. */
@@ -68,7 +72,8 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
   const modesOpt = opts.modes ?? 'auto';
   const statesEnabled = opts.states !== false;
   const limits = new Limits();
-  const plan = planPages(urls, MAX_PAGES);
+  const maxPages = Math.max(1, Math.min(Math.floor(opts.maxPages ?? MAX_PAGES), 200));
+  const plan = planPages(urls, maxPages);
   if (!plan.accepted.length) throw new Error(`no readable URL in: ${urls.join(' ')}`);
 
   const robots = new RobotsGuard(USER_AGENT_TOKEN, opts.fetch);
@@ -93,7 +98,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
   }
 
   if (plan.overCap.length) {
-    limits.add('page-cap-reached', '*', `URL ${plan.accepted.length + plan.overCap.length}개 중 앞의 ${MAX_PAGES}개만 읽음(실행당 상한)`, `빠진 URL: ${plan.overCap.length}개`, '나머지는 다른 실행으로 나눠 읽기');
+    limits.add('page-cap-reached', '*', `URL ${plan.accepted.length + plan.overCap.length}개 중 앞의 ${maxPages}개만 읽음(실행당 상한)`, `빠진 URL: ${plan.overCap.length}개`, '나머지는 다른 실행으로 나눠 읽기');
   }
   if (plan.otherOrigin.length) {
     limits.add('page-cap-reached', 'source.pages', `첫 URL과 출처가 다른 URL ${plan.otherOrigin.length}개는 읽지 않음(같은 출처만)`, '그 페이지의 값은 없음', '출처마다 따로 실행하기');
@@ -107,6 +112,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
   let mutating = 0;
   const requests: string[] = [];
   const walls: Wall[] = [];
+  const seenVariants = new Set<string>();
   const dark: DarkDetect = { method: null, mediaRules: 0, toggles: [], toggled: null, mediaVariables: 0, defaultDark: false };
   let stylesheets = { readable: 0, crossOriginParsedInMemory: 0, unreadable: 0 };
   let iframes = 0;
@@ -146,7 +152,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
           );
           continue;
         }
-        const data = await capturePage(opened, i, widths, modesOpt, statesEnabled, dark, log);
+        const data = await capturePage(opened, i, widths, modesOpt, statesEnabled, dark, log, { seenVariants });
         pages.push(data.page);
         candidatesByPage.set(i, data.cand);
         rec.visibleElements = data.visible;
@@ -182,10 +188,10 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
             ? 'robots-disallowed'
             : null;
 
-  const options: Extraction['run']['options'] = { widths: widths as [number, ...number[]], modes: modesOpt, states: statesEnabled, maxPages: MAX_PAGES };
+  const options: Extraction['run']['options'] = { widths: widths as [number, ...number[]], modes: modesOpt, states: statesEnabled, maxPages };
   const guardRobots: Extraction['guardrails']['robots'] = decisions.some((d) => d.verdict === 'disallowed') ? 'disallowed' : decisions.every((d) => d.verdict === 'exempt') ? 'exempt' : 'allowed';
   const base = {
-    schemaVersion: '0.1' as const,
+    schemaVersion: '0.2' as const,
     tool: { name: 'equipe-design' as const, version: VERSION, chrome: chromeVersion },
     run: { id: `${started.toISOString().replace(/[:.]/g, '-')}-${plan.accepted[0]!.hostname || 'file'}`, startedAt: started.toISOString(), durationMs: 0, userAgent: USER_AGENT_TOKEN, options, stoppedBy },
     notice: NOTICE,
@@ -195,7 +201,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
     loginUsed: false,
     freshBrowserProfile: true,
     pagesVisited: visited,
-    maxPages: MAX_PAGES,
+    maxPages,
     mutatingRequestsBlocked: mutating,
     stored: { cssText: false, fontFiles: false, images: false, pageText: false, screenshots: false },
     brandNameInTokenNames: false,
@@ -294,6 +300,19 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
     bodyStyle ? (obs.styles.find((s) => s.id === bodyStyle)?.size.value ?? null) : null,
   );
 
+  // catalog components against the reference table (every page read, not only the first)
+  const catalogOut = buildCatalog({
+    catalog: SHADCN_CATALOG,
+    pages: pages.filter((p) => p.catalog).map((p) => ({ index: p.index, width: Math.max(...widths), pc: p.catalog! })),
+    obs,
+    mode: primary,
+    roles,
+    scales: { spacing: spacingScale, radius: radiusScale },
+    typeRoles,
+    limits,
+    statesEnabled,
+  });
+
   // remaining limits
   const unusedVars = obs.variables.filter((v) => v.usedByElements === 0).length;
   if (unusedVars) limits.add('unused-on-page', 'observed.variables', `변수 ${unusedVars}개는 선언됐지만 이 페이지의 요소가 쓰지 않음`, '그 변수로만 있는 색은 count 0으로 남고 역할에서 빠질 수 있음', '그 값이 나오는 페이지를 주기');
@@ -314,6 +333,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
     ...roles.filter((r) => (r.light || r.dark) && r.confidence < 0.5).map((r) => `inferred.roles.${r.role}`),
     ...(brand.confidence < 0.5 ? ['inferred.brand'] : []),
     ...built.components.filter((c) => c.confidence < 0.5).map((c) => `inferred.components.${c.id}`),
+    ...catalogOut.components.filter((c) => c.confidence < 0.5).map((c) => `inferred.catalog.components.${c.id}`),
   ];
 
   const x: Extraction = {
@@ -336,6 +356,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
       brand,
       typeRoles,
       components: built.components,
+      catalog: catalogOut,
     },
     limits: limits.list,
     guardrails,
@@ -345,6 +366,7 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
       brand: brand.status === 'found' && brand.color ? `${brand.color} ${hexOf.get(brand.color)}` : brand.status,
       darkPairs: darkPairs.size,
       components: built.components.length,
+      catalog: { found: catalogOut.components.length, of: catalogOut.reference.count },
       limits: limits.list.length,
       lowConfidence,
     },
@@ -394,6 +416,8 @@ export async function userAgentFor(browser: Browser): Promise<string> {
 }
 
 export interface CaptureHooks {
+  /** Catalog variants whose states were already forced on an earlier page (`entry|key`); they are not forced again. */
+  seenVariants?: Set<string>;
   /** Called right after each sweep, with the page in that mode and width (crawl takes screenshots here). */
   onSweep?: (mode: Mode, width: number) => Promise<void>;
 }
@@ -545,6 +569,22 @@ export async function capturePage(
     log(`  상태 강제 ${paths.length}개 요소`);
     states = await forceStates(opened, paths).catch(() => ({}));
   }
+  // Catalog components (catalog/): attributes from the page, matched against the reference
+  // table, then :hover/:focus-visible/:active forced on up to two examples of each look.
+  let catalog: PageData['catalog'];
+  try {
+    const nodes = await page.evaluate(probe, { hints: HINT_WORDS, valueAttrs: VALUE_ATTRS, presenceAttrs: PRESENCE_ATTRS, labelKeywords: LABEL_KEYWORDS, max: 20_000 });
+    catalog = detectPage(SHADCN_CATALOG, base, nodes, 900);
+    if (statesEnabled) {
+      const reps = forcePaths(catalog, 50, hooks.seenVariants ?? new Set());
+      if (reps.length) {
+        log(`  카탈로그 상태 강제 ${reps.length}개 요소`);
+        catalog.forced = await forceStates(opened, reps).catch(() => ({}));
+      }
+    }
+  } catch {
+    catalog = undefined;
+  }
   // The component pass uses `base`: same DOM as the state pass. Replace the first sweep's
   // element list for the widest width so element paths line up.
   const transitions = new Map(first.elements.map((e) => [e.path, e.transition]));
@@ -552,7 +592,7 @@ export async function capturePage(
   sweeps[0] = { mode: firstMode, width: maxW, result: base.elements.length >= first.elements.length * 0.8 ? base : first };
 
   const themeColor = first.themeColor;
-  const pageData: PageData = { index, url: page.url(), sweeps, scan, vars, usage, themeColor, fonts: extras.fonts, states };
+  const pageData: PageData = { index, url: page.url(), sweeps, scan, vars, usage, themeColor, fonts: extras.fonts, states, ...(catalog ? { catalog } : {}) };
   return { page: pageData, cand: { candidates, mode: firstMode, width: maxW }, visible: first.elements.length, sheets, extras, banners };
 }
 

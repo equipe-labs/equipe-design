@@ -1,6 +1,7 @@
 import type { Mode } from '@equipe-design/schema';
 import type { Rgba, SheetScan, StateProps, SweepResult, VarValue } from '../capture/inpage.ts';
 import type { StateName } from '../capture/page.ts';
+import type { PageCatalog } from '../catalog/analyze.ts';
 
 /** Everything captured from one page, in memory only. */
 export interface PageData {
@@ -13,6 +14,8 @@ export interface PageData {
   themeColor: Rgba | null;
   fonts: { family: string; status: string }[];
   states: Record<string, Partial<Record<'default' | StateName, StateProps>>>;
+  /** Components of the reference table found on this page (catalog/). */
+  catalog?: PageCatalog;
 }
 
 /** One sample: an element (page + path) and the property a value was seen on. */

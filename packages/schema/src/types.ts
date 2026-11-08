@@ -1,4 +1,4 @@
-// Generated from extract-0.1.schema.json by `npm run gen:types`. Do not edit.
+// Generated from extract-0.2.schema.json by `npm run gen:types`. Do not edit.
 
 export type Mode = 'light' | 'dark';
 export type Count = number;
@@ -31,7 +31,10 @@ export type NullableColorId = ColorId | null;
  */
 export interface Extraction {
   $comment?: string;
-  schemaVersion: '0.1';
+  /**
+   * 0.2 adds inferred.catalog (components against the shadcn/ui reference table); 0.1 files stay valid.
+   */
+  schemaVersion: '0.1' | '0.2';
   tool: {
     name: 'equipe-design';
     version: string;
@@ -146,6 +149,7 @@ export interface Extraction {
     brand?: Brand;
     typeRoles?: TypeRole[];
     components?: Component[];
+    catalog?: Catalog;
   };
   limits: Limit[];
   guardrails: {
@@ -182,6 +186,10 @@ export interface Extraction {
     brand: string | null;
     darkPairs: Count;
     components: Count;
+    catalog?: {
+      found: Count;
+      of: Count;
+    };
     limits: Count;
     lowConfidence: string[];
   };
@@ -558,6 +566,163 @@ export interface State {
   };
   limit?: LimitId;
 }
+/**
+ * Components found against a reference table (shadcn/ui): every table entry is in coverage, found or not; the found ones carry variants, states and structure.
+ */
+export interface Catalog {
+  reference: {
+    name: string;
+    source: string;
+    snapshot: string;
+    count: Count;
+  };
+  components: CatalogComponent[];
+  coverage: CoverageRow[];
+}
+export interface CatalogComponent {
+  id: string;
+  /**
+   * Reference table name (button, alert-dialog…).
+   */
+  name: string;
+  category: string;
+  /**
+   * @minItems 1
+   */
+  detectedBy: [
+    'role' | 'tag' | 'slot' | 'attrs' | 'hint' | 'structure',
+    ...('role' | 'tag' | 'slot' | 'attrs' | 'hint' | 'structure')[]
+  ];
+  instances: Count;
+  /**
+   * Indexes into source.pages where it was found.
+   */
+  pages: number[];
+  variants: CatalogVariant[];
+  /**
+   * Size axis (shortest to tallest): heights seen across variants.
+   */
+  sizes: {
+    label: string;
+    height: Length;
+    count: Count;
+  }[];
+  parts: {
+    name: string;
+    present: boolean;
+    count: Count;
+  }[];
+  reasons: Reasons;
+  confidence: Confidence;
+}
+export interface CatalogVariant {
+  id: string;
+  suggestedName: string;
+  nameIsSuggestion: true;
+  count: Count;
+  /**
+   * The site's own data-variant value, when it marks one (kept as evidence; the suggested name stays neutral).
+   */
+  dataVariant?: string;
+  props: CatalogProp[];
+  structure: CatalogStructure;
+  states: CatalogState[];
+  evidence: Evidence;
+  confidence: Confidence;
+}
+/**
+ * One value of a variant, tied to a token role. Exactly one of color, length, shadow, typeStyle, number is set.
+ */
+export interface CatalogProp {
+  prop:
+    | 'background'
+    | 'color'
+    | 'border'
+    | 'borderWidth'
+    | 'radius'
+    | 'paddingX'
+    | 'paddingY'
+    | 'height'
+    | 'width'
+    | 'gap'
+    | 'shadow'
+    | 'typeStyle'
+    | 'opacity';
+  color?: ColorId;
+  length?: Length;
+  shadow?: ShadowLayer[];
+  typeStyle?: TypeStyleId;
+  number?: number;
+  /**
+   * Token role it maps to: a colour role (primary, border…), 'radius.N' / 'space.N' (N = step of the inferred scale, from 1), 'radius.full', 'type.<role>', or null.
+   */
+  role: string | null;
+  /**
+   * exact: the value is the role's value; nearest: closest role/step (within tolerance); none: no role fits.
+   */
+  match: 'exact' | 'nearest' | 'none';
+  /**
+   * Colour: ΔE to the role's colour; length: px to the step.
+   */
+  distance?: number;
+}
+export interface ShadowLayer {
+  offsetX: number;
+  offsetY: number;
+  blur: number;
+  spread: number;
+  color: {
+    hex: Hex;
+    alpha: Share;
+  };
+  inset: boolean;
+}
+export interface CatalogStructure {
+  icon: {
+    present: boolean;
+    position: 'leading' | 'trailing' | 'only' | 'both' | null;
+  };
+  label: {
+    present: boolean;
+    position: 'start' | 'center' | 'end' | null;
+  };
+  /**
+   * Parts of the reference table found inside this variant's instances.
+   */
+  parts?: string[];
+}
+export interface CatalogState {
+  name: string;
+  observed: boolean;
+  method?: 'forcePseudoState' | 'on-page-example';
+  /**
+   * CSS property -> 'before -> after' against the default look, colours as ids.
+   */
+  diff?: {
+    [k: string]: string;
+  };
+  /**
+   * On-page examples of the state.
+   */
+  count?: number;
+  evidence?: Evidence;
+  limit?: LimitId;
+}
+export interface CoverageRow {
+  name: string;
+  found: boolean;
+  instances: Count;
+  variants: Count;
+  /**
+   * Id in catalog.components when found.
+   */
+  component: string | null;
+  detectable: 'static' | 'on-interaction' | 'rare' | 'non-visual';
+  /**
+   * When not found: why it is often missing and what would reveal it.
+   */
+  note: string | null;
+}
 export interface Limit {
   id: LimitId;
   kind:
@@ -579,6 +744,7 @@ export interface Limit {
     | 'cookie-banner'
     | 'iframe-skipped'
     | 'canvas'
+    | 'component-not-found'
     | 'timeout'
     | 'policy';
   /**

@@ -9,3 +9,5 @@ export { crawl, crawlReport, type CrawlResult, type CrawlRunOptions, type Screen
 export { CRAWL_DEFAULTS, CRAWL_OPTION_DEFS, CrawlOptionError, crawlCliOptions, crawlOptionsFrom, crawlSchemaProperties, type CrawlOptions } from './crawl/options.ts';
 export { actionInLabel, actionInUrl, normalizeUrl, urlPattern } from './crawl/rules.ts';
 export { SessionError, scopeSession } from './crawl/session.ts';
+export { SHADCN_CATALOG, detectPage as detectCatalogComponents, buildCatalog } from './catalog/index.ts';
+export { probe as catalogProbe } from './catalog/probe.ts';

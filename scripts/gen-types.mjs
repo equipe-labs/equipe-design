@@ -4,11 +4,11 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { compile } from 'json-schema-to-typescript';
 
 const root = new URL('../packages/schema/', import.meta.url);
-const schema = JSON.parse(await readFile(new URL('extract-0.1.schema.json', root), 'utf8'));
+const schema = JSON.parse(await readFile(new URL('extract-0.2.schema.json', root), 'utf8'));
 const out = new URL('src/types.ts', root);
 
 const ts = await compile(schema, 'Extraction', {
-  bannerComment: '// Generated from extract-0.1.schema.json by `npm run gen:types`. Do not edit.',
+  bannerComment: '// Generated from extract-0.2.schema.json by `npm run gen:types`. Do not edit.',
   additionalProperties: false,
   unreachableDefinitions: false,
   maxItems: -1,

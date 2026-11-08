@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/equipe-labs/equipe-design/packages/schema/extract-0.1.schema.json",
+  "$id": "https://github.com/equipe-labs/equipe-design/packages/schema/extract-0.2.schema.json",
   "title": "Extraction",
   "description": "equipe-design extraction result (extract.json), schema 0.1. Values observed on pages, interpretations inferred from them, and what could not be seen. Values only: no CSS text, font files, images or page text.",
   "type": "object",
@@ -8,7 +8,7 @@
   "required": ["schemaVersion", "tool", "run", "notice", "source", "observed", "inferred", "limits", "guardrails", "summary"],
   "properties": {
     "$comment": { "type": "string" },
-    "schemaVersion": { "const": "0.1" },
+    "schemaVersion": { "enum": ["0.1", "0.2"], "description": "0.2 adds inferred.catalog (components against the shadcn/ui reference table); 0.1 files stay valid." },
     "tool": {
       "type": "object",
       "additionalProperties": false,
@@ -37,7 +37,7 @@
             "modes": { "enum": ["auto", "light", "dark", "both"] },
             "states": { "type": "boolean" },
             "injectStates": { "type": "boolean" },
-            "maxPages": { "type": "integer", "minimum": 1, "maximum": 5 }
+            "maxPages": { "type": "integer", "minimum": 1, "maximum": 200 }
           }
         },
         "stoppedBy": {
@@ -147,7 +147,8 @@
         "roles": { "type": "array", "items": { "$ref": "#/$defs/role" } },
         "brand": { "$ref": "#/$defs/brand" },
         "typeRoles": { "type": "array", "items": { "$ref": "#/$defs/typeRole" } },
-        "components": { "type": "array", "items": { "$ref": "#/$defs/component" } }
+        "components": { "type": "array", "items": { "$ref": "#/$defs/component" } },
+        "catalog": { "$ref": "#/$defs/catalog" }
       }
     },
 
@@ -162,7 +163,7 @@
         "loginUsed": { "const": false },
         "freshBrowserProfile": { "const": true },
         "pagesVisited": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "maxPages": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "maxPages": { "type": "integer", "minimum": 1, "maximum": 200 },
         "mutatingRequestsBlocked": { "$ref": "#/$defs/count" },
         "stored": {
           "type": "object",
@@ -195,6 +196,12 @@
         "brand": { "type": ["string", "null"], "description": "'<color id> <hex>', 'none', 'uncertain', or null when not inferred." },
         "darkPairs": { "$ref": "#/$defs/count" },
         "components": { "$ref": "#/$defs/count" },
+        "catalog": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["found", "of"],
+          "properties": { "found": { "$ref": "#/$defs/count" }, "of": { "$ref": "#/$defs/count" } }
+        },
         "limits": { "$ref": "#/$defs/count" },
         "lowConfidence": { "type": "array", "items": { "type": "string" } }
       }
@@ -666,6 +673,162 @@
         "evidence": { "$ref": "#/$defs/evidence" }
       }
     },
+    "shadowLayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offsetX", "offsetY", "blur", "spread", "color", "inset"],
+      "properties": {
+        "offsetX": { "type": "number" },
+        "offsetY": { "type": "number" },
+        "blur": { "type": "number", "minimum": 0 },
+        "spread": { "type": "number" },
+        "color": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hex", "alpha"],
+          "properties": { "hex": { "$ref": "#/$defs/hex" }, "alpha": { "$ref": "#/$defs/share" } }
+        },
+        "inset": { "type": "boolean" }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Components found against a reference table (shadcn/ui): every table entry is in coverage, found or not; the found ones carry variants, states and structure.",
+      "required": ["reference", "components", "coverage"],
+      "properties": {
+        "reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "source", "snapshot", "count"],
+          "properties": {
+            "name": { "type": "string" },
+            "source": { "type": "string" },
+            "snapshot": { "type": "string" },
+            "count": { "$ref": "#/$defs/count" }
+          }
+        },
+        "components": { "type": "array", "items": { "$ref": "#/$defs/catalogComponent" } },
+        "coverage": { "type": "array", "items": { "$ref": "#/$defs/coverageRow" } }
+      }
+    },
+    "coverageRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "found", "instances", "variants", "component", "detectable", "note"],
+      "properties": {
+        "name": { "type": "string" },
+        "found": { "type": "boolean" },
+        "instances": { "$ref": "#/$defs/count" },
+        "variants": { "$ref": "#/$defs/count" },
+        "component": { "type": ["string", "null"], "pattern": "^m[0-9]+$", "description": "Id in catalog.components when found." },
+        "detectable": { "enum": ["static", "on-interaction", "rare", "non-visual"] },
+        "note": { "type": ["string", "null"], "description": "When not found: why it is often missing and what would reveal it." }
+      }
+    },
+    "catalogComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "category", "detectedBy", "instances", "pages", "variants", "sizes", "parts", "reasons", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^m[0-9]+$" },
+        "name": { "type": "string", "description": "Reference table name (button, alert-dialog…)." },
+        "category": { "type": "string" },
+        "detectedBy": { "type": "array", "minItems": 1, "items": { "enum": ["role", "tag", "slot", "attrs", "hint", "structure"] } },
+        "instances": { "$ref": "#/$defs/count" },
+        "pages": { "type": "array", "items": { "type": "integer", "minimum": 0 }, "description": "Indexes into source.pages where it was found." },
+        "variants": { "type": "array", "items": { "$ref": "#/$defs/catalogVariant" } },
+        "sizes": {
+          "type": "array",
+          "description": "Size axis (shortest to tallest): heights seen across variants.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "height", "count"],
+            "properties": { "label": { "type": "string" }, "height": { "$ref": "#/$defs/length" }, "count": { "$ref": "#/$defs/count" } }
+          }
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "present", "count"],
+            "properties": { "name": { "type": "string" }, "present": { "type": "boolean" }, "count": { "$ref": "#/$defs/count" } }
+          }
+        },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "catalogProp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prop", "role", "match"],
+      "description": "One value of a variant, tied to a token role. Exactly one of color, length, shadow, typeStyle, number is set.",
+      "properties": {
+        "prop": { "enum": ["background", "color", "border", "borderWidth", "radius", "paddingX", "paddingY", "height", "width", "gap", "shadow", "typeStyle", "opacity"] },
+        "color": { "$ref": "#/$defs/colorId" },
+        "length": { "$ref": "#/$defs/length" },
+        "shadow": { "type": "array", "items": { "$ref": "#/$defs/shadowLayer" } },
+        "typeStyle": { "$ref": "#/$defs/typeStyleId" },
+        "number": { "type": "number" },
+        "role": { "type": ["string", "null"], "description": "Token role it maps to: a colour role (primary, border…), 'radius.N' / 'space.N' (N = step of the inferred scale, from 1), 'radius.full', 'type.<role>', or null." },
+        "match": { "enum": ["exact", "nearest", "none"], "description": "exact: the value is the role's value; nearest: closest role/step (within tolerance); none: no role fits." },
+        "distance": { "type": "number", "minimum": 0, "description": "Colour: ΔE to the role's colour; length: px to the step." }
+      }
+    },
+    "catalogStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["icon", "label"],
+      "properties": {
+        "icon": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["present", "position"],
+          "properties": { "present": { "type": "boolean" }, "position": { "enum": ["leading", "trailing", "only", "both", null] } }
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["present", "position"],
+          "properties": { "present": { "type": "boolean" }, "position": { "enum": ["start", "center", "end", null] } }
+        },
+        "parts": { "type": "array", "items": { "type": "string" }, "description": "Parts of the reference table found inside this variant's instances." }
+      }
+    },
+    "catalogState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "observed"],
+      "properties": {
+        "name": { "type": "string" },
+        "observed": { "type": "boolean" },
+        "method": { "enum": ["forcePseudoState", "on-page-example"] },
+        "diff": { "type": "object", "description": "CSS property -> 'before -> after' against the default look, colours as ids.", "additionalProperties": { "type": "string" } },
+        "count": { "$ref": "#/$defs/count", "description": "On-page examples of the state." },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "catalogVariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "suggestedName", "nameIsSuggestion", "count", "props", "structure", "states", "evidence", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^m[0-9]+v[0-9]+$" },
+        "suggestedName": { "type": "string" },
+        "nameIsSuggestion": { "const": true },
+        "count": { "$ref": "#/$defs/count" },
+        "dataVariant": { "type": "string", "description": "The site's own data-variant value, when it marks one (kept as evidence; the suggested name stays neutral)." },
+        "props": { "type": "array", "items": { "$ref": "#/$defs/catalogProp" } },
+        "structure": { "$ref": "#/$defs/catalogStructure" },
+        "states": { "type": "array", "items": { "$ref": "#/$defs/catalogState" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
     "component": {
       "type": "object",
       "additionalProperties": false,
@@ -703,7 +866,7 @@
             "state-not-on-page", "state-no-diff", "interaction-not-collected",
             "unused-on-page", "cross-origin-css",
             "lazy-content", "cookie-banner", "iframe-skipped", "canvas",
-            "timeout", "policy"
+            "component-not-found", "timeout", "policy"
           ]
         },
         "scope": { "type": "string", "description": "Affected path, e.g. 'inferred.components.k1.*.disabled', or '*'." },
