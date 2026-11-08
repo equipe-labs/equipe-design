@@ -1,0 +1,37 @@
+{
+  "name": "pagination",
+  "examples": [
+    "Pagination 기본 예시와 실제 제품 상태 조합."
+  ],
+  "variantsAndSizes": [
+    "공개 variant와 size 축을 구현 API와 함께 열거하고 각 조합을 문서 matrix에서 렌더링한다."
+  ],
+  "states": [
+    {
+      "name": "default",
+      "expectation": "기본 상태의 역할과 정보 계층이 라이트·다크에서 유지된다."
+    },
+    {
+      "name": "focus-visible",
+      "expectation": "키보드 포커스가 색에만 의존하지 않고 분명히 보인다."
+    },
+    {
+      "name": "disabled-or-unavailable",
+      "expectation": "지원하는 경우 비활성 또는 이용 불가 상태가 의미와 함께 전달된다."
+    }
+  ],
+  "usage": [
+    "제품에서는 registry URL로 pagination item을 설치하고 registry가 제공하는 공개 API만 사용한다."
+  ],
+  "keyboard": [
+    "정적 요소에는 추가 키 동작이 없으며, 대화형 요소는 공식 Pagination 패턴의 Tab·Enter·Space·Arrow·Escape 동작을 유지한다."
+  ],
+  "accessibility": [
+    "역할·이름·상태를 보조기술에 노출하고, 포커스 순서와 대비를 WCAG AA 기준으로 검사한다."
+  ],
+  "sourceAndLicense": {
+    "upstream": "https://ui.shadcn.com/docs/components/base/pagination",
+    "revision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+    "license": "MIT"
+  }
+}
