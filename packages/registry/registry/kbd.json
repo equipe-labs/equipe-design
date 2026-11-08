@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "equipe Kbd component manifest.",
+  "files": [],
+  "meta": {
+    "provenance": {
+      "upstreamUrl": "https://ui.shadcn.com/docs/components/base/kbd",
+      "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSES/shadcn-ui-MIT.txt"
+      },
+      "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+    }
+  },
+  "type": "registry:ui",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "css": {},
+  "cssVars": {
+    "theme": {},
+    "light": {},
+    "dark": {}
+  }
+}
