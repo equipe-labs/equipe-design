@@ -21,6 +21,10 @@ export const PUBLIC_FORMATS = ['dtcg', 'dtcg-legacy', 'css', 'tailwind', 'shadcn
 export const UPLOAD_FORMATS = [...PUBLIC_FORMATS, 'swift', 'kotlin'] as const;
 export const REMIX_FORMATS = ['dtcg', 'css', 'tailwind', 'shadcn'] as const;
 export const ORIGINS = ['extracted', 'original'] as const;
+/** The equipe.im site languages. `en` is the base: it lives in the plain field, the others in its `…I18n` map. */
+export const LOCALES = ['en', 'ko', 'ja', 'zh-CN', 'de', 'fr', 'es', 'pt-BR'] as const;
+export const TRANSLATED_LOCALES = LOCALES.filter((l) => l !== 'en') as Exclude<(typeof LOCALES)[number], 'en'>[];
+export type Locale = (typeof LOCALES)[number];
 
 export const Hex = z.string().regex(/^#[0-9a-f]{6}$/, 'lowercase #rrggbb');
 export const Slug = z.string().regex(/^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$/, 'a-z, 0-9 and -, 1-40 long');
@@ -59,6 +63,9 @@ const TypeStyle = z.object({
   lineHeight: z.number().positive(),
   letterSpacing: z.number(),
 }).strict();
+/** Translations of an English field: locale -> text. A missing locale falls back to the English field. */
+export const Translations = (max: number) =>
+  z.partialRecord(z.enum(TRANSLATED_LOCALES), z.string().min(1).max(max));
 const FileMap = z.record(z.string().regex(/^[A-Za-z0-9._/-]{1,120}$/), z.string());
 
 // ---------- public (no sign-in) ----------
@@ -100,8 +107,9 @@ export const Component = z.object({
   variants: z.array(ComponentVariant),
 }).strict();
 
-/** A limit in plain words. No URLs: the publisher rejects one that names the source. */
-export const Limit = z.object({ scope: z.string().max(120), text: z.string().max(400) }).strict();
+/** A limit in plain words. No URLs: the publisher rejects one that names the source.
+ *  `text` is English; `textI18n` holds the other site languages (a missing one falls back to `text`). */
+export const Limit = z.object({ scope: z.string().max(120), text: z.string().max(400), textI18n: Translations(400).default({}) }).strict();
 
 /** What a release shows on the detail page. Built on the Mac, checked again by the server on upload. */
 export const ReleaseBody = z.object({
@@ -138,7 +146,8 @@ export const ReleaseSummary = z.object({
 }).strict();
 
 export const StyleDetail = z.object({
-  style: StyleCard.extend({ description: z.string().max(280) }).strict(),
+  /** `description` is English; `descriptionI18n` holds the other site languages (a missing one falls back to it). */
+  style: StyleCard.extend({ description: z.string().max(280), descriptionI18n: Translations(280) }).strict(),
   release: ReleaseDetail,
   releases: z.array(ReleaseSummary),
   notice: z.string(),
@@ -229,6 +238,7 @@ export const StyleUpsert = z.object({
   name: StyleName,
   origin: Origin,
   description: z.string().max(280).default(''),
+  descriptionI18n: Translations(280).default({}),
   category: Category,
   tags: z.array(Tag).max(12).default([]),
   source: StyleSource.optional(),
@@ -276,6 +286,11 @@ export const ReleaseUploadResult = z.object({
 
 export const PublishResult = z.object({ releaseId: Uuid, style: Slug, publishedAt: Timestamp }).strict();
 export const WithdrawResult = z.object({ style: Slug, status: z.literal('withdrawn') }).strict();
+
+/** The text the site shows for `locale`: the translation if there is one, else the English field. */
+export function localized(en: string, i18n: Partial<Record<string, string>> | undefined, locale: string): string {
+  return (locale !== 'en' && i18n?.[locale]) || en;
+}
 
 /** The `notice` on every style detail, by origin. The site translates it; the API sends English. */
 export const NOTICE = {

@@ -126,7 +126,16 @@
     "limits": [
       {
         "scope": "fonts.mono",
-        "text": "the system has no monospace font, JetBrains Mono (OFL) is added"
+        "text": "the system has no monospace font, JetBrains Mono (OFL) is added",
+        "textI18n": {
+          "ko": "이 시스템에는 고정폭 글꼴이 없어 JetBrains Mono(OFL)를 더함",
+          "ja": "このシステムには等幅フォントがないため、JetBrains Mono(OFL)を追加",
+          "zh-CN": "该系统没有等宽字体，已补充 JetBrains Mono（OFL）",
+          "de": "das System hat keine Monospace-Schrift, JetBrains Mono (OFL) wird ergänzt",
+          "fr": "le système n’a pas de police à chasse fixe, JetBrains Mono (OFL) est ajoutée",
+          "es": "el sistema no tiene fuente monoespaciada; se añade JetBrains Mono (OFL)",
+          "pt-BR": "o sistema não tem fonte monoespaçada; JetBrains Mono (OFL) foi adicionada"
+        }
       }
     ]
   },

@@ -10,6 +10,9 @@ info:
     styles are shown by the name we gave them only. Admin paths are for our publishing Mac.
 
     Every error is `{"error": {"code", "message"}}`.
+
+    Text a person reads (`style.description`, `limits[].text`) is English, with the other equipe.im languages
+    beside it in `descriptionI18n` / `textI18n`. Show `<field>I18n[locale]`, else the English field.
   license:
     name: Apache-2.0
     identifier: Apache-2.0
@@ -533,13 +536,30 @@ components:
                 description: true = seen on the page, false = not seen (a limit says why).
                 propertyNames: { enum: [default, hover, focus-visible, active, disabled] }
                 additionalProperties: { type: boolean }
+    Translations:
+      type: object
+      description: |
+        An English field in the other equipe.im languages. A missing locale falls back to the English field;
+        `en` itself never appears here.
+      additionalProperties: false
+      properties:
+        ko: { type: string, minLength: 1 }
+        ja: { type: string, minLength: 1 }
+        zh-CN: { type: string, minLength: 1 }
+        de: { type: string, minLength: 1 }
+        fr: { type: string, minLength: 1 }
+        es: { type: string, minLength: 1 }
+        pt-BR: { type: string, minLength: 1 }
     Limit:
       type: object
       additionalProperties: false
-      required: [scope, text]
+      required: [scope, text, textI18n]
       properties:
         scope: { type: string, maxLength: 120 }
-        text: { type: string, maxLength: 400 }
+        text: { type: string, maxLength: 400, description: English. }
+        textI18n:
+          allOf: [{ $ref: '#/components/schemas/Translations' }]
+          description: '`text` in the other site languages, each ≤ 400 characters.'
     ReleaseBody:
       allOf: [{ $ref: '#/components/schemas/ReleaseBodyFields' }]
       unevaluatedProperties: false
@@ -636,8 +656,11 @@ components:
           allOf:
             - $ref: '#/components/schemas/StyleCardFields'
           properties:
-            description: { type: string, maxLength: 280 }
-          required: [description]
+            description: { type: string, maxLength: 280, description: English. }
+            descriptionI18n:
+              allOf: [{ $ref: '#/components/schemas/Translations' }]
+              description: '`description` in the other site languages, each ≤ 280 characters.'
+          required: [description, descriptionI18n]
           unevaluatedProperties: false
         release: { $ref: '#/components/schemas/ReleaseDetail' }
         releases: { type: array, items: { $ref: '#/components/schemas/ReleaseSummary' } }
@@ -767,7 +790,10 @@ components:
       properties:
         name: { $ref: '#/components/schemas/StyleName' }
         origin: { $ref: '#/components/schemas/Origin' }
-        description: { type: string, maxLength: 280, default: '' }
+        description: { type: string, maxLength: 280, default: '', description: English. }
+        descriptionI18n:
+          allOf: [{ $ref: '#/components/schemas/Translations' }]
+          default: {}
         category: { $ref: '#/components/schemas/Category' }
         tags: { type: array, maxItems: 12, default: [], items: { $ref: '#/components/schemas/Tag' } }
         source: { $ref: '#/components/schemas/StyleSource' }

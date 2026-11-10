@@ -42,7 +42,16 @@
     "releaseId": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a03",
     "version": 1,
     "updatedAt": "2026-11-02T09:30:00Z",
-    "description": "Deep blue on white with a matching dark theme."
+    "description": "Deep blue on white with a matching dark theme.",
+    "descriptionI18n": {
+      "ko": "흰 바탕에 짙은 파랑, 어울리는 다크 테마까지.",
+      "ja": "白地に深い青。対になるダークテーマ付き。",
+      "zh-CN": "白底深蓝，配有相称的深色主题。",
+      "de": "Tiefes Blau auf Weiß, mit passendem dunklem Theme.",
+      "fr": "Un bleu profond sur fond blanc, avec un thème sombre assorti.",
+      "es": "Azul profundo sobre blanco, con un tema oscuro a juego.",
+      "pt-BR": "Azul profundo sobre branco, com um tema escuro combinando."
+    }
   },
   "release": {
     "roles": {
@@ -205,27 +214,81 @@
     "limits": [
       {
         "scope": "*",
-        "text": "사용자가 준 URL 1개만 읽음 — 다른 페이지에만 있는 컴포넌트·색은 빠짐"
+        "text": "Only the one URL given was read — components and colours that appear only on other pages are missing",
+        "textI18n": {
+          "ko": "사용자가 준 URL 1개만 읽음 — 다른 페이지에만 있는 컴포넌트·색은 빠짐",
+          "ja": "指定された URL 1 件だけを読み取り — 他のページにしかないコンポーネントや色は含まれない",
+          "zh-CN": "只读取了给定的 1 个 URL — 仅出现在其他页面的组件和颜色未包含",
+          "de": "Nur die eine angegebene URL wurde gelesen — Komponenten und Farben, die nur auf anderen Seiten vorkommen, fehlen",
+          "fr": "Seule l’URL fournie a été lue — les composants et couleurs présents uniquement sur d’autres pages manquent",
+          "es": "Solo se leyó la URL indicada — faltan los componentes y colores que solo aparecen en otras páginas",
+          "pt-BR": "Só a URL informada foi lida — componentes e cores que aparecem só em outras páginas ficaram de fora"
+        }
       },
       {
         "scope": "observed.color",
-        "text": "action-hover·action-pressed·err 같은 색은 이 페이지에서 쓰이지 않음(변수로만 선언) — 역할 일부가 비어 있음"
+        "text": "Colours such as action-hover, action-pressed and err are not used on this page (only declared as variables) — some roles are empty",
+        "textI18n": {
+          "ko": "action-hover·action-pressed·err 같은 색은 이 페이지에서 쓰이지 않음(변수로만 선언) — 역할 일부가 비어 있음",
+          "ja": "action-hover・action-pressed・err などの色はこのページで使われていない(変数として宣言のみ) — 一部のロールが空",
+          "zh-CN": "action-hover、action-pressed、err 等颜色在此页面未被使用（仅声明为变量）— 部分角色为空",
+          "de": "Farben wie action-hover, action-pressed und err werden auf dieser Seite nicht verwendet (nur als Variablen deklariert) — einige Rollen sind leer",
+          "fr": "Des couleurs comme action-hover, action-pressed et err ne sont pas utilisées sur cette page (seulement déclarées en variables) — certains rôles sont vides",
+          "es": "Colores como action-hover, action-pressed y err no se usan en esta página (solo se declaran como variables) — algunos roles quedan vacíos",
+          "pt-BR": "Cores como action-hover, action-pressed e err não são usadas nesta página (só declaradas como variáveis) — alguns papéis ficam vazios"
+        }
       },
       {
         "scope": "inferred.components.k1.*.disabled",
-        "text": "페이지에 disabled·error 예시가 없음. 속성 주입은 기본으로 하지 않음 — 상태 표의 disabled 칸, destructive 역할이 빈칸"
+        "text": "The page has no disabled or error examples, and attributes are not injected by default — the disabled column of the state table and the destructive role are empty",
+        "textI18n": {
+          "ko": "페이지에 disabled·error 예시가 없음. 속성 주입은 기본으로 하지 않음 — 상태 표의 disabled 칸, destructive 역할이 빈칸",
+          "ja": "ページに disabled・error の例がなく、属性の注入はデフォルトで行わない — 状態表の disabled 列と destructive ロールが空欄",
+          "zh-CN": "页面上没有 disabled、error 示例，默认不注入属性 — 状态表的 disabled 列和 destructive 角色为空",
+          "de": "Die Seite hat keine Beispiele für disabled oder error, und Attribute werden standardmäßig nicht eingefügt — die disabled-Spalte der Zustandstabelle und die Rolle destructive sind leer",
+          "fr": "La page n’a aucun exemple disabled ou error, et aucun attribut n’est injecté par défaut — la colonne disabled du tableau d’états et le rôle destructive sont vides",
+          "es": "La página no tiene ejemplos de disabled ni de error, y por defecto no se inyectan atributos — la columna disabled de la tabla de estados y el rol destructive quedan vacíos",
+          "pt-BR": "A página não tem exemplos de disabled nem de error, e atributos não são injetados por padrão — a coluna disabled da tabela de estados e o papel destructive ficam vazios"
+        }
       },
       {
         "scope": "inferred.components.k1.k1v2.active",
-        "text": ":active 강제로 계산 스타일 차이가 없음. JS로 그리는 상태일 수 있음 — 눌림 상태 미확인"
+        "text": "Forcing :active made no difference to the computed style; the state may be drawn by JS — the pressed state is unconfirmed",
+        "textI18n": {
+          "ko": ":active 강제로 계산 스타일 차이가 없음. JS로 그리는 상태일 수 있음 — 눌림 상태 미확인",
+          "ja": ":active を強制しても計算済みスタイルに差がない。JS で描画される状態かもしれない — 押下状態は未確認",
+          "zh-CN": "强制 :active 后计算样式没有差别，该状态可能由 JS 绘制 — 按下状态未确认",
+          "de": "Erzwungenes :active ändert den berechneten Stil nicht; der Zustand wird womöglich per JS gezeichnet — der gedrückte Zustand ist unbestätigt",
+          "fr": "Forcer :active ne change pas le style calculé ; l’état est peut-être dessiné en JS — l’état pressé n’est pas confirmé",
+          "es": "Forzar :active no cambia el estilo calculado; el estado puede dibujarse con JS — el estado pulsado no está confirmado",
+          "pt-BR": "Forçar :active não muda o estilo calculado; o estado pode ser desenhado por JS — o estado pressionado não foi confirmado"
+        }
       },
       {
         "scope": "source.modes.highContrast",
-        "text": "prefers-contrast: more 규칙이 스타일시트에 없음 — 고대비 값 없음(‘없음’이 아니라 ‘미관찰’)"
+        "text": "The stylesheets have no prefers-contrast: more rules — no high-contrast values (not observed, rather than absent)",
+        "textI18n": {
+          "ko": "prefers-contrast: more 규칙이 스타일시트에 없음 — 고대비 값 없음(‘없음’이 아니라 ‘미관찰’)",
+          "ja": "スタイルシートに prefers-contrast: more のルールがない — ハイコントラストの値なし(「存在しない」ではなく「未観測」)",
+          "zh-CN": "样式表中没有 prefers-contrast: more 规则 — 无高对比度值（是“未观察到”，而非“不存在”）",
+          "de": "Die Stylesheets enthalten keine prefers-contrast: more-Regeln — keine Hochkontrast-Werte (nicht beobachtet, nicht „nicht vorhanden“)",
+          "fr": "Les feuilles de style n’ont aucune règle prefers-contrast: more — pas de valeurs de contraste élevé (non observées plutôt qu’absentes)",
+          "es": "Las hojas de estilo no tienen reglas prefers-contrast: more — no hay valores de alto contraste (no observados, no inexistentes)",
+          "pt-BR": "As folhas de estilo não têm regras prefers-contrast: more — sem valores de alto contraste (não observados, e não inexistentes)"
+        }
       },
       {
         "scope": "observed.typography.families",
-        "text": "폰트 파일은 정책상 받지 않음 — 글꼴은 이름·굵기·크기만"
+        "text": "Font files are not downloaded, by policy — fonts are names, weights and sizes only",
+        "textI18n": {
+          "ko": "폰트 파일은 정책상 받지 않음 — 글꼴은 이름·굵기·크기만",
+          "ja": "フォントファイルはポリシー上ダウンロードしない — フォントは名前・ウェイト・サイズのみ",
+          "zh-CN": "按政策不下载字体文件 — 字体只有名称、字重和字号",
+          "de": "Schriftdateien werden grundsätzlich nicht geladen — Schriften nur mit Name, Stärke und Größe",
+          "fr": "Par principe, les fichiers de police ne sont pas téléchargés — seulement les noms, graisses et tailles",
+          "es": "Por política no se descargan archivos de fuentes — solo nombres, pesos y tamaños",
+          "pt-BR": "Por política, arquivos de fonte não são baixados — só nomes, pesos e tamanhos"
+        }
       }
     ],
     "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a03",

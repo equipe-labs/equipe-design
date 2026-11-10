@@ -55,7 +55,7 @@ have `published_at`.
 | Method · path | Returns | Cache-Control | Errors |
 |---|---|---|---|
 | `GET /styles?q&category&tag&origin&hasDark&hue&sort=updated\|name` | `StyleList` — cards | short | 400, 429, 500 |
-| `GET /styles/{slug}` | `StyleDetail` — card + description, current release, release list, notice | short | 404, 410, 429, 500 |
+| `GET /styles/{slug}` | `StyleDetail` — card + description (every language), current release, release list, notice | short | 404, 410, 429, 500 |
 | `GET /styles/{slug}/releases` | `ReleaseList`, newest first | short | 404, 410, 429, 500 |
 | `GET /styles/{slug}/tokens/{format}` | 302 to the current release's tokens | short | 400, 404, 410, 429, 500 |
 | `GET /releases/{releaseId}/tokens/{format}[?file=tokens.css]` | `TokenFiles` (`{files: {name: text}}`), or the one file as itself; `ETag` = sha256 | immutable | 400, 404, 410, 429, 500 |
@@ -72,6 +72,31 @@ have `published_at`.
 - There is no public `extract.json` or report: both name the source pages. Detail pages show the release body
   (roles, scales, typography, component/state table, limits) instead.
 - CORS: GET is `*`; `POST /remix` allows `https://equipe.im` only.
+
+### Languages
+
+The site is in eight languages: `en`, `ko`, `ja`, `zh-CN`, `de`, `fr`, `es`, `pt-BR` (`LOCALES`). The API sends
+every language at once — there is no `?lang` and no `Accept-Language` handling, so one cached response serves all
+pages. Two fields are text a person reads, and each comes in two parts:
+
+| Text | English (always there) | Other languages | Max per language |
+|---|---|---|---|
+| Style description (`StyleDetail.style`) | `description` | `descriptionI18n` | 280 |
+| A limit (`ReleaseDetail.limits[]`) | `text` | `textI18n` | 400 |
+
+`…I18n` is `{ "ko": "…", "ja": "…", … }`: only the seven non-English locales, never `en`, never an unknown key.
+A missing locale is allowed and means "not translated yet". **What the site reads for a page in locale `L`:**
+`descriptionI18n[L]` if it's there, else `description`; `textI18n[L]` if it's there, else `text`. On `/en/` it is
+always the English field. When the site falls back to English on a non-English page, it marks that element
+`lang="en"`. `localized(en, i18n, locale)` in the types does exactly this.
+
+- `scope`, style names, slugs, tags, categories, token and role names are identifiers, not translated.
+- `notice` is English; the site has its own translations of the two `NOTICE` texts.
+- `changes` on a release summary is English only for now.
+- The Mac fills `…I18n` before upload: `descriptionI18n` comes with the `library/styles.json` entry
+  (`PUT /admin/styles/{slug}`), `textI18n` with each limit in `ReleaseBody`. The engine writes its limits in Korean;
+  the publisher puts the English in `text` and the Korean in `textI18n.ko`.
+- Stored as `styles.description_i18n` (jsonb, `0002_localized_text.sql`); limits live in `releases.detail`.
 
 ### POST /remix
 
@@ -132,4 +157,5 @@ remix and emit code (a test fails when they're stale):
 
 - `public/…` — a response for every public path, as the server should answer it.
 - `admin/library.json`, `admin/uploads/<slug>.json` — what the Mac sends.
-- `seed.sql` — the same data as rows; apply after `0001_init.sql` (PGlite tests).
+- `seed.sql` — the same data as rows; apply after `0001_init.sql` and `0002_localized_text.sql` (PGlite tests).
+- All three styles carry `descriptionI18n` and every limit carries `textI18n` in all seven non-English languages.
