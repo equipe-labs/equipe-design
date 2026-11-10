@@ -1,4 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs';
+import { Ajv2020 } from 'ajv/dist/2020.js';
 import { describe, expect, it } from 'vitest';
 import { validateExtraction, type Extraction } from '../src/index.ts';
 
@@ -116,5 +117,28 @@ describe('shape and references', () => {
     const x = load('equipe.im.json');
     x.inferred.components![0]!.variants[0]!.states.hover.diff = { 'background-color': 'c3 -> c42' };
     expect(issuesOf(x).map((i) => i.message)).toContain('unknown id c42');
+  });
+});
+
+describe('schema files', () => {
+  const read = (f: string) => JSON.parse(readFileSync(new URL(`../${f}`, import.meta.url), 'utf8'));
+  const exportsOf = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).exports;
+
+  it('exports both versions, so an explicit 0.1 import keeps working', () => {
+    expect(exportsOf['./extract-0.1.schema.json']).toBe('./extract-0.1.schema.json');
+    expect(exportsOf['./extract-0.2.schema.json']).toBe('./extract-0.2.schema.json');
+  });
+
+  it.each(['extract-0.1.schema.json', 'extract-0.2.schema.json'])('%s validates the 0.1 examples', (f) => {
+    const validate = new Ajv2020({ allErrors: true, strict: true }).compile(read(f));
+    for (const name of readdirSync(dir).filter((n) => n.endsWith('.json'))) {
+      expect(validate(load(name)), `${f} ${name}`).toBe(true);
+    }
+  });
+
+  it('0.2 also takes schemaVersion 0.2; 0.1 does not', () => {
+    const x = { ...load('equipe.im.json'), schemaVersion: '0.2' };
+    expect(new Ajv2020({ strict: true }).compile(read('extract-0.2.schema.json'))(x)).toBe(true);
+    expect(new Ajv2020({ strict: true }).compile(read('extract-0.1.schema.json'))(x)).toBe(false);
   });
 });

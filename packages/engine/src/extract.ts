@@ -313,6 +313,8 @@ export async function extract(urls: string[], opts: ExtractOptions = {}): Promis
     statesEnabled,
   });
 
+  addCatalogFailures(limits, pages);
+
   // remaining limits
   const unusedVars = obs.variables.filter((v) => v.usedByElements === 0).length;
   if (unusedVars) limits.add('unused-on-page', 'observed.variables', `변수 ${unusedVars}개는 선언됐지만 이 페이지의 요소가 쓰지 않음`, '그 변수로만 있는 색은 count 0으로 남고 역할에서 빠질 수 있음', '그 값이 나오는 페이지를 주기');
@@ -572,6 +574,7 @@ export async function capturePage(
   // Catalog components (catalog/): attributes from the page, matched against the reference
   // table, then :hover/:focus-visible/:active forced on up to two examples of each look.
   let catalog: PageData['catalog'];
+  let catalogFailure: string | undefined;
   try {
     const nodes = await page.evaluate(probe, { hints: HINT_WORDS, valueAttrs: VALUE_ATTRS, presenceAttrs: PRESENCE_ATTRS, labelKeywords: LABEL_KEYWORDS, max: 20_000 });
     catalog = detectPage(SHADCN_CATALOG, base, nodes, 900);
@@ -582,8 +585,10 @@ export async function capturePage(
         catalog.forced = await forceStates(opened, reps).catch(() => ({}));
       }
     }
-  } catch {
+  } catch (err) {
     catalog = undefined;
+    catalogFailure = errorName(err);
+    log(`  카탈로그 읽기 실패(${catalogFailure}) — 기본 추출은 계속`);
   }
   // The component pass uses `base`: same DOM as the state pass. Replace the first sweep's
   // element list for the widest width so element paths line up.
@@ -592,7 +597,7 @@ export async function capturePage(
   sweeps[0] = { mode: firstMode, width: maxW, result: base.elements.length >= first.elements.length * 0.8 ? base : first };
 
   const themeColor = first.themeColor;
-  const pageData: PageData = { index, url: page.url(), sweeps, scan, vars, usage, themeColor, fonts: extras.fonts, states, ...(catalog ? { catalog } : {}) };
+  const pageData: PageData = { index, url: page.url(), sweeps, scan, vars, usage, themeColor, fonts: extras.fonts, states, ...(catalog ? { catalog } : {}), ...(catalogFailure ? { catalogFailure } : {}) };
   return { page: pageData, cand: { candidates, mode: firstMode, width: maxW }, visible: first.elements.length, sheets, extras, banners };
 }
 
@@ -611,4 +616,23 @@ function changed(a: { elements: { path: string; tag: string; bg: number; fg: num
     if (prev !== `${key(b, e.bg)}|${key(b, e.fg)}`) diff++;
   }
   return n > 0 && diff / n > 0.05;
+}
+
+/** Only the error's class name is kept: a message could carry page text. */
+function errorName(err: unknown): string {
+  return err instanceof Error && /^[A-Za-z]{1,40}$/.test(err.name) ? err.name : 'Error';
+}
+
+/** A page whose catalog read threw leaves a limit, so a missing `inferred.catalog` entry is never mistaken for "not on the page". */
+export function addCatalogFailures(limits: Limits, pages: { index: number; catalogFailure?: string }[]): void {
+  const failed = pages.filter((p) => p.catalogFailure);
+  if (!failed.length) return;
+  const all = failed.length === pages.length;
+  limits.add(
+    'component-not-found',
+    'inferred.catalog',
+    `카탈로그 컴포넌트 읽기가 ${failed.length === 1 ? `페이지 ${failed[0]!.index}` : `페이지 ${failed.map((p) => p.index).join(', ')}`}에서 실패함(${[...new Set(failed.map((p) => p.catalogFailure))].join(', ')})`,
+    all ? '컴포넌트를 못 찾은 것이 아니라 읽지 못함: 이 결과의 컴포넌트 표는 미확인. 색·글자·역할은 그대로 있음' : '실패한 페이지의 컴포넌트는 빠졌을 수 있음(다른 페이지 값은 있음)',
+    "같은 URL로 다시 실행하고, 계속 실패하면 진행 로그의 '카탈로그 읽기 실패' 줄과 함께 알리기",
+  );
 }

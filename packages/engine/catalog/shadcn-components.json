@@ -741,7 +741,7 @@
       "hintWhenMissing": "Breadcrumbs appear only on pages nested inside a hierarchy (docs, detail pages), not on top-level pages."
     },
     {
-      "name": "bubble",
+      "name": "bubble-button",
       "category": "ai",
       "docs": "https://ui.shadcn.com/docs/components/bubble",
       "summary": "Chat message bubble with optional reactions.",

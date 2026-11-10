@@ -7,9 +7,8 @@ every table entry, found or not, with why a missing one is often missing.
 
 ## The table
 
-`packages/engine/catalog/shadcn-components.json` — 68 entries (the 65 `registry:ui` entries of
-ui.shadcn.com/r/index.json, snapshot 2026-11-08, plus the docs-only data-table, date-picker and
-typography). Per entry:
+`packages/engine/catalog/shadcn-components.json` — 68 entries (the 66 pinned items of
+`packages/registry/official-components.json`, snapshot 2026-11-08, plus `form` and `sonner`). Per entry:
 
 | field | meaning |
 |---|---|
@@ -19,6 +18,10 @@ typography). Per entry:
 | `props` | what to read: background, color, border, borderWidth, radius, paddingX/Y, height, width, gap, shadow, typeStyle, opacity. |
 | `states` / `stateCues` | the states the component has, and the cue that marks an example of each on the page (checked, open, disabled…). |
 | `detectable` / `hintWhenMissing` | `static`, `on-interaction` (only exists open), `rare`, `non-visual`; and what to do when it is missing. |
+
+This is an extraction reference, not the rebrand's implementation scope. T-528's `packages/registry/official-components.json`
+(66 items, pinned to a shadcn commit) is the list the person confirmed; every one of its names is in this table under the same
+name, plus two extraction-only entries, `form` and `sonner` (66 + 2 = 68), that are worth recognising on a page but are not registry items to build.
 
 Adding a component is a JSON edit; `test/catalog.test.ts` checks the table against the shadcn list.
 

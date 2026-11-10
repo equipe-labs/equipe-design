@@ -16,6 +16,8 @@ export interface PageData {
   states: Record<string, Partial<Record<'default' | StateName, StateProps>>>;
   /** Components of the reference table found on this page (catalog/). */
   catalog?: PageCatalog;
+  /** Set when the catalog read threw (error class name only); the base extract went on. */
+  catalogFailure?: string;
 }
 
 /** One sample: an element (page + path) and the property a value was seen on. */

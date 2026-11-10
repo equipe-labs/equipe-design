@@ -2,15 +2,17 @@ import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { validateExtraction } from '@equipe-design/schema';
+import { Limits } from '../src/analyze/limits.ts';
+import { addCatalogFailures } from '../src/extract.ts';
 import { extract, findChrome, report, SHADCN_CATALOG } from '../src/index.ts';
 import { HINT_WORDS } from '../src/catalog/probe.ts';
 import { STRUCTURES } from '../src/catalog/match.ts';
 import { STATE_NAMES } from '../src/catalog/types.ts';
 
-// The reference table (shadcn/ui, snapshot 2026-11-08: the 65 registry:ui entries of
-// ui.shadcn.com/r/index.json plus the docs-only data-table, date-picker and typography).
+// The reference table (shadcn/ui, snapshot 2026-11-08: the 66 pinned items of
+// packages/registry plus the extraction-only form and sonner).
 const SHADCN_NAMES = [
-  'accordion', 'alert', 'alert-dialog', 'aspect-ratio', 'attachment', 'avatar', 'badge', 'breadcrumb', 'bubble', 'button', 'button-group', 'calendar', 'card', 'carousel', 'chart',
+  'accordion', 'alert', 'alert-dialog', 'aspect-ratio', 'attachment', 'avatar', 'badge', 'breadcrumb', 'bubble-button', 'button', 'button-group', 'calendar', 'card', 'carousel', 'chart',
   'checkbox', 'code-block', 'collapsible', 'combobox', 'command', 'context-menu', 'dialog', 'direction', 'drawer', 'dropdown-menu', 'empty', 'field', 'form', 'hover-card', 'input',
   'input-group', 'input-otp', 'item', 'kbd', 'label', 'marker', 'menubar', 'message', 'message-scroller', 'native-select', 'navigation-menu', 'pagination', 'popover', 'progress',
   'questionnaire', 'radio-group', 'resizable', 'scroll-area', 'select', 'separator', 'sheet', 'sidebar', 'skeleton', 'slider', 'sonner', 'spinner', 'switch', 'table', 'tabs',
@@ -18,6 +20,14 @@ const SHADCN_NAMES = [
 ];
 
 describe('reference table', () => {
+  it('contains every one of the 66 pinned registry items (packages/registry) under the same name; form and sonner are extraction-only', async () => {
+    const { readFileSync } = await import('node:fs');
+    const official = JSON.parse(readFileSync(new URL('../../registry/official-components.json', import.meta.url), 'utf8')).items.map((i: { name: string }) => i.name);
+    const names = SHADCN_CATALOG.components.map((c) => c.name);
+    expect(official).toHaveLength(66);
+    expect(official.filter((n: string) => !names.includes(n))).toEqual([]);
+    expect(names.filter((n) => !official.includes(n)).sort()).toEqual(['form', 'sonner']);
+  });
   it('has every shadcn/ui component once', () => {
     const names = SHADCN_CATALOG.components.map((c) => c.name);
     expect(new Set(names).size).toBe(names.length);
@@ -32,7 +42,7 @@ describe('reference table', () => {
       for (const s of Object.keys(c.stateCues ?? {})) expect(c.states, `${c.name} stateCue ${s}`).toContain(s);
       if (c.structure) expect(STRUCTURES[c.structure], `${c.name} structure ${c.structure}`).toBeTypeOf('function');
       for (const cue of [...c.cues, ...(c.parts ?? []).map((p) => p.cue), ...Object.values(c.stateCues ?? {})]) for (const h of cue.hint ?? []) expect(HINT_WORDS, `${c.name} hint ${h}`).toContain(h);
-      expect(c.docs).toBe(`https://ui.shadcn.com/docs/components/${c.name}`);
+      expect(c.docs).toBe(`https://ui.shadcn.com/docs/components/${c.name === 'bubble-button' ? 'bubble' : c.name}`);
     }
   });
 });
@@ -141,4 +151,27 @@ describe.skipIf(!hasChrome)('catalog extraction on a shadcn-shaped page', () => 
     expect(md).toMatch(/\| button \| ✓ \| 7 \|/);
     expect(md).toMatch(/\| accordion \| · \|/);
   }, 120_000);
+});
+
+describe('a catalog read that throws', () => {
+  it('leaves a limit with scope, reason, effect and fix, and says the table is unconfirmed', () => {
+    const limits = new Limits();
+    addCatalogFailures(limits, [{ index: 0, catalogFailure: 'TypeError' }]);
+    expect(limits.list).toHaveLength(1);
+    const l = limits.list[0]!;
+    expect(l.kind).toBe('component-not-found');
+    expect(l.scope).toBe('inferred.catalog');
+    expect(l.reason).toContain('TypeError');
+    expect(l.effect).toContain('미확인');
+    expect(l.fix).toBeTruthy();
+  });
+  it('is partial when only some pages failed, and silent when none did', () => {
+    const some = new Limits();
+    addCatalogFailures(some, [{ index: 0 }, { index: 1, catalogFailure: 'Error' }]);
+    expect(some.list[0]!.effect).toContain('빠졌을 수');
+    expect(some.list[0]!.effect).not.toContain('미확인');
+    const none = new Limits();
+    addCatalogFailures(none, [{ index: 0 }]);
+    expect(none.list).toHaveLength(0);
+  });
 });
