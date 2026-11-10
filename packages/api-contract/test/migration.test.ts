@@ -1,4 +1,4 @@
-// apps/library-api/migrations/0001_init.sql on PGlite (embedded Postgres), with the fixture seed.
+// apps/library-api/migrations/*.sql on PGlite (embedded Postgres), with the fixture seed.
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,7 +7,8 @@ import { pg_trgm } from '@electric-sql/pglite/contrib/pg_trgm';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const migration = readFileSync(join(here, '..', '..', '..', 'apps', 'library-api', 'migrations', '0001_init.sql'), 'utf8');
+const migrations = join(here, '..', '..', '..', 'apps', 'library-api', 'migrations');
+const migration = ['0001_init.sql', '0002_localized_text.sql'].map((f) => readFileSync(join(migrations, f), 'utf8')).join('\n');
 const seed = readFileSync(join(here, '..', 'fixtures', 'seed.sql'), 'utf8');
 
 let db: PGlite;
@@ -29,7 +30,7 @@ async function as<T>(role: string, sql: string): Promise<T[]> {
   }
 }
 
-describe('0001_init.sql', () => {
+describe('migrations (0001_init + 0002_localized_text)', () => {
   it('applies and takes the fixtures', async () => {
     const rows = (await db.query<{ slug: string; origin: string; runs: number; formats: number }>(
       `select s.slug, s.origin, count(distinct x.id)::int as runs, count(t.format)::int as formats
@@ -92,6 +93,14 @@ describe('0001_init.sql', () => {
       `insert into releases (id, style_id, version, origin, detail, content_sha256, published_at) values
         ('00000000-0000-4000-8000-000000000003', 1, 3, 'original', '{}', repeat('c', 64), now())`,
     )).rejects.toThrow(/check/);
+  });
+
+  it('keeps descriptions in the site languages, never English or an unknown locale', async () => {
+    const rows = await as<{ slug: string; ko: string }>('api_ro', `select slug, description_i18n->>'ko' as ko from styles where slug = 'hush'`);
+    expect(rows[0]!.ko).toMatch(/회색/);
+    await expect(db.exec(`update styles set description_i18n = '{"en": "x"}' where slug = 'hush'`)).rejects.toThrow(/check/);
+    await expect(db.exec(`update styles set description_i18n = '{"pt": "x"}' where slug = 'hush'`)).rejects.toThrow(/check/);
+    await expect(db.exec(`update styles set description_i18n = '"x"' where slug = 'hush'`)).rejects.toThrow(/check/);
   });
 
   it('refuses a slug that is not lowercase', async () => {

@@ -8,8 +8,8 @@ import { describe, expect, it } from 'vitest';
 import { validateExtraction } from '@equipe-design/schema';
 import { loadSource } from '@equipe-design/remix';
 import {
-  LibraryFile, Meta, ReleaseList, ReleaseUpload, RemixRequest, RemixResponse, StyleDetail, StyleList, TokenFiles,
-  slugFromName,
+  LibraryFile, Limit, Meta, TRANSLATED_LOCALES, ReleaseList, ReleaseUpload, RemixRequest, RemixResponse, StyleDetail, StyleList, TokenFiles,
+  localized, slugFromName,
 } from '../src/index.ts';
 import { FIXTURES_DIR, INPUTS, buildFixtures, serialize } from './build-fixtures.ts';
 
@@ -96,6 +96,29 @@ describe('fixtures', () => {
       delete upsert.slug;
       expect(oas('StyleUpsert')(upsert), JSON.stringify(oas('StyleUpsert').errors)).toBe(true);
     }
+  });
+
+  it('carry description and every limit in all eight site languages', () => {
+    for (const { slug } of INPUTS) {
+      const d = StyleDetail.parse(json(`public/styles/${slug}.json`));
+      expect(Object.keys(d.style.descriptionI18n).sort(), slug).toEqual([...TRANSLATED_LOCALES].sort());
+      expect(d.release.limits.length, slug).toBeGreaterThan(0);
+      for (const l of d.release.limits) {
+        expect(Object.keys(l.textI18n).sort(), `${slug} ${l.scope}`).toEqual([...TRANSLATED_LOCALES].sort());
+        // `text` is the English fallback: no Hangul or kana in it.
+        expect(l.text, `${slug} ${l.scope}`).not.toMatch(/[\u3040-\u30ff\uac00-\ud7af]/);
+      }
+      expect(d.style.description).not.toMatch(/[\u3040-\u30ff\uac00-\ud7af]/);
+    }
+  });
+
+  it('picks the locale text, else the English field', () => {
+    expect(localized('Quiet', { ko: '조용한' }, 'ko')).toBe('조용한');
+    expect(localized('Quiet', { ko: '조용한' }, 'ja')).toBe('Quiet');
+    expect(localized('Quiet', { ko: '조용한' }, 'en')).toBe('Quiet');
+    expect(Limit.safeParse({ scope: '*', text: 'x', textI18n: { en: 'x' } }).success).toBe(false);
+    expect(Limit.safeParse({ scope: '*', text: 'x', textI18n: { pt: 'x' } }).success).toBe(false);
+    expect(oas('Limit')({ scope: '*', text: 'x', textI18n: { en: 'x' } })).toBe(false);
   });
 
   it('original styles are T-291 tokens the remix engine reads', () => {

@@ -42,7 +42,16 @@
     "releaseId": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a02",
     "version": 1,
     "updatedAt": "2026-11-02T09:30:00Z",
-    "description": "Black, white and a loud yellow. High contrast."
+    "description": "Black, white and a loud yellow. High contrast.",
+    "descriptionI18n": {
+      "ko": "검정, 흰색, 그리고 요란한 노랑. 고대비.",
+      "ja": "黒と白、そして目を引く黄色。ハイコントラスト。",
+      "zh-CN": "黑、白，加上醒目的黄色。高对比度。",
+      "de": "Schwarz, Weiß und ein lautes Gelb. Hoher Kontrast.",
+      "fr": "Noir, blanc et un jaune criard. Contraste élevé.",
+      "es": "Negro, blanco y un amarillo estridente. Alto contraste.",
+      "pt-BR": "Preto, branco e um amarelo berrante. Alto contraste."
+    }
   },
   "release": {
     "roles": {
@@ -169,7 +178,16 @@
     "limits": [
       {
         "scope": "fonts.mono",
-        "text": "the system has no monospace font, JetBrains Mono (OFL) is added"
+        "text": "the system has no monospace font, JetBrains Mono (OFL) is added",
+        "textI18n": {
+          "ko": "이 시스템에는 고정폭 글꼴이 없어 JetBrains Mono(OFL)를 더함",
+          "ja": "このシステムには等幅フォントがないため、JetBrains Mono(OFL)を追加",
+          "zh-CN": "该系统没有等宽字体，已补充 JetBrains Mono（OFL）",
+          "de": "das System hat keine Monospace-Schrift, JetBrains Mono (OFL) wird ergänzt",
+          "fr": "le système n’a pas de police à chasse fixe, JetBrains Mono (OFL) est ajoutée",
+          "es": "el sistema no tiene fuente monoespaciada; se añade JetBrains Mono (OFL)",
+          "pt-BR": "o sistema não tem fonte monoespaçada; JetBrains Mono (OFL) foi adicionada"
+        }
       }
     ],
     "id": "6f1c2a40-5b7e-4c1a-9a51-0d3b8f0e1a02",

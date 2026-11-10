@@ -8,7 +8,16 @@
     "tags": [
       "neutral",
       "light-first"
-    ]
+    ],
+    "descriptionI18n": {
+      "ko": "조용한 회색에 링크만 파란색 하나. 미니멀.",
+      "ja": "静かなグレーに、リンクだけ青をひとつ。ミニマル。",
+      "zh-CN": "安静的灰色，只有链接用一种蓝色。极简。",
+      "de": "Ruhige Grautöne, ein Blau für Links. Minimalistisch.",
+      "fr": "Des gris discrets, un seul bleu pour les liens. Minimaliste.",
+      "es": "Grises tranquilos y un solo azul para los enlaces. Minimalista.",
+      "pt-BR": "Cinzas discretos e um único azul para os links. Minimalista."
+    }
   },
   {
     "slug": "klaxon",
@@ -19,7 +28,16 @@
     "tags": [
       "bold",
       "accessible"
-    ]
+    ],
+    "descriptionI18n": {
+      "ko": "검정, 흰색, 그리고 요란한 노랑. 고대비.",
+      "ja": "黒と白、そして目を引く黄色。ハイコントラスト。",
+      "zh-CN": "黑、白，加上醒目的黄色。高对比度。",
+      "de": "Schwarz, Weiß und ein lautes Gelb. Hoher Kontrast.",
+      "fr": "Noir, blanc et un jaune criard. Contraste élevé.",
+      "es": "Negro, blanco y un amarillo estridente. Alto contraste.",
+      "pt-BR": "Preto, branco e um amarelo berrante. Alto contraste."
+    }
   },
   {
     "slug": "tessel",
@@ -31,6 +49,15 @@
       "blue",
       "dark-mode"
     ],
+    "descriptionI18n": {
+      "ko": "흰 바탕에 짙은 파랑, 어울리는 다크 테마까지.",
+      "ja": "白地に深い青。対になるダークテーマ付き。",
+      "zh-CN": "白底深蓝，配有相称的深色主题。",
+      "de": "Tiefes Blau auf Weiß, mit passendem dunklem Theme.",
+      "fr": "Un bleu profond sur fond blanc, avec un thème sombre assorti.",
+      "es": "Azul profundo sobre blanco, con un tema oscuro a juego.",
+      "pt-BR": "Azul profundo sobre branco, com um tema escuro combinando."
+    },
     "source": {
       "serviceName": "equipe.im",
       "homepage": "https://equipe.im/",
