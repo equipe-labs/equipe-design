@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design.equipe.im/schema/item-provenance.json",
+  "title": "equipe registry item provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["upstreamUrl", "upstreamRevision", "license", "changeReason"],
+  "properties": {
+    "upstreamUrl": { "type": "string", "format": "uri" },
+    "upstreamRevision": { "type": "string", "pattern": "^([0-9a-f]{40}|v?\\d+\\.\\d+\\.\\d+)$" },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spdx", "file"],
+      "properties": {
+        "spdx": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 }
+      }
+    },
+    "changeReason": { "type": "string", "minLength": 1 }
+  }
+}

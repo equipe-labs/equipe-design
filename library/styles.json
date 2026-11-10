@@ -1,0 +1,482 @@
+[
+  {
+    "id": "hush",
+    "slug": "hush",
+    "name": "Hush",
+    "origin": "original",
+    "description": "Quiet greys, one blue for links.",
+    "category": "minimal",
+    "tags": [
+      "neutral",
+      "light-first"
+    ],
+    "tokens": "originals/hush/tokens.json"
+  },
+  {
+    "id": "cornice",
+    "slug": "cornice",
+    "name": "Cornice",
+    "origin": "original",
+    "description": "Thick black borders, square corners, loud primary blue.",
+    "category": "brutalist",
+    "tags": [
+      "bold",
+      "hard-edges"
+    ],
+    "tokens": "originals/cornice/tokens.json"
+  },
+  {
+    "id": "hearth",
+    "slug": "hearth",
+    "name": "Hearth",
+    "origin": "original",
+    "description": "Cream paper, terracotta and olive with soft round corners.",
+    "category": "warm",
+    "tags": [
+      "cozy",
+      "earth"
+    ],
+    "tokens": "originals/hearth/tokens.json"
+  },
+  {
+    "id": "klaxon",
+    "slug": "klaxon",
+    "name": "Klaxon",
+    "origin": "original",
+    "description": "Black, white and a loud yellow.",
+    "category": "high-contrast",
+    "tags": [
+      "bold",
+      "accessible"
+    ],
+    "tokens": "originals/klaxon/tokens.json"
+  },
+  {
+    "id": "mallow",
+    "slug": "mallow",
+    "name": "Mallow",
+    "origin": "original",
+    "description": "Lilac and pink pastels with bouncy round shapes.",
+    "category": "pastel",
+    "tags": [
+      "soft",
+      "playful"
+    ],
+    "tokens": "originals/mallow/tokens.json"
+  },
+  {
+    "id": "pewter",
+    "slug": "pewter",
+    "name": "Pewter",
+    "origin": "original",
+    "description": "Green on near-black in a monospace face, like a terminal.",
+    "category": "mono",
+    "tags": [
+      "terminal",
+      "dense"
+    ],
+    "tokens": "originals/pewter/tokens.json"
+  },
+  {
+    "id": "woofer",
+    "slug": "woofer",
+    "name": "Woofer",
+    "origin": "original",
+    "description": "Magenta and cyan on deep purple with hard colour shadows.",
+    "category": "retro",
+    "tags": [
+      "neon",
+      "hard-shadow"
+    ],
+    "tokens": "originals/woofer/tokens.json"
+  },
+  {
+    "id": "guild",
+    "slug": "guild",
+    "name": "Guild",
+    "origin": "original",
+    "description": "Navy and steel blue for dense business screens.",
+    "category": "enterprise",
+    "tags": [
+      "dense",
+      "calm"
+    ],
+    "tokens": "originals/guild/tokens.json"
+  },
+  {
+    "id": "bloop",
+    "slug": "bloop",
+    "name": "Bloop",
+    "origin": "original",
+    "description": "Sunny cream, orange and thick outlines.",
+    "category": "playful",
+    "tags": [
+      "bouncy",
+      "bold"
+    ],
+    "tokens": "originals/bloop/tokens.json"
+  },
+  {
+    "id": "verso",
+    "slug": "verso",
+    "name": "Verso",
+    "origin": "original",
+    "description": "High-contrast serif headlines, red accent, square corners.",
+    "category": "editorial",
+    "tags": [
+      "serif",
+      "print"
+    ],
+    "tokens": "originals/verso/tokens.json"
+  },
+  {
+    "id": "lichen",
+    "slug": "lichen",
+    "name": "Lichen",
+    "origin": "original",
+    "description": "Mossy greens with generous round corners.",
+    "category": "nature",
+    "tags": [
+      "green",
+      "calm"
+    ],
+    "tokens": "originals/lichen/tokens.json"
+  },
+  {
+    "id": "brine",
+    "slug": "brine",
+    "name": "Brine",
+    "origin": "original",
+    "description": "Sea teal with a coral accent.",
+    "category": "ocean",
+    "tags": [
+      "teal",
+      "cool"
+    ],
+    "tokens": "originals/brine/tokens.json"
+  },
+  {
+    "id": "gloaming",
+    "slug": "gloaming",
+    "name": "Gloaming",
+    "origin": "original",
+    "description": "Dusk rose and amber on a warm blush page.",
+    "category": "sunset",
+    "tags": [
+      "warm",
+      "gradient"
+    ],
+    "tokens": "originals/gloaming/tokens.json"
+  },
+  {
+    "id": "selvedge",
+    "slug": "selvedge",
+    "name": "Selvedge",
+    "origin": "original",
+    "description": "Printed-paper feel, ink and muted colour.",
+    "category": "paper",
+    "tags": [
+      "print",
+      "texture"
+    ],
+    "tokens": "originals/selvedge/tokens.json"
+  },
+  {
+    "id": "enamel",
+    "slug": "enamel",
+    "name": "Enamel",
+    "origin": "original",
+    "description": "Translucent layers with gentle blur.",
+    "category": "glass",
+    "tags": [
+      "translucent",
+      "soft"
+    ],
+    "tokens": "originals/enamel/tokens.json"
+  },
+  {
+    "id": "flicker",
+    "slug": "flicker",
+    "name": "Flicker",
+    "origin": "original",
+    "description": "Electric neon on a dark base.",
+    "category": "cyber-neon",
+    "tags": [
+      "neon",
+      "dark-first"
+    ],
+    "tokens": "originals/flicker/tokens.json"
+  },
+  {
+    "id": "plumb",
+    "slug": "plumb",
+    "name": "Plumb",
+    "origin": "original",
+    "description": "Strict grid, tight type, a single red.",
+    "category": "swiss-grid",
+    "tags": [
+      "grid",
+      "sans"
+    ],
+    "tokens": "originals/plumb/tokens.json"
+  },
+  {
+    "id": "anneal",
+    "slug": "anneal",
+    "name": "Anneal",
+    "origin": "original",
+    "description": "Hand-made warmth with uneven, friendly shapes.",
+    "category": "handmade",
+    "tags": [
+      "warm",
+      "crafted"
+    ],
+    "tokens": "originals/anneal/tokens.json"
+  },
+  {
+    "id": "abacus",
+    "slug": "abacus",
+    "name": "Abacus",
+    "origin": "original",
+    "description": "Calm blues and greens for figures and tables.",
+    "category": "finance",
+    "tags": [
+      "calm",
+      "tabular"
+    ],
+    "tokens": "originals/abacus/tokens.json"
+  },
+  {
+    "id": "gumdrop",
+    "slug": "gumdrop",
+    "name": "Gumdrop",
+    "origin": "original",
+    "description": "Bright candy colours and very round shapes.",
+    "category": "kids",
+    "tags": [
+      "bright",
+      "rounded"
+    ],
+    "tokens": "originals/gumdrop/tokens.json"
+  },
+  {
+    "id": "gilt",
+    "slug": "gilt",
+    "name": "Gilt",
+    "origin": "original",
+    "description": "Black and gold with fine lines.",
+    "category": "luxury",
+    "tags": [
+      "dark",
+      "gold"
+    ],
+    "tokens": "originals/gilt/tokens.json"
+  },
+  {
+    "id": "saline",
+    "slug": "saline",
+    "name": "Saline",
+    "origin": "original",
+    "description": "Clean whites and cool blues for care and health.",
+    "category": "clinical",
+    "tags": [
+      "clean",
+      "cool"
+    ],
+    "tokens": "originals/saline/tokens.json"
+  },
+  {
+    "id": "dowel",
+    "slug": "dowel",
+    "name": "Dowel",
+    "origin": "original",
+    "description": "Olive and tan, sturdy and plain.",
+    "category": "utilitarian",
+    "tags": [
+      "olive",
+      "sturdy"
+    ],
+    "tokens": "originals/dowel/tokens.json"
+  },
+  {
+    "id": "masthead",
+    "slug": "masthead",
+    "name": "Masthead",
+    "origin": "original",
+    "description": "Newsprint columns, black rules, serif headings.",
+    "category": "newspaper",
+    "tags": [
+      "serif",
+      "print"
+    ],
+    "tokens": "originals/masthead/tokens.json"
+  },
+  {
+    "id": "plush",
+    "slug": "plush",
+    "name": "Plush",
+    "origin": "original",
+    "description": "Puffy, soft raised surfaces.",
+    "category": "soft-3d",
+    "tags": [
+      "puffy",
+      "soft"
+    ],
+    "tokens": "originals/plush/tokens.json"
+  },
+  {
+    "id": "taffy",
+    "slug": "taffy",
+    "name": "Taffy",
+    "origin": "original",
+    "description": "Glossy candy colours with a Y2K feel.",
+    "category": "y2k",
+    "tags": [
+      "candy",
+      "glossy"
+    ],
+    "tokens": "originals/taffy/tokens.json"
+  },
+  {
+    "id": "umber",
+    "slug": "umber",
+    "name": "Umber",
+    "origin": "original",
+    "description": "Earthy browns and clay.",
+    "category": "earth",
+    "tags": [
+      "brown",
+      "warm"
+    ],
+    "tokens": "originals/umber/tokens.json"
+  },
+  {
+    "id": "nocturne",
+    "slug": "nocturne",
+    "name": "Nocturne",
+    "origin": "original",
+    "description": "A deep night theme for enterprise tools.",
+    "category": "enterprise-dark",
+    "tags": [
+      "dark-first",
+      "calm"
+    ],
+    "tokens": "originals/nocturne/tokens.json"
+  },
+  {
+    "id": "pastiche",
+    "slug": "pastiche",
+    "name": "Pastiche",
+    "origin": "original",
+    "description": "Pink and teal vaporwave.",
+    "category": "vaporwave",
+    "tags": [
+      "pink",
+      "teal"
+    ],
+    "tokens": "originals/pastiche/tokens.json"
+  },
+  {
+    "id": "sumi",
+    "slug": "sumi",
+    "name": "Sumi",
+    "origin": "original",
+    "description": "Ink black, paper white and plenty of space.",
+    "category": "zen",
+    "tags": [
+      "ink",
+      "quiet"
+    ],
+    "tokens": "originals/sumi/tokens.json"
+  },
+  {
+    "id": "ext-01",
+    "slug": "cobble",
+    "name": "Cobble",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-02",
+    "slug": "copper",
+    "name": "Copper",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-03",
+    "slug": "gabbro",
+    "name": "Gabbro",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-04",
+    "slug": "inlay",
+    "name": "Inlay",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-05",
+    "slug": "juniper",
+    "name": "Juniper",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-06",
+    "slug": "lantern",
+    "name": "Lantern",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-07",
+    "slug": "mizzle",
+    "name": "Mizzle",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-08",
+    "slug": "saffron",
+    "name": "Saffron",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  },
+  {
+    "id": "ext-09",
+    "slug": "sorrel",
+    "name": "Sorrel",
+    "origin": "extracted",
+    "description": "",
+    "category": "pending",
+    "tags": [],
+    "tokens": null
+  }
+]
