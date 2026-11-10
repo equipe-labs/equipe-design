@@ -1,17 +1,19 @@
 {
   "name": "@equipe-design/schema",
   "version": "0.1.0",
-  "description": "JSON Schema and TypeScript types for equipe-design extraction results (schema 0.1).",
+  "description": "JSON Schema and TypeScript types for equipe-design extraction results (schema 0.2; 0.1 files stay valid).",
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./extract-0.1.schema.json": "./extract-0.1.schema.json"
+    "./extract-0.1.schema.json": "./extract-0.1.schema.json",
+    "./extract-0.2.schema.json": "./extract-0.2.schema.json"
   },
   "files": [
     "src",
     "examples",
-    "extract-0.1.schema.json"
+    "extract-0.1.schema.json",
+    "extract-0.2.schema.json"
   ],
   "dependencies": {
     "ajv": "^8.20.0"

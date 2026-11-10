@@ -8,7 +8,7 @@
     ".": "./src/index.ts",
     "./crawl-options": "./src/crawl/options.ts"
   },
-  "files": ["src"],
+  "files": ["src", "catalog"],
   "engines": { "node": ">=22.18" },
   "dependencies": {
     "@equipe-design/schema": "0.1.0",

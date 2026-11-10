@@ -73,7 +73,7 @@ npm run lint         # tsc, generated types up to date, eslint
 npx equipe-design --help
 ```
 
-The schema is the single source: after editing `packages/schema/extract-0.1.schema.json`, run `npm run gen:types`.
+The schema is the single source: after editing `packages/schema/extract-0.2.schema.json`, run `npm run gen:types`.
 
 ## License
 

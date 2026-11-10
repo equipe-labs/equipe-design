@@ -1,5 +1,5 @@
 import { Ajv2020 } from 'ajv/dist/2020.js';
-import schema from '../extract-0.1.schema.json' with { type: 'json' };
+import schema from '../extract-0.2.schema.json' with { type: 'json' };
 import { findForbiddenContent, type ContentViolation } from './forbidden.ts';
 import { findDanglingReferences, type ReferenceError } from './references.ts';
 import type { Extraction } from './types.ts';
@@ -8,7 +8,7 @@ export type * from './types.ts';
 export type { ContentViolation, ReferenceError };
 export { findForbiddenContent, findDanglingReferences, schema };
 
-export const SCHEMA_VERSION = '0.1';
+export const SCHEMA_VERSION = '0.2';
 
 export interface ValidationIssue {
   kind: 'schema' | 'content' | 'reference';

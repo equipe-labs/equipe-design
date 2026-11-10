@@ -13,6 +13,7 @@ const USAGE = `Usage: equipe-design extract <url...> [--out DIR] [--widths 1440,
   --widths       Viewport widths to read, comma separated (default 1440,390)
   --modes        auto (default) reads light and, when the site has one, dark
   --no-states    Don't force :hover / :focus-visible / :active
+  --max-pages N  Pages to read when you list URLs (default 5, at most 200; with --crawl see below)
   --json         Print only the summary as JSON on stdout
 
 Writes extract.json and report.md. Exit code 0 ok, 2 stopped by a guardrail (robots.txt, login, bot check), 1 error.
@@ -61,13 +62,15 @@ export const command: Command = {
     const widths = values.widths ? values.widths.split(',').map((w) => parseInt(w, 10)).filter((w) => w > 0) : undefined;
     const quiet = !!values.json;
     if (values.crawl) return runCrawl(positionals, values as Record<string, unknown>, { widths, modes, states: !values['no-states'], quiet });
-    const usedCrawlFlags = Object.keys(CRAWL.options).filter((k) => (values as Record<string, unknown>)[k] !== undefined);
+    const usedCrawlFlags = Object.keys(CRAWL.options).filter((k) => k !== 'max-pages' && (values as Record<string, unknown>)[k] !== undefined);
     if (usedCrawlFlags.length) {
       process.stderr.write(`equipe-design extract: --${usedCrawlFlags[0]} goes with --crawl\n`);
       return 1;
     }
     try {
+      const maxPagesFlag = (values as Record<string, unknown>)['max-pages'];
       const { extraction, exitCode } = await extract(positionals, {
+        ...(typeof maxPagesFlag === 'string' && parseInt(maxPagesFlag, 10) > 0 ? { maxPages: parseInt(maxPagesFlag, 10) } : {}),
         widths,
         modes,
         states: !values['no-states'],
@@ -84,7 +87,7 @@ export const command: Command = {
       const files = writeRun(extraction, dir);
       const check = validateExtraction(extraction);
       if (!check.ok) {
-        process.stderr.write(`warning: result does not pass schema 0.1:\n${check.issues.slice(0, 10).map((i) => `  ${i.kind} ${i.path}: ${i.message}`).join('\n')}\n`);
+        process.stderr.write(`warning: result does not pass schema 0.2:\n${check.issues.slice(0, 10).map((i) => `  ${i.kind} ${i.path}: ${i.message}`).join('\n')}\n`);
       }
       if (quiet) process.stdout.write(JSON.stringify(extraction.summary) + '\n');
       else {

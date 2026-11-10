@@ -1,0 +1,879 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/equipe-labs/equipe-design/packages/schema/extract-0.2.schema.json",
+  "title": "Extraction",
+  "description": "equipe-design extraction result (extract.json), schema 0.1. Values observed on pages, interpretations inferred from them, and what could not be seen. Values only: no CSS text, font files, images or page text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "tool", "run", "notice", "source", "observed", "inferred", "limits", "guardrails", "summary"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "schemaVersion": { "enum": ["0.1", "0.2"], "description": "0.2 adds inferred.catalog (components against the shadcn/ui reference table); 0.1 files stay valid." },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "chrome"],
+      "properties": {
+        "name": { "const": "equipe-design" },
+        "version": { "type": "string" },
+        "chrome": { "type": ["string", "null"], "description": "Chrome version used for capture; null if no browser was opened." }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "startedAt", "durationMs", "userAgent", "options", "stoppedBy"],
+      "properties": {
+        "id": { "type": "string" },
+        "startedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+        "durationMs": { "type": "integer", "minimum": 0 },
+        "userAgent": { "type": "string" },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["widths", "modes", "states", "maxPages"],
+          "properties": {
+            "widths": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 1 },
+            "modes": { "enum": ["auto", "light", "dark", "both"] },
+            "states": { "type": "boolean" },
+            "injectStates": { "type": "boolean" },
+            "maxPages": { "type": "integer", "minimum": 1, "maximum": 200 }
+          }
+        },
+        "stoppedBy": {
+          "description": "Guardrail that stopped the run before any value was read (CLI exit code 2); null when the run went through.",
+          "enum": [null, "robots-disallowed", "login-required", "bot-challenge"]
+        }
+      }
+    },
+    "notice": { "type": "string", "minLength": 1 },
+
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pages", "modes", "stylesheets"],
+      "properties": {
+        "pages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "finalUrl", "status", "robots", "loginWall", "visibleElements", "widths", "modes"],
+            "properties": {
+              "url": { "type": "string", "description": "Internal record of what was read. Never shown as a display name." },
+              "finalUrl": { "type": ["string", "null"] },
+              "status": { "type": ["integer", "null"] },
+              "robots": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["checked", "allowed", "rule"],
+                "properties": {
+                  "checked": { "type": "boolean" },
+                  "allowed": { "type": "boolean" },
+                  "rule": { "type": ["string", "null"], "description": "The matching robots.txt rule, e.g. 'Disallow: /'." }
+                }
+              },
+              "loginWall": { "type": "boolean" },
+              "visibleElements": { "type": "integer", "minimum": 0 },
+              "widths": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+              "modes": { "type": "array", "items": { "$ref": "#/$defs/mode" } }
+            }
+          }
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["light", "dark"],
+          "properties": {
+            "light": { "$ref": "#/$defs/modeObservation" },
+            "dark": { "$ref": "#/$defs/modeObservation" },
+            "highContrast": { "$ref": "#/$defs/modeObservation" }
+          }
+        },
+        "stylesheets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["readable", "crossOriginParsedInMemory", "unreadable"],
+          "properties": {
+            "readable": { "$ref": "#/$defs/count" },
+            "crossOriginParsedInMemory": { "$ref": "#/$defs/count" },
+            "unreadable": { "$ref": "#/$defs/count" }
+          }
+        }
+      }
+    },
+
+    "observed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["color", "typography", "spacing", "radius", "shadow", "motion", "elevation", "breakpoints", "variables"],
+      "properties": {
+        "color": { "type": "array", "items": { "$ref": "#/$defs/observedColor" } },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["families", "styles"],
+          "properties": {
+            "families": { "type": "array", "items": { "$ref": "#/$defs/fontFamily" } },
+            "styles": { "type": "array", "items": { "$ref": "#/$defs/typeStyle" } }
+          }
+        },
+        "spacing": { "type": "array", "items": { "$ref": "#/$defs/observedSpacing" } },
+        "radius": { "type": "array", "items": { "$ref": "#/$defs/observedRadius" } },
+        "shadow": { "type": "array", "items": { "$ref": "#/$defs/observedShadow" } },
+        "motion": { "type": "array", "items": { "$ref": "#/$defs/observedMotion" } },
+        "elevation": { "type": "array", "items": { "$ref": "#/$defs/observedElevation" } },
+        "breakpoints": { "type": "array", "items": { "$ref": "#/$defs/observedBreakpoint" } },
+        "variables": { "type": "array", "items": { "$ref": "#/$defs/observedVariable" } }
+      }
+    },
+
+    "inferred": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Interpretations. A key is absent when nothing was inferred (e.g. a run stopped by a guardrail); the reason is in limits.",
+      "properties": {
+        "scales": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "spacing": { "$ref": "#/$defs/scale" },
+            "radius": { "$ref": "#/$defs/scale" },
+            "fontSize": { "$ref": "#/$defs/scale" }
+          }
+        },
+        "roles": { "type": "array", "items": { "$ref": "#/$defs/role" } },
+        "brand": { "$ref": "#/$defs/brand" },
+        "typeRoles": { "type": "array", "items": { "$ref": "#/$defs/typeRole" } },
+        "components": { "type": "array", "items": { "$ref": "#/$defs/component" } },
+        "catalog": { "$ref": "#/$defs/catalog" }
+      }
+    },
+
+    "limits": { "type": "array", "items": { "$ref": "#/$defs/limit" } },
+
+    "guardrails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["robots", "loginUsed", "freshBrowserProfile", "pagesVisited", "maxPages", "mutatingRequestsBlocked", "stored", "brandNameInTokenNames"],
+      "properties": {
+        "robots": { "enum": ["allowed", "disallowed", "exempt"], "description": "exempt: localhost, 127.0.0.1 and file: only." },
+        "loginUsed": { "const": false },
+        "freshBrowserProfile": { "const": true },
+        "pagesVisited": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "maxPages": { "type": "integer", "minimum": 1, "maximum": 200 },
+        "mutatingRequestsBlocked": { "$ref": "#/$defs/count" },
+        "stored": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cssText", "fontFiles", "images", "pageText", "screenshots"],
+          "properties": {
+            "cssText": { "const": false },
+            "fontFiles": { "const": false },
+            "images": { "const": false },
+            "pageText": { "const": false },
+            "screenshots": { "type": "boolean", "description": "true only with --evidence-crops; crops stay in the run folder and never reach emitted output." }
+          }
+        },
+        "brandNameInTokenNames": { "const": false }
+      }
+    },
+
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colors", "roles", "brand", "darkPairs", "components", "limits", "lowConfidence"],
+      "properties": {
+        "colors": { "$ref": "#/$defs/count" },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["filled", "empty"],
+          "properties": { "filled": { "$ref": "#/$defs/count" }, "empty": { "$ref": "#/$defs/count" } }
+        },
+        "brand": { "type": ["string", "null"], "description": "'<color id> <hex>', 'none', 'uncertain', or null when not inferred." },
+        "darkPairs": { "$ref": "#/$defs/count" },
+        "components": { "$ref": "#/$defs/count" },
+        "catalog": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["found", "of"],
+          "properties": { "found": { "$ref": "#/$defs/count" }, "of": { "$ref": "#/$defs/count" } }
+        },
+        "limits": { "$ref": "#/$defs/count" },
+        "lowConfidence": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+
+  "$defs": {
+    "count": { "type": "integer", "minimum": 0 },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "share": { "type": "number", "minimum": 0, "maximum": 1 },
+    "mode": { "enum": ["light", "dark"] },
+    "hex": { "type": "string", "pattern": "^#[0-9a-f]{6}$", "description": "Lowercase #rrggbb; alpha is a separate field." },
+    "colorId": { "type": "string", "pattern": "^c[0-9]+$" },
+    "typeStyleId": { "type": "string", "pattern": "^t[0-9]+$" },
+    "limitId": { "type": "string", "pattern": "^L[0-9]+$" },
+    "cssVariableName": { "type": "string", "pattern": "^--[A-Za-z0-9_-]+$" },
+    "reasons": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "length": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": { "value": { "type": "number" }, "unit": { "enum": ["px", "em", "rem", "%"] } }
+    },
+    "duration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": { "value": { "type": "number", "minimum": 0 }, "unit": { "const": "ms" } }
+    },
+    "colorValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hex", "oklch", "alpha"],
+      "properties": {
+        "hex": { "$ref": "#/$defs/hex" },
+        "oklch": {
+          "type": "array",
+          "description": "[L 0..1, C, H degrees]",
+          "items": { "type": "number", "minimum": 0 },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "alpha": { "$ref": "#/$defs/share" }
+      }
+    },
+    "rect": {
+      "type": "array",
+      "description": "[x, y, width, height] in CSS px",
+      "items": { "type": "number" },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "evidenceSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "width", "mode", "selector", "axRole", "prop", "rect"],
+      "properties": {
+        "page": { "type": "integer", "minimum": 0, "description": "Index into source.pages." },
+        "width": { "type": "integer", "minimum": 1 },
+        "mode": { "$ref": "#/$defs/mode" },
+        "selector": { "type": "string", "maxLength": 120, "description": "Short DOM path we built (tag + up to 2 classes). Never a stylesheet selector or rule." },
+        "axRole": { "type": ["string", "null"] },
+        "prop": { "type": "string" },
+        "rect": { "$ref": "#/$defs/rect" }
+      }
+    },
+    "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidenceSample" }, "maxItems": 5 },
+    "modeObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed"],
+      "properties": {
+        "observed": { "type": "boolean" },
+        "method": { "enum": ["default", "media-query", "class-toggle", "media-variables"] },
+        "detectors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mediaQuery": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["found"],
+              "properties": { "found": { "type": "boolean" }, "rules": { "$ref": "#/$defs/count" } }
+            },
+            "classToggle": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["found"],
+              "properties": {
+                "found": { "type": "boolean" },
+                "selector": { "type": "string" },
+                "tried": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "mediaVariables": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["found"],
+              "properties": { "found": { "type": "boolean" }, "variablesThatDiffer": { "$ref": "#/$defs/count" } }
+            }
+          }
+        },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+
+    "observedColor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "value", "mode", "count", "uses", "evidence", "confidence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/colorId" },
+        "value": { "$ref": "#/$defs/colorValue" },
+        "mode": { "$ref": "#/$defs/mode" },
+        "count": { "$ref": "#/$defs/count" },
+        "areaShare": { "$ref": "#/$defs/share" },
+        "uses": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "background": { "$ref": "#/$defs/count" },
+            "text": { "$ref": "#/$defs/count" },
+            "border": { "$ref": "#/$defs/count" },
+            "fill": { "$ref": "#/$defs/count" },
+            "outline": { "$ref": "#/$defs/count" }
+          }
+        },
+        "cssVariables": { "type": "array", "items": { "$ref": "#/$defs/cssVariableName" } },
+        "mergedFrom": { "type": "array", "items": { "type": "string" }, "description": "Original notations merged by normalisation, e.g. 'rgb(246, 245, 241)'." },
+        "spread": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sections", "componentClusters"],
+          "properties": { "sections": { "$ref": "#/$defs/count" }, "componentClusters": { "$ref": "#/$defs/count" } }
+        },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "fontFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "generic", "count", "loadedVia", "license", "fileStored", "oflAlternatives"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "generic": { "enum": ["serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui", "unknown"] },
+        "count": { "$ref": "#/$defs/count" },
+        "loadedVia": { "enum": ["webfont", "local", "system", "unknown"], "description": "webfont: loaded by the page from a font file (the file itself is never stored)." },
+        "license": { "type": "string", "description": "e.g. 'OFL-1.1 (known family)' or 'commercial-or-unknown'." },
+        "fileStored": { "const": false },
+        "oflAlternatives": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "typeStyle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "size", "weight", "lineHeight", "letterSpacing", "count", "confidence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/typeStyleId" },
+        "family": { "type": "string" },
+        "size": { "$ref": "#/$defs/length" },
+        "weight": { "type": "number", "minimum": 1, "maximum": 1000 },
+        "lineHeight": { "oneOf": [{ "type": "number", "description": "unitless multiplier" }, { "$ref": "#/$defs/length" }] },
+        "letterSpacing": { "$ref": "#/$defs/length" },
+        "count": { "$ref": "#/$defs/count" },
+        "tags": { "type": "object", "additionalProperties": { "$ref": "#/$defs/count" } },
+        "widths": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[0-9]+$" },
+          "additionalProperties": { "$ref": "#/$defs/length" }
+        },
+        "fluid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["detected"],
+          "properties": { "detected": { "type": "boolean" }, "from": { "type": "string" } }
+        },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedSpacing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "count", "props", "confidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/length" },
+        "count": { "$ref": "#/$defs/count" },
+        "props": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "padding": { "$ref": "#/$defs/count" },
+            "margin": { "$ref": "#/$defs/count" },
+            "gap": { "$ref": "#/$defs/count" }
+          }
+        },
+        "cssVariables": { "type": "array", "items": { "$ref": "#/$defs/cssVariableName" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedRadius": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "count", "confidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/length" },
+        "count": { "$ref": "#/$defs/count" },
+        "shapes": { "type": "object", "additionalProperties": { "$ref": "#/$defs/count" } },
+        "kind": { "const": "full" },
+        "cssVariables": { "type": "array", "items": { "$ref": "#/$defs/cssVariableName" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedShadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "count", "confidence"],
+      "properties": {
+        "value": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["offsetX", "offsetY", "blur", "spread", "color", "inset"],
+            "properties": {
+              "offsetX": { "type": "number" },
+              "offsetY": { "type": "number" },
+              "blur": { "type": "number", "minimum": 0 },
+              "spread": { "type": "number" },
+              "color": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["hex", "alpha"],
+                "properties": { "hex": { "$ref": "#/$defs/hex" }, "alpha": { "$ref": "#/$defs/share" } }
+              },
+              "inset": { "type": "boolean" }
+            }
+          }
+        },
+        "count": { "$ref": "#/$defs/count" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedMotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["property", "duration", "easing", "count", "confidence"],
+      "properties": {
+        "property": { "enum": ["transition", "animation"] },
+        "duration": { "$ref": "#/$defs/duration" },
+        "easing": {
+          "oneOf": [
+            { "type": "array", "description": "cubic-bezier control points", "items": { "type": "number" }, "minItems": 4, "maxItems": 4 },
+            { "enum": ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "step-start", "step-end"] }
+          ]
+        },
+        "count": { "$ref": "#/$defs/count" },
+        "on": { "type": "array", "items": { "type": "string" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedElevation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zIndex", "position", "count", "confidence"],
+      "properties": {
+        "zIndex": { "type": "integer" },
+        "position": { "enum": ["static", "relative", "absolute", "fixed", "sticky"] },
+        "count": { "$ref": "#/$defs/count" },
+        "kind": { "type": "string" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedBreakpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "query", "rulesCount", "confidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/length" },
+        "query": { "type": "string", "description": "Media condition only, e.g. '(max-width: 720px)'. Never the rule body." },
+        "rulesCount": { "$ref": "#/$defs/count" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "observedVariable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "declaredIn", "values", "usedByElements"],
+      "properties": {
+        "name": { "$ref": "#/$defs/cssVariableName" },
+        "declaredIn": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["selector", "condition"],
+            "properties": {
+              "selector": { "type": "string", "maxLength": 120 },
+              "condition": { "type": ["string", "null"], "description": "Enclosing @media/@supports/@layer condition, e.g. '@media (prefers-color-scheme: dark)'." }
+            }
+          }
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": { "light": { "type": "string" }, "dark": { "type": "string" } }
+        },
+        "resolvesTo": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "light": { "oneOf": [{ "$ref": "#/$defs/colorId" }, { "type": "null" }] },
+            "dark": { "oneOf": [{ "$ref": "#/$defs/colorId" }, { "type": "null" }] }
+          }
+        },
+        "usedByElements": { "$ref": "#/$defs/count" }
+      }
+    },
+
+    "scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps", "reasons", "confidence"],
+      "properties": {
+        "base": { "$ref": "#/$defs/length" },
+        "steps": { "type": "array", "items": { "type": "number", "minimum": 0 }, "description": "px" },
+        "fit": { "$ref": "#/$defs/share" },
+        "full": { "type": "boolean", "description": "radius only: a pill/circle value (>= height/2) was seen and kept out of steps." },
+        "ratio": { "type": ["number", "null"], "description": "fontSize only: modular ratio, null when fit < 0.8." },
+        "outliers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "count", "reason"],
+            "properties": { "value": { "type": "number" }, "count": { "$ref": "#/$defs/count" }, "reason": { "type": "string" } }
+          }
+        },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "nullableColorId": { "oneOf": [{ "$ref": "#/$defs/colorId" }, { "type": "null" }] },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "light", "dark", "reasons", "alternatives", "confidence"],
+      "properties": {
+        "role": {
+          "enum": ["background", "surface", "raised", "text", "muted-text", "primary", "on-primary", "secondary", "accent", "border", "border-strong", "ring", "destructive", "success", "warning"]
+        },
+        "light": { "$ref": "#/$defs/nullableColorId" },
+        "dark": { "$ref": "#/$defs/nullableColorId" },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "alternatives": { "type": "array", "items": { "$ref": "#/$defs/colorId" } },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "brand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "color", "candidates", "reasons", "confidence"],
+      "properties": {
+        "status": { "enum": ["found", "none", "uncertain"] },
+        "color": { "$ref": "#/$defs/nullableColorId" },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["color", "score", "signals"],
+            "properties": {
+              "color": { "$ref": "#/$defs/colorId" },
+              "score": { "$ref": "#/$defs/share" },
+              "signals": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["interactiveUse", "spread", "variableName", "themeColorMeta", "decorativeOnly", "singleSubtree"],
+                "properties": {
+                  "interactiveUse": { "$ref": "#/$defs/share" },
+                  "spread": { "$ref": "#/$defs/share" },
+                  "variableName": { "$ref": "#/$defs/share" },
+                  "usageVariety": { "$ref": "#/$defs/share" },
+                  "themeColorMeta": { "$ref": "#/$defs/share" },
+                  "decorativeOnly": { "type": "boolean" },
+                  "singleSubtree": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "typeRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "style", "reasons", "confidence"],
+      "properties": {
+        "role": { "enum": ["display", "h1", "h2", "h3", "body", "small", "mono"] },
+        "style": { "oneOf": [{ "$ref": "#/$defs/typeStyleId" }, { "type": "null" }] },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed"],
+      "properties": {
+        "observed": { "type": "boolean" },
+        "method": { "enum": ["forcePseudoState", "screenshot-diff", "on-page-example", "inject-attribute"] },
+        "diff": {
+          "type": "object",
+          "description": "CSS property -> 'before -> after', colors as ids (e.g. 'c3 -> c7').",
+          "additionalProperties": { "type": "string" }
+        },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "suggestedName", "nameIsSuggestion", "count", "fingerprint", "states"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^k[0-9]+v[0-9]+$" },
+        "suggestedName": { "type": "string", "description": "Neutral name from rules (primary, secondary, ghost…). Never a source service name." },
+        "nameIsSuggestion": { "const": true },
+        "count": { "$ref": "#/$defs/count" },
+        "fingerprint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["background", "color", "border", "radius", "height", "paddingX", "typeStyle"],
+          "properties": {
+            "background": { "$ref": "#/$defs/nullableColorId" },
+            "color": { "$ref": "#/$defs/nullableColorId" },
+            "border": { "$ref": "#/$defs/nullableColorId" },
+            "radius": { "oneOf": [{ "$ref": "#/$defs/length" }, { "type": "null" }] },
+            "height": { "oneOf": [{ "$ref": "#/$defs/length" }, { "type": "null" }] },
+            "paddingX": { "oneOf": [{ "$ref": "#/$defs/length" }, { "type": "null" }] },
+            "typeStyle": { "oneOf": [{ "$ref": "#/$defs/typeStyleId" }, { "type": "null" }] }
+          }
+        },
+        "states": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["default", "hover", "focus-visible", "active", "disabled"],
+          "properties": {
+            "default": { "$ref": "#/$defs/state" },
+            "hover": { "$ref": "#/$defs/state" },
+            "focus-visible": { "$ref": "#/$defs/state" },
+            "active": { "$ref": "#/$defs/state" },
+            "disabled": { "$ref": "#/$defs/state" }
+          }
+        },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "shadowLayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offsetX", "offsetY", "blur", "spread", "color", "inset"],
+      "properties": {
+        "offsetX": { "type": "number" },
+        "offsetY": { "type": "number" },
+        "blur": { "type": "number", "minimum": 0 },
+        "spread": { "type": "number" },
+        "color": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hex", "alpha"],
+          "properties": { "hex": { "$ref": "#/$defs/hex" }, "alpha": { "$ref": "#/$defs/share" } }
+        },
+        "inset": { "type": "boolean" }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Components found against a reference table (shadcn/ui): every table entry is in coverage, found or not; the found ones carry variants, states and structure.",
+      "required": ["reference", "components", "coverage"],
+      "properties": {
+        "reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "source", "snapshot", "count"],
+          "properties": {
+            "name": { "type": "string" },
+            "source": { "type": "string" },
+            "snapshot": { "type": "string" },
+            "count": { "$ref": "#/$defs/count" }
+          }
+        },
+        "components": { "type": "array", "items": { "$ref": "#/$defs/catalogComponent" } },
+        "coverage": { "type": "array", "items": { "$ref": "#/$defs/coverageRow" } }
+      }
+    },
+    "coverageRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "found", "instances", "variants", "component", "detectable", "note"],
+      "properties": {
+        "name": { "type": "string" },
+        "found": { "type": "boolean" },
+        "instances": { "$ref": "#/$defs/count" },
+        "variants": { "$ref": "#/$defs/count" },
+        "component": { "type": ["string", "null"], "pattern": "^m[0-9]+$", "description": "Id in catalog.components when found." },
+        "detectable": { "enum": ["static", "on-interaction", "rare", "non-visual"] },
+        "note": { "type": ["string", "null"], "description": "When not found: why it is often missing and what would reveal it." }
+      }
+    },
+    "catalogComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "category", "detectedBy", "instances", "pages", "variants", "sizes", "parts", "reasons", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^m[0-9]+$" },
+        "name": { "type": "string", "description": "Reference table name (button, alert-dialog…)." },
+        "category": { "type": "string" },
+        "detectedBy": { "type": "array", "minItems": 1, "items": { "enum": ["role", "tag", "slot", "attrs", "hint", "structure"] } },
+        "instances": { "$ref": "#/$defs/count" },
+        "pages": { "type": "array", "items": { "type": "integer", "minimum": 0 }, "description": "Indexes into source.pages where it was found." },
+        "variants": { "type": "array", "items": { "$ref": "#/$defs/catalogVariant" } },
+        "sizes": {
+          "type": "array",
+          "description": "Size axis (shortest to tallest): heights seen across variants.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "height", "count"],
+            "properties": { "label": { "type": "string" }, "height": { "$ref": "#/$defs/length" }, "count": { "$ref": "#/$defs/count" } }
+          }
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "present", "count"],
+            "properties": { "name": { "type": "string" }, "present": { "type": "boolean" }, "count": { "$ref": "#/$defs/count" } }
+          }
+        },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "catalogProp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prop", "role", "match"],
+      "description": "One value of a variant, tied to a token role. Exactly one of color, length, shadow, typeStyle, number is set.",
+      "properties": {
+        "prop": { "enum": ["background", "color", "border", "borderWidth", "radius", "paddingX", "paddingY", "height", "width", "gap", "shadow", "typeStyle", "opacity"] },
+        "color": { "$ref": "#/$defs/colorId" },
+        "length": { "$ref": "#/$defs/length" },
+        "shadow": { "type": "array", "items": { "$ref": "#/$defs/shadowLayer" } },
+        "typeStyle": { "$ref": "#/$defs/typeStyleId" },
+        "number": { "type": "number" },
+        "role": { "type": ["string", "null"], "description": "Token role it maps to: a colour role (primary, border…), 'radius.N' / 'space.N' (N = step of the inferred scale, from 1), 'radius.full', 'type.<role>', or null." },
+        "match": { "enum": ["exact", "nearest", "none"], "description": "exact: the value is the role's value; nearest: closest role/step (within tolerance); none: no role fits." },
+        "distance": { "type": "number", "minimum": 0, "description": "Colour: ΔE to the role's colour; length: px to the step." }
+      }
+    },
+    "catalogStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["icon", "label"],
+      "properties": {
+        "icon": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["present", "position"],
+          "properties": { "present": { "type": "boolean" }, "position": { "enum": ["leading", "trailing", "only", "both", null] } }
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["present", "position"],
+          "properties": { "present": { "type": "boolean" }, "position": { "enum": ["start", "center", "end", null] } }
+        },
+        "parts": { "type": "array", "items": { "type": "string" }, "description": "Parts of the reference table found inside this variant's instances." }
+      }
+    },
+    "catalogState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "observed"],
+      "properties": {
+        "name": { "type": "string" },
+        "observed": { "type": "boolean" },
+        "method": { "enum": ["forcePseudoState", "on-page-example"] },
+        "diff": { "type": "object", "description": "CSS property -> 'before -> after' against the default look, colours as ids.", "additionalProperties": { "type": "string" } },
+        "count": { "$ref": "#/$defs/count", "description": "On-page examples of the state." },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "limit": { "$ref": "#/$defs/limitId" }
+      }
+    },
+    "catalogVariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "suggestedName", "nameIsSuggestion", "count", "props", "structure", "states", "evidence", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^m[0-9]+v[0-9]+$" },
+        "suggestedName": { "type": "string" },
+        "nameIsSuggestion": { "const": true },
+        "count": { "$ref": "#/$defs/count" },
+        "dataVariant": { "type": "string", "description": "The site's own data-variant value, when it marks one (kept as evidence; the suggested name stays neutral)." },
+        "props": { "type": "array", "items": { "$ref": "#/$defs/catalogProp" } },
+        "structure": { "$ref": "#/$defs/catalogStructure" },
+        "states": { "type": "array", "items": { "$ref": "#/$defs/catalogState" } },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "detectedBy", "instances", "variants", "reasons", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^k[0-9]+$" },
+        "kind": { "enum": ["button", "link", "textbox", "checkbox", "switch", "tab", "combobox", "dialog", "menuitem", "card", "badge", "list-row"] },
+        "detectedBy": { "type": "array", "minItems": 1, "items": { "enum": ["ax-role", "style-cluster", "visual-shape", "repeated-structure"] } },
+        "instances": { "$ref": "#/$defs/count" },
+        "variants": { "type": "array", "items": { "$ref": "#/$defs/variant" } },
+        "sizes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["height", "count"],
+            "properties": { "height": { "$ref": "#/$defs/length" }, "count": { "$ref": "#/$defs/count" } }
+          }
+        },
+        "reasons": { "$ref": "#/$defs/reasons" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "limit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "scope", "reason", "effect", "fix"],
+      "properties": {
+        "id": { "$ref": "#/$defs/limitId" },
+        "kind": {
+          "enum": [
+            "robots-disallowed", "login-required", "bot-challenge",
+            "single-page", "page-cap-reached",
+            "no-dark-mode", "dark-only", "dark-not-detected", "mode-unobserved",
+            "state-not-on-page", "state-no-diff", "interaction-not-collected",
+            "unused-on-page", "cross-origin-css",
+            "lazy-content", "cookie-banner", "iframe-skipped", "canvas",
+            "component-not-found", "timeout", "policy"
+          ]
+        },
+        "scope": { "type": "string", "description": "Affected path, e.g. 'inferred.components.k1.*.disabled', or '*'." },
+        "reason": { "type": "string", "minLength": 1 },
+        "effect": { "type": "string" },
+        "fix": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

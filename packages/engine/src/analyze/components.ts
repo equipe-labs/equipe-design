@@ -261,7 +261,7 @@ function mostCommon(xs: number[]): number | null {
   return [...m.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 }
 
-function diffState(a: StateProps, b: StateProps, ref: (c: Rgba | null) => string): Record<string, string> {
+export function diffState(a: StateProps, b: StateProps, ref: (c: Rgba | null) => string): Record<string, string> {
   const d: Record<string, string> = {};
   const same = (x: Rgba | null, y: Rgba | null) => (x === null && y === null) || (!!x && !!y && colorKey(x) === colorKey(y));
   for (const [field, prop] of STATE_PROPS) {

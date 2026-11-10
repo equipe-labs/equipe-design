@@ -1,0 +1,5935 @@
+{
+  "reference": {
+    "name": "shadcn/ui",
+    "source": "https://ui.shadcn.com/docs/components",
+    "snapshot": "2026-11-08"
+  },
+  "stateNames": [
+    "default",
+    "hover",
+    "focus-visible",
+    "active",
+    "disabled",
+    "checked",
+    "unchecked",
+    "indeterminate",
+    "selected",
+    "pressed",
+    "open",
+    "closed",
+    "expanded",
+    "collapsed",
+    "invalid",
+    "loading",
+    "current",
+    "on",
+    "off"
+  ],
+  "components": [
+    {
+      "name": "accordion",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/accordion",
+      "summary": "Vertically stacked sections that expand and collapse to reveal content.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "accordion"
+          ]
+        },
+        {
+          "slot": [
+            "accordion-item"
+          ]
+        },
+        {
+          "role": [
+            "button"
+          ],
+          "attrs": {
+            "aria-expanded": true
+          },
+          "hint": [
+            "accordion"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "accordion-item"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "accordion-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "button"
+            ],
+            "attrs": {
+              "aria-expanded": true
+            }
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "accordion-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "role": [
+              "region"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "paddingY",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "accordion-item"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "accordion-item"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          },
+          "slot": [
+            "accordion-item"
+          ]
+        }
+      },
+      "hintWhenMissing": "Collapsed panels hide their content; an accordion is found by its triggers (aria-expanded). Pass a page with a section opened to see the open state."
+    },
+    {
+      "name": "alert",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/alert",
+      "summary": "Callout that draws attention to a message with an icon, title and description.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "alert"
+          ]
+        },
+        {
+          "role": [
+            "alert"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "alert-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "alert-description"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "destructive"
+        ]
+      },
+      "hintWhenMissing": "Alerts only appear in response to a condition (error, notice). A page showing the message would reveal it."
+    },
+    {
+      "name": "alert-dialog",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/alert-dialog",
+      "summary": "Modal dialog that interrupts the user with important content and expects a response.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "alert-dialog-content"
+          ]
+        },
+        {
+          "role": [
+            "alertdialog"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "overlay",
+          "cue": {
+            "slot": [
+              "alert-dialog-overlay"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "alert-dialog-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "alert-dialog-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "alert-dialog-description"
+            ]
+          }
+        },
+        {
+          "name": "media",
+          "cue": {
+            "slot": [
+              "alert-dialog-media"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "alert-dialog-footer"
+            ]
+          }
+        },
+        {
+          "name": "action",
+          "cue": {
+            "slot": [
+              "alert-dialog-action"
+            ]
+          }
+        },
+        {
+          "name": "cancel",
+          "cue": {
+            "slot": [
+              "alert-dialog-cancel"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "gap",
+        "width"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm"
+        ]
+      },
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "role": [
+            "alertdialog"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "role": [
+            "alertdialog"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while open: pass a page that shows it open or crawl with --reveal."
+    },
+    {
+      "name": "aspect-ratio",
+      "category": "layout",
+      "docs": "https://ui.shadcn.com/docs/components/aspect-ratio",
+      "summary": "Container that keeps its content at a fixed width-to-height ratio.",
+      "detectable": "non-visual",
+      "cues": [
+        {
+          "slot": [
+            "aspect-ratio"
+          ]
+        }
+      ],
+      "structure": "aspect-ratio",
+      "props": [
+        "radius",
+        "width",
+        "height"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "No visual of its own; it is a sizing wrapper. Detected only through the data-slot or a padding-bottom ratio box."
+    },
+    {
+      "name": "attachment",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/attachment",
+      "summary": "File or media chip in a chat composer or message, with upload state and actions.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "attachment"
+          ]
+        },
+        {
+          "slot": [
+            "attachment-group"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "media",
+          "cue": {
+            "slot": [
+              "attachment-media"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "attachment-content"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "attachment-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "attachment-description"
+            ]
+          }
+        },
+        {
+          "name": "actions",
+          "cue": {
+            "slot": [
+              "attachment-actions"
+            ]
+          }
+        },
+        {
+          "name": "action",
+          "cue": {
+            "slot": [
+              "attachment-action"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "attachment-trigger"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "loading",
+        "invalid"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm",
+          "xs"
+        ],
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "hintWhenMissing": "Only in AI/chat UIs with attached files. A page showing a composer with an attachment would reveal it."
+    },
+    {
+      "name": "avatar",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/avatar",
+      "summary": "Image of a user with a text fallback.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "avatar"
+          ]
+        },
+        {
+          "hint": [
+            "avatar"
+          ]
+        }
+      ],
+      "structure": "avatar",
+      "parts": [
+        {
+          "name": "image",
+          "cue": {
+            "slot": [
+              "avatar-image"
+            ]
+          }
+        },
+        {
+          "name": "image",
+          "cue": {
+            "tag": [
+              "img"
+            ]
+          }
+        },
+        {
+          "name": "fallback",
+          "cue": {
+            "slot": [
+              "avatar-fallback"
+            ]
+          }
+        },
+        {
+          "name": "badge",
+          "cue": {
+            "slot": [
+              "avatar-badge"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "avatar-group"
+            ]
+          }
+        },
+        {
+          "name": "count",
+          "cue": {
+            "slot": [
+              "avatar-group-count"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "radius",
+        "width",
+        "height",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm",
+          "lg"
+        ]
+      },
+      "hintWhenMissing": "Avatars show up where people are listed (comments, headers, menus). Pages without user content have none."
+    },
+    {
+      "name": "badge",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/badge",
+      "summary": "Small label for status, count or category.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "badge"
+          ]
+        },
+        {
+          "hint": [
+            "badge",
+            "chip",
+            "pill"
+          ]
+        }
+      ],
+      "structure": "badge",
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "invalid"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "secondary",
+          "destructive",
+          "outline",
+          "ghost",
+          "link"
+        ]
+      },
+      "stateCues": {
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Badges appear next to titles, counts or statuses; pages without such metadata have none."
+    },
+    {
+      "name": "breadcrumb",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/breadcrumb",
+      "summary": "Trail showing the path to the current page.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "breadcrumb"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-label": "breadcrumb"
+          },
+          "tag": [
+            "nav"
+          ]
+        },
+        {
+          "hint": [
+            "breadcrumb"
+          ]
+        }
+      ],
+      "structure": "breadcrumb",
+      "parts": [
+        {
+          "name": "list",
+          "cue": {
+            "slot": [
+              "breadcrumb-list"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "tag": [
+              "ol"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "breadcrumb-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "tag": [
+              "li"
+            ]
+          }
+        },
+        {
+          "name": "link",
+          "cue": {
+            "slot": [
+              "breadcrumb-link"
+            ]
+          }
+        },
+        {
+          "name": "page",
+          "cue": {
+            "slot": [
+              "breadcrumb-page"
+            ]
+          }
+        },
+        {
+          "name": "page",
+          "cue": {
+            "attrs": {
+              "aria-current": "page"
+            }
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "breadcrumb-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "presentation"
+            ]
+          }
+        },
+        {
+          "name": "ellipsis",
+          "cue": {
+            "slot": [
+              "breadcrumb-ellipsis"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "current"
+      ],
+      "stateCues": {
+        "current": {
+          "attrs": {
+            "aria-current": "page"
+          }
+        }
+      },
+      "hintWhenMissing": "Breadcrumbs appear only on pages nested inside a hierarchy (docs, detail pages), not on top-level pages."
+    },
+    {
+      "name": "bubble-button",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/bubble",
+      "summary": "Chat message bubble with optional reactions.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "bubble"
+          ]
+        },
+        {
+          "slot": [
+            "bubble-group"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "bubble-content"
+            ]
+          }
+        },
+        {
+          "name": "reactions",
+          "cue": {
+            "slot": [
+              "bubble-reactions"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "secondary",
+          "muted",
+          "tinted",
+          "outline",
+          "ghost"
+        ]
+      },
+      "hintWhenMissing": "Only in chat/AI interfaces. A page showing a conversation would reveal it."
+    },
+    {
+      "name": "button",
+      "category": "action",
+      "docs": "https://ui.shadcn.com/docs/components/button",
+      "summary": "Clickable control that triggers an action.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "button"
+          ]
+        },
+        {
+          "role": [
+            "button"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "height",
+        "typeStyle",
+        "gap",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled",
+        "loading"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "destructive",
+          "outline",
+          "secondary",
+          "ghost",
+          "link"
+        ],
+        "size": [
+          "default",
+          "xs",
+          "sm",
+          "lg",
+          "icon",
+          "icon-xs",
+          "icon-sm",
+          "icon-lg"
+        ]
+      },
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "loading": {
+          "attrs": {
+            "aria-busy": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Almost every page has buttons; if none are found the page may use only links or custom elements without a button role."
+    },
+    {
+      "name": "button-group",
+      "category": "action",
+      "docs": "https://ui.shadcn.com/docs/components/button-group",
+      "summary": "Group of related buttons joined into one control.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "button-group"
+          ]
+        },
+        {
+          "attrs": {
+            "data-orientation": true
+          },
+          "role": [
+            "group"
+          ],
+          "hint": [
+            "group"
+          ]
+        }
+      ],
+      "structure": "button-group",
+      "parts": [
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "button-group-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "border",
+        "radius",
+        "gap",
+        "background"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "hintWhenMissing": "Grouped buttons are used in toolbars and segmented actions; pages with only lone buttons have none."
+    },
+    {
+      "name": "calendar",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/calendar",
+      "summary": "Month grid for picking a date or a range.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "calendar"
+          ]
+        },
+        {
+          "role": [
+            "grid"
+          ]
+        },
+        {
+          "hint": [
+            "calendar"
+          ]
+        }
+      ],
+      "structure": "calendar",
+      "parts": [
+        {
+          "name": "day",
+          "cue": {
+            "slot": [
+              "calendar-day"
+            ]
+          }
+        },
+        {
+          "name": "day",
+          "cue": {
+            "role": [
+              "gridcell"
+            ]
+          }
+        },
+        {
+          "name": "weekday",
+          "cue": {
+            "role": [
+              "columnheader"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "selected",
+        "current"
+      ],
+      "stateCues": {
+        "selected": {
+          "attrs": {
+            "aria-selected": "true"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "aria-disabled": "true"
+          }
+        },
+        "current": {
+          "attrs": {
+            "aria-current": "date"
+          }
+        }
+      },
+      "hintWhenMissing": "Calendars usually live inside a date-picker popover and exist only when it is open; pass a page showing it open or crawl with --reveal."
+    },
+    {
+      "name": "card",
+      "category": "layout",
+      "docs": "https://ui.shadcn.com/docs/components/card",
+      "summary": "Contained surface that groups related content with header, body and footer.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "card"
+          ]
+        },
+        {
+          "hint": [
+            "card"
+          ]
+        }
+      ],
+      "structure": "card",
+      "parts": [
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "card-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "card-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "card-description"
+            ]
+          }
+        },
+        {
+          "name": "action",
+          "cue": {
+            "slot": [
+              "card-action"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "card-content"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "card-footer"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "gap"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Cards are recognised by their surface (border, radius, padding); pages built from plain sections may have none."
+    },
+    {
+      "name": "carousel",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/carousel",
+      "summary": "Slideshow of items navigable with previous/next controls.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "carousel"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-roledescription": "carousel"
+          }
+        },
+        {
+          "hint": [
+            "carousel"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "carousel-content"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "carousel-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "attrs": {
+              "aria-roledescription": "slide"
+            }
+          }
+        },
+        {
+          "name": "previous",
+          "cue": {
+            "slot": [
+              "carousel-previous"
+            ]
+          }
+        },
+        {
+          "name": "next",
+          "cue": {
+            "slot": [
+              "carousel-next"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "radius",
+        "gap",
+        "width",
+        "height"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          },
+          "slot": [
+            "carousel-previous",
+            "carousel-next"
+          ]
+        }
+      },
+      "hintWhenMissing": "Carousels are uncommon outside marketing pages; JS libraries that use other markup need a hint class like \"carousel\"."
+    },
+    {
+      "name": "chart",
+      "category": "data",
+      "docs": "https://ui.shadcn.com/docs/components/chart",
+      "summary": "Recharts-based chart with themed tooltip and legend.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "chart"
+          ]
+        },
+        {
+          "hint": [
+            "chart"
+          ]
+        }
+      ],
+      "structure": "chart",
+      "props": [
+        "color",
+        "typeStyle",
+        "border",
+        "gap",
+        "background"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Charts are rendered into SVG/canvas by a chart library; only dashboards have them, and the data may load after the first paint."
+    },
+    {
+      "name": "checkbox",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/checkbox",
+      "summary": "Control that toggles a value on or off, with an optional mixed state.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "checkbox"
+          ]
+        },
+        {
+          "role": [
+            "checkbox"
+          ]
+        },
+        {
+          "attrs": {
+            "type": "checkbox"
+          },
+          "tag": [
+            "input"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "indicator",
+          "cue": {
+            "slot": [
+              "checkbox-indicator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "checked",
+        "unchecked",
+        "indeterminate",
+        "invalid"
+      ],
+      "stateCues": {
+        "checked": {
+          "attrs": {
+            "aria-checked": "true"
+          }
+        },
+        "unchecked": {
+          "attrs": {
+            "aria-checked": "false"
+          }
+        },
+        "indeterminate": {
+          "attrs": {
+            "aria-checked": "mixed"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Checkboxes appear in forms, filters and tables; native inputs without an aria-checked attribute match by input type."
+    },
+    {
+      "name": "code-block",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/code-block",
+      "summary": "Syntax-highlighted code with a copy button.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "tag": [
+            "pre"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Only in docs or AI chat output; plain <pre> blocks are matched, other renderers are not."
+    },
+    {
+      "name": "collapsible",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/collapsible",
+      "summary": "Panel that expands and collapses a region of content.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "collapsible"
+          ]
+        },
+        {
+          "role": [
+            "button"
+          ],
+          "attrs": {
+            "aria-expanded": true,
+            "aria-controls": true
+          }
+        }
+      ],
+      "parts": [
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "collapsible-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "button"
+            ],
+            "attrs": {
+              "aria-expanded": true
+            }
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "collapsible-content"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "radius",
+        "gap",
+        "color",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "collapsible"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "collapsible"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          },
+          "slot": [
+            "collapsible"
+          ]
+        }
+      },
+      "hintWhenMissing": "Collapsed content is hidden; pass a page with the section expanded to see the open state."
+    },
+    {
+      "name": "combobox",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/combobox",
+      "summary": "Autocomplete input with a filterable list of options.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "combobox-trigger"
+          ]
+        },
+        {
+          "slot": [
+            "combobox-chip-input"
+          ]
+        },
+        {
+          "role": [
+            "combobox"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "combobox-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "combobox"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "combobox-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "role": [
+              "listbox"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "slot": [
+              "combobox-list"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "role": [
+              "listbox"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "combobox-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "option"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "combobox-group"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "role": [
+              "group"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "combobox-label"
+            ]
+          }
+        },
+        {
+          "name": "empty",
+          "cue": {
+            "slot": [
+              "combobox-empty"
+            ]
+          }
+        },
+        {
+          "name": "chips",
+          "cue": {
+            "slot": [
+              "combobox-chips"
+            ]
+          }
+        },
+        {
+          "name": "chip",
+          "cue": {
+            "slot": [
+              "combobox-chip"
+            ]
+          }
+        },
+        {
+          "name": "clear",
+          "cue": {
+            "slot": [
+              "combobox-clear"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "aria-expanded": "true"
+          },
+          "role": [
+            "combobox"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "aria-expanded": "false"
+          },
+          "role": [
+            "combobox"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "The input is visible, but its option list exists only while open: pass a page showing it open or crawl with --reveal."
+    },
+    {
+      "name": "command",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/command",
+      "summary": "Command palette: searchable list of actions and items.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "command"
+          ]
+        },
+        {
+          "attrs": {
+            "cmdk-root": true
+          }
+        },
+        {
+          "hint": [
+            "cmdk",
+            "command"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "input",
+          "cue": {
+            "slot": [
+              "command-input"
+            ]
+          }
+        },
+        {
+          "name": "input",
+          "cue": {
+            "attrs": {
+              "cmdk-input": true
+            }
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "slot": [
+              "command-list"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "role": [
+              "listbox"
+            ]
+          }
+        },
+        {
+          "name": "empty",
+          "cue": {
+            "slot": [
+              "command-empty"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "command-group"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "command-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "option"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "command-separator"
+            ]
+          }
+        },
+        {
+          "name": "shortcut",
+          "cue": {
+            "slot": [
+              "command-shortcut"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "selected",
+        "disabled"
+      ],
+      "stateCues": {
+        "selected": {
+          "attrs": {
+            "aria-selected": "true"
+          },
+          "slot": [
+            "command-item"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "aria-disabled": "true"
+          },
+          "slot": [
+            "command-item"
+          ]
+        }
+      },
+      "hintWhenMissing": "Command palettes usually open with a keyboard shortcut; pass a page showing it open or crawl with --reveal."
+    },
+    {
+      "name": "context-menu",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/context-menu",
+      "summary": "Menu shown on right click.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "context-menu-content"
+          ]
+        },
+        {
+          "slot": [
+            "context-menu-sub-content"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "context-menu-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "menuitem"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "slot": [
+              "context-menu-checkbox-item"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "role": [
+              "menuitemcheckbox"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "slot": [
+              "context-menu-radio-item"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "role": [
+              "menuitemradio"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "context-menu-label"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "context-menu-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        },
+        {
+          "name": "shortcut",
+          "cue": {
+            "slot": [
+              "context-menu-shortcut"
+            ]
+          }
+        },
+        {
+          "name": "sub-trigger",
+          "cue": {
+            "slot": [
+              "context-menu-sub-trigger"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "context-menu-content"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "context-menu-content"
+          ]
+        }
+      },
+      "hintWhenMissing": "Menu content is only in the DOM while open: pass a page that shows the menu open or crawl with --reveal."
+    },
+    {
+      "name": "data-table",
+      "category": "data",
+      "docs": "https://ui.shadcn.com/docs/components/data-table",
+      "summary": "Table with sorting, filtering, pagination and row selection (TanStack Table recipe).",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "data-table"
+          ]
+        }
+      ],
+      "structure": "data-table",
+      "parts": [
+        {
+          "name": "header",
+          "cue": {
+            "tag": [
+              "thead"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "table-header"
+            ]
+          }
+        },
+        {
+          "name": "row",
+          "cue": {
+            "tag": [
+              "tr"
+            ]
+          }
+        },
+        {
+          "name": "row",
+          "cue": {
+            "slot": [
+              "table-row"
+            ]
+          }
+        },
+        {
+          "name": "cell",
+          "cue": {
+            "tag": [
+              "td"
+            ]
+          }
+        },
+        {
+          "name": "cell",
+          "cue": {
+            "slot": [
+              "table-cell"
+            ]
+          }
+        },
+        {
+          "name": "head",
+          "cue": {
+            "tag": [
+              "th"
+            ]
+          }
+        },
+        {
+          "name": "head",
+          "cue": {
+            "slot": [
+              "table-head"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "selected"
+      ],
+      "stateCues": {
+        "selected": {
+          "attrs": {
+            "data-state": "selected"
+          },
+          "slot": [
+            "table-row"
+          ]
+        }
+      },
+      "hintWhenMissing": "A recipe, not a single component: found as a table with sort/filter/pagination controls nearby. Pages without lists of records have none."
+    },
+    {
+      "name": "date-picker",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/date-picker",
+      "summary": "Input with a calendar popover for picking a date.",
+      "detectable": "static",
+      "cues": [
+        {
+          "attrs": {
+            "type": "date"
+          },
+          "tag": [
+            "input"
+          ]
+        },
+        {
+          "hint": [
+            "calendar"
+          ]
+        }
+      ],
+      "structure": "date-picker",
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "aria-expanded": "true"
+          },
+          "tag": [
+            "button"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "aria-expanded": "false"
+          },
+          "tag": [
+            "button"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "A recipe (button + popover + calendar); the calendar exists only while open: pass a page showing it open or crawl with --reveal."
+    },
+    {
+      "name": "dialog",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/dialog",
+      "summary": "Modal window overlaid on the page.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "dialog-content"
+          ]
+        },
+        {
+          "role": [
+            "dialog"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "overlay",
+          "cue": {
+            "slot": [
+              "dialog-overlay"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "dialog-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "dialog-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "dialog-description"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "dialog-footer"
+            ]
+          }
+        },
+        {
+          "name": "close",
+          "cue": {
+            "slot": [
+              "dialog-close"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "gap",
+        "width"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "role": [
+            "dialog"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "role": [
+            "dialog"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while open: pass a page that shows it open or crawl with --reveal."
+    },
+    {
+      "name": "direction",
+      "category": "other",
+      "docs": "https://ui.shadcn.com/docs/components/direction",
+      "summary": "Provider that sets text direction (LTR/RTL) for components.",
+      "detectable": "non-visual",
+      "cues": [
+        {
+          "attrs": {
+            "dir": "rtl"
+          }
+        }
+      ],
+      "props": [],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Renders nothing; it only sets the dir attribute, so it has no visual to find."
+    },
+    {
+      "name": "drawer",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/drawer",
+      "summary": "Panel that slides in from a screen edge, draggable on touch.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "drawer-content"
+          ]
+        },
+        {
+          "hint": [
+            "drawer"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "overlay",
+          "cue": {
+            "slot": [
+              "drawer-overlay"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "drawer-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "drawer-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "drawer-description"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "drawer-footer"
+            ]
+          }
+        },
+        {
+          "name": "close",
+          "cue": {
+            "slot": [
+              "drawer-close"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "drawer-content"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "drawer-content"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while open: pass a page that shows it open or crawl with --reveal."
+    },
+    {
+      "name": "dropdown-menu",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/dropdown-menu",
+      "summary": "Menu opened from a trigger button.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "dropdown-menu-content"
+          ]
+        },
+        {
+          "slot": [
+            "dropdown-menu-sub-content"
+          ]
+        },
+        {
+          "role": [
+            "menu"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "dropdown-menu-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "menuitem"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "slot": [
+              "dropdown-menu-checkbox-item"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "role": [
+              "menuitemcheckbox"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "slot": [
+              "dropdown-menu-radio-item"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "role": [
+              "menuitemradio"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "dropdown-menu-label"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "dropdown-menu-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        },
+        {
+          "name": "shortcut",
+          "cue": {
+            "slot": [
+              "dropdown-menu-shortcut"
+            ]
+          }
+        },
+        {
+          "name": "sub-trigger",
+          "cue": {
+            "slot": [
+              "dropdown-menu-sub-trigger"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "role": [
+            "menu"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "role": [
+            "menu"
+          ]
+        }
+      },
+      "hintWhenMissing": "Menu content is only in the DOM while open: pass a page that shows the menu open or crawl with --reveal."
+    },
+    {
+      "name": "empty",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/empty",
+      "summary": "Placeholder shown when there is no content or data.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "empty"
+          ]
+        },
+        {
+          "hint": [
+            "empty"
+          ]
+        }
+      ],
+      "structure": "empty",
+      "parts": [
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "empty-header"
+            ]
+          }
+        },
+        {
+          "name": "icon",
+          "cue": {
+            "slot": [
+              "empty-icon"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "empty-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "empty-description"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "empty-content"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "gap",
+        "color",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "icon"
+        ]
+      },
+      "hintWhenMissing": "Only shown for empty lists, searches or first-run states; a page with data has none."
+    },
+    {
+      "name": "field",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/field",
+      "summary": "Form field layout: label, control, description and error.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "field"
+          ]
+        },
+        {
+          "slot": [
+            "field-set"
+          ]
+        },
+        {
+          "slot": [
+            "field-group"
+          ]
+        },
+        {
+          "hint": [
+            "field",
+            "form"
+          ]
+        }
+      ],
+      "structure": "field",
+      "parts": [
+        {
+          "name": "legend",
+          "cue": {
+            "slot": [
+              "field-legend"
+            ]
+          }
+        },
+        {
+          "name": "legend",
+          "cue": {
+            "tag": [
+              "legend"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "field-group"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "field-content"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "field-label"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "tag": [
+              "label"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "field-description"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "field-separator"
+            ]
+          }
+        },
+        {
+          "name": "error",
+          "cue": {
+            "slot": [
+              "field-error"
+            ]
+          }
+        },
+        {
+          "name": "error",
+          "cue": {
+            "role": [
+              "alert"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "disabled",
+        "invalid"
+      ],
+      "axes": {
+        "orientation": [
+          "vertical",
+          "horizontal",
+          "responsive"
+        ]
+      },
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          },
+          "slot": [
+            "field"
+          ]
+        },
+        "invalid": {
+          "attrs": {
+            "data-invalid": true
+          },
+          "slot": [
+            "field"
+          ]
+        }
+      },
+      "hintWhenMissing": "Fields are recognised from the label + control + help-text layout; pages without forms have none."
+    },
+    {
+      "name": "form",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/form",
+      "summary": "Form wrapper with labels, controls, descriptions and validation messages (react-hook-form).",
+      "detectable": "non-visual",
+      "cues": [
+        {
+          "slot": [
+            "form-item"
+          ]
+        },
+        {
+          "tag": [
+            "form"
+          ]
+        }
+      ],
+      "structure": "form",
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "form-item"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "form-label"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "tag": [
+              "label"
+            ]
+          }
+        },
+        {
+          "name": "control",
+          "cue": {
+            "slot": [
+              "form-control"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "form-description"
+            ]
+          }
+        },
+        {
+          "name": "message",
+          "cue": {
+            "slot": [
+              "form-message"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "invalid"
+      ],
+      "stateCues": {
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Wrapper only; the visual parts are its labels, controls and messages. Validation messages appear only after a failed submit."
+    },
+    {
+      "name": "hover-card",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/hover-card",
+      "summary": "Preview card shown when hovering a link or element.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "hover-card-content"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "hover-card-content"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "hover-card-content"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while hovered: crawl with --reveal or pass a page that shows it open."
+    },
+    {
+      "name": "input",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/input",
+      "summary": "Single-line text field.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "input"
+          ]
+        },
+        {
+          "tag": [
+            "input"
+          ],
+          "inputType": [
+            "text",
+            "email",
+            "password",
+            "search",
+            "tel",
+            "url",
+            "number",
+            "date",
+            "datetime-local",
+            "time",
+            "month",
+            "week",
+            "file"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Text inputs exist on pages with forms or search; none found means the page has no text fields."
+    },
+    {
+      "name": "input-group",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/input-group",
+      "summary": "Input joined with icons, text or buttons as addons.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "input-group"
+          ]
+        },
+        {
+          "attrs": {},
+          "role": [
+            "group"
+          ],
+          "hint": [
+            "group",
+            "field"
+          ]
+        }
+      ],
+      "structure": "input-group",
+      "parts": [
+        {
+          "name": "addon",
+          "cue": {
+            "slot": [
+              "input-group-addon"
+            ]
+          }
+        },
+        {
+          "name": "control",
+          "cue": {
+            "slot": [
+              "input-group-control"
+            ]
+          }
+        },
+        {
+          "name": "control",
+          "cue": {
+            "tag": [
+              "input",
+              "textarea"
+            ]
+          }
+        },
+        {
+          "name": "button",
+          "cue": {
+            "slot": [
+              "input-group-button"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          },
+          "slot": [
+            "input-group"
+          ]
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          },
+          "slot": [
+            "input-group-control"
+          ]
+        }
+      },
+      "hintWhenMissing": "Seen on search boxes and inputs with prefixes/suffixes; plain inputs have none."
+    },
+    {
+      "name": "input-otp",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/input-otp",
+      "summary": "One-time-code input split into individual slots.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "input-otp"
+          ]
+        },
+        {
+          "attrs": {
+            "autocomplete": "one-time-code"
+          },
+          "tag": [
+            "input"
+          ]
+        },
+        {
+          "hint": [
+            "otp"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "input-otp-group"
+            ]
+          }
+        },
+        {
+          "name": "slot",
+          "cue": {
+            "slot": [
+              "input-otp-slot"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "input-otp-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Appears only on verification screens (login, 2FA)."
+    },
+    {
+      "name": "item",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/item",
+      "summary": "Flexible row for lists: media, title, description and actions.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "item"
+          ]
+        },
+        {
+          "slot": [
+            "item-group"
+          ]
+        }
+      ],
+      "structure": "item",
+      "parts": [
+        {
+          "name": "media",
+          "cue": {
+            "slot": [
+              "item-media"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "item-content"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "item-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "item-description"
+            ]
+          }
+        },
+        {
+          "name": "actions",
+          "cue": {
+            "slot": [
+              "item-actions"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "item-header"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "item-footer"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "item-separator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "gap",
+        "color",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "outline",
+          "muted"
+        ],
+        "size": [
+          "default",
+          "sm"
+        ]
+      },
+      "hintWhenMissing": "List-like rows are common but generic; they are recognised only by their data-slot or a structural match."
+    },
+    {
+      "name": "kbd",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/kbd",
+      "summary": "Keyboard key hint.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "kbd"
+          ]
+        },
+        {
+          "tag": [
+            "kbd"
+          ]
+        },
+        {
+          "hint": [
+            "kbd"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "kbd-group"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "radius",
+        "paddingX",
+        "height",
+        "typeStyle",
+        "border"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Shown next to shortcuts and in docs; pages without keyboard hints have none."
+    },
+    {
+      "name": "label",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/label",
+      "summary": "Text label associated with a form control.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "label"
+          ]
+        },
+        {
+          "tag": [
+            "label"
+          ]
+        }
+      ],
+      "structure": "label",
+      "props": [
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "disabled"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "Labels belong to form controls; pages without forms have none."
+    },
+    {
+      "name": "marker",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/marker",
+      "summary": "Divider or annotation line inside a chat conversation (e.g. a date or event).",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "marker"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "icon",
+          "cue": {
+            "slot": [
+              "marker-icon"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "marker-content"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "color",
+        "typeStyle",
+        "gap",
+        "border"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "border"
+        ]
+      },
+      "hintWhenMissing": "Only in chat/AI interfaces."
+    },
+    {
+      "name": "menubar",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/menubar",
+      "summary": "Horizontal application menu bar with dropdown menus.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "menubar"
+          ]
+        },
+        {
+          "role": [
+            "menubar"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "menu",
+          "cue": {
+            "slot": [
+              "menubar-menu"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "menubar-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "menuitem"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "menubar-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "role": [
+              "menu"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "menubar-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "menuitem"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "slot": [
+              "menubar-checkbox-item"
+            ]
+          }
+        },
+        {
+          "name": "checkbox-item",
+          "cue": {
+            "role": [
+              "menuitemcheckbox"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "slot": [
+              "menubar-radio-item"
+            ]
+          }
+        },
+        {
+          "name": "radio-item",
+          "cue": {
+            "role": [
+              "menuitemradio"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "menubar-label"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "menubar-separator"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        },
+        {
+          "name": "shortcut",
+          "cue": {
+            "slot": [
+              "menubar-shortcut"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "menubar-trigger"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "menubar-trigger"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          },
+          "slot": [
+            "menubar-trigger"
+          ]
+        }
+      },
+      "hintWhenMissing": "The bar is visible on desktop-app style pages; its menus only exist while open (use --reveal)."
+    },
+    {
+      "name": "message",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/message",
+      "summary": "Chat message with avatar, header, content and footer.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "message"
+          ]
+        },
+        {
+          "slot": [
+            "message-group"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "avatar",
+          "cue": {
+            "slot": [
+              "message-avatar"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "message-content"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "message-header"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "message-footer"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "gap",
+        "color",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Only in chat/AI interfaces."
+    },
+    {
+      "name": "message-scroller",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/message-scroller",
+      "summary": "Scrollable chat transcript that sticks to the latest message.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "message-scroller"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "viewport",
+          "cue": {
+            "slot": [
+              "message-scroller-viewport"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "message-scroller-content"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "message-scroller-item"
+            ]
+          }
+        },
+        {
+          "name": "button",
+          "cue": {
+            "slot": [
+              "message-scroller-button"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "gap",
+        "paddingX",
+        "paddingY"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Only in chat/AI interfaces."
+    },
+    {
+      "name": "native-select",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/native-select",
+      "summary": "Styled native <select> element.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "native-select"
+          ]
+        },
+        {
+          "tag": [
+            "select"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "wrapper",
+          "cue": {
+            "slot": [
+              "native-select-wrapper"
+            ]
+          }
+        },
+        {
+          "name": "option",
+          "cue": {
+            "slot": [
+              "native-select-option"
+            ]
+          }
+        },
+        {
+          "name": "option",
+          "cue": {
+            "tag": [
+              "option"
+            ]
+          }
+        },
+        {
+          "name": "optgroup",
+          "cue": {
+            "slot": [
+              "native-select-optgroup"
+            ]
+          }
+        },
+        {
+          "name": "optgroup",
+          "cue": {
+            "tag": [
+              "optgroup"
+            ]
+          }
+        },
+        {
+          "name": "icon",
+          "cue": {
+            "slot": [
+              "native-select-icon"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm"
+        ]
+      },
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Native selects appear only in forms; the open list is drawn by the browser and cannot be inspected."
+    },
+    {
+      "name": "navigation-menu",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/navigation-menu",
+      "summary": "Site navigation bar with flyout content panels.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "navigation-menu"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-label": "main"
+          },
+          "tag": [
+            "nav"
+          ]
+        }
+      ],
+      "structure": "navigation-menu",
+      "parts": [
+        {
+          "name": "list",
+          "cue": {
+            "slot": [
+              "navigation-menu-list"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "tag": [
+              "ul"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "navigation-menu-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "tag": [
+              "li"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "navigation-menu-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "button"
+            ],
+            "attrs": {
+              "aria-expanded": true
+            }
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "navigation-menu-content"
+            ]
+          }
+        },
+        {
+          "name": "link",
+          "cue": {
+            "slot": [
+              "navigation-menu-link"
+            ]
+          }
+        },
+        {
+          "name": "link",
+          "cue": {
+            "tag": [
+              "a"
+            ]
+          }
+        },
+        {
+          "name": "viewport",
+          "cue": {
+            "slot": [
+              "navigation-menu-viewport"
+            ]
+          }
+        },
+        {
+          "name": "indicator",
+          "cue": {
+            "slot": [
+              "navigation-menu-indicator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "current",
+        "disabled"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "navigation-menu-trigger"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "navigation-menu-trigger"
+          ]
+        },
+        "current": {
+          "attrs": {
+            "aria-current": "page"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "The nav bar is nearly always present; flyout panels only exist while a trigger is open (use --reveal)."
+    },
+    {
+      "name": "pagination",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/pagination",
+      "summary": "Page navigation with previous/next and numbered links.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "pagination"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-label": "pagination"
+          },
+          "role": [
+            "navigation"
+          ]
+        },
+        {
+          "hint": [
+            "pagination"
+          ]
+        }
+      ],
+      "structure": "pagination",
+      "parts": [
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "pagination-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "tag": [
+              "ul"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "pagination-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "tag": [
+              "li"
+            ]
+          }
+        },
+        {
+          "name": "link",
+          "cue": {
+            "slot": [
+              "pagination-link"
+            ]
+          }
+        },
+        {
+          "name": "link",
+          "cue": {
+            "tag": [
+              "a"
+            ]
+          }
+        },
+        {
+          "name": "ellipsis",
+          "cue": {
+            "slot": [
+              "pagination-ellipsis"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "radius",
+        "height",
+        "paddingX",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "current",
+        "disabled"
+      ],
+      "stateCues": {
+        "current": {
+          "attrs": {
+            "aria-current": "page"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "aria-disabled": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Pagination appears only on long lists or tables; pages with all content on one screen have none."
+    },
+    {
+      "name": "popover",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/popover",
+      "summary": "Floating panel anchored to a trigger.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "popover-content"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "popover-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "popover-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "popover-description"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "popover-content"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "popover-content"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while open: pass a page that shows it open or crawl with --reveal."
+    },
+    {
+      "name": "progress",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/progress",
+      "summary": "Bar showing completion of a task.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "progress"
+          ]
+        },
+        {
+          "role": [
+            "progressbar"
+          ]
+        },
+        {
+          "tag": [
+            "progress"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "indicator",
+          "cue": {
+            "slot": [
+              "progress-indicator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "radius",
+        "height",
+        "width"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Progress bars only exist during loading or multi-step tasks."
+    },
+    {
+      "name": "questionnaire",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/questionnaire",
+      "summary": "Multi-step question card asking the user to choose answers.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "questionnaire"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Only in AI/agent interfaces that ask clarifying questions."
+    },
+    {
+      "name": "radio-group",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/radio-group",
+      "summary": "Set of radio buttons where only one can be chosen.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "radio-group"
+          ]
+        },
+        {
+          "role": [
+            "radiogroup"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "radio-group-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "radio"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "attrs": {
+              "type": "radio"
+            },
+            "tag": [
+              "input"
+            ]
+          }
+        },
+        {
+          "name": "indicator",
+          "cue": {
+            "slot": [
+              "radio-group-indicator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "checked",
+        "unchecked",
+        "invalid"
+      ],
+      "stateCues": {
+        "checked": {
+          "attrs": {
+            "aria-checked": "true"
+          },
+          "role": [
+            "radio"
+          ]
+        },
+        "unchecked": {
+          "attrs": {
+            "aria-checked": "false"
+          },
+          "role": [
+            "radio"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          },
+          "role": [
+            "radio"
+          ]
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          },
+          "role": [
+            "radio"
+          ]
+        }
+      },
+      "hintWhenMissing": "Radio groups appear in forms and settings; pages without choices have none."
+    },
+    {
+      "name": "resizable",
+      "category": "layout",
+      "docs": "https://ui.shadcn.com/docs/components/resizable",
+      "summary": "Panels separated by draggable handles.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "resizable-panel-group"
+          ]
+        },
+        {
+          "slot": [
+            "resizable-handle"
+          ]
+        },
+        {
+          "hint": [
+            "resizable"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "panel",
+          "cue": {
+            "slot": [
+              "resizable-panel"
+            ]
+          }
+        },
+        {
+          "name": "handle",
+          "cue": {
+            "slot": [
+              "resizable-handle"
+            ]
+          }
+        },
+        {
+          "name": "handle",
+          "cue": {
+            "role": [
+              "separator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "width",
+        "height"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active"
+      ],
+      "hintWhenMissing": "Rare outside app-style layouts (editors, dashboards)."
+    },
+    {
+      "name": "scroll-area",
+      "category": "layout",
+      "docs": "https://ui.shadcn.com/docs/components/scroll-area",
+      "summary": "Scrollable region with custom scrollbars.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "scroll-area"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "viewport",
+          "cue": {
+            "slot": [
+              "scroll-area-viewport"
+            ]
+          }
+        },
+        {
+          "name": "scrollbar",
+          "cue": {
+            "slot": [
+              "scroll-area-scrollbar"
+            ]
+          }
+        },
+        {
+          "name": "thumb",
+          "cue": {
+            "slot": [
+              "scroll-area-thumb"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "radius",
+        "width"
+      ],
+      "states": [
+        "default",
+        "hover"
+      ],
+      "hintWhenMissing": "Custom scrollbars show only when content overflows; native scrolling leaves no marker."
+    },
+    {
+      "name": "select",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/select",
+      "summary": "Dropdown for choosing one option from a list.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "select-trigger"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-haspopup": "listbox"
+          },
+          "role": [
+            "combobox"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "select-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "combobox"
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "cue": {
+            "slot": [
+              "select-value"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "select-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "role": [
+              "listbox"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "select-group"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "role": [
+              "group"
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "cue": {
+            "slot": [
+              "select-label"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "select-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "option"
+            ]
+          }
+        },
+        {
+          "name": "separator",
+          "cue": {
+            "slot": [
+              "select-separator"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "open",
+        "closed",
+        "disabled",
+        "invalid"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm"
+        ]
+      },
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "aria-expanded": "true"
+          },
+          "role": [
+            "combobox"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "aria-expanded": "false"
+          },
+          "role": [
+            "combobox"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "The trigger is visible, but the option list only exists while open: pass a page showing it open or crawl with --reveal."
+    },
+    {
+      "name": "separator",
+      "category": "layout",
+      "docs": "https://ui.shadcn.com/docs/components/separator",
+      "summary": "Visual divider between content.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "separator"
+          ]
+        },
+        {
+          "role": [
+            "separator"
+          ]
+        },
+        {
+          "tag": [
+            "hr"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "height",
+        "width",
+        "border"
+      ],
+      "states": [
+        "default"
+      ],
+      "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "hintWhenMissing": "Dividers are often drawn as borders on neighbouring elements, which leaves no separator element."
+    },
+    {
+      "name": "sheet",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/sheet",
+      "summary": "Panel that slides in from a screen edge.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "sheet-content"
+          ]
+        },
+        {
+          "hint": [
+            "sheet"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "overlay",
+          "cue": {
+            "slot": [
+              "sheet-overlay"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "sheet-header"
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "cue": {
+            "slot": [
+              "sheet-title"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "cue": {
+            "slot": [
+              "sheet-description"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "sheet-footer"
+            ]
+          }
+        },
+        {
+          "name": "close",
+          "cue": {
+            "slot": [
+              "sheet-close"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle",
+        "width",
+        "gap"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "axes": {
+        "side": [
+          "top",
+          "right",
+          "bottom",
+          "left"
+        ]
+      },
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          },
+          "slot": [
+            "sheet-content"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "slot": [
+            "sheet-content"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while open: pass a page that shows it open or crawl with --reveal."
+    },
+    {
+      "name": "sidebar",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/sidebar",
+      "summary": "Collapsible application sidebar with groups and menu items.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "sidebar"
+          ]
+        },
+        {
+          "slot": [
+            "sidebar-wrapper"
+          ]
+        },
+        {
+          "attrs": {
+            "data-sidebar": "sidebar"
+          }
+        },
+        {
+          "hint": [
+            "sidebar"
+          ]
+        }
+      ],
+      "structure": "sidebar",
+      "parts": [
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "sidebar-header"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "sidebar-content"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "sidebar-footer"
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "cue": {
+            "slot": [
+              "sidebar-group"
+            ]
+          }
+        },
+        {
+          "name": "group-label",
+          "cue": {
+            "slot": [
+              "sidebar-group-label"
+            ]
+          }
+        },
+        {
+          "name": "menu",
+          "cue": {
+            "slot": [
+              "sidebar-menu"
+            ]
+          }
+        },
+        {
+          "name": "menu",
+          "cue": {
+            "tag": [
+              "ul"
+            ]
+          }
+        },
+        {
+          "name": "menu-item",
+          "cue": {
+            "slot": [
+              "sidebar-menu-item"
+            ]
+          }
+        },
+        {
+          "name": "menu-item",
+          "cue": {
+            "tag": [
+              "li"
+            ]
+          }
+        },
+        {
+          "name": "menu-button",
+          "cue": {
+            "slot": [
+              "sidebar-menu-button"
+            ]
+          }
+        },
+        {
+          "name": "menu-sub",
+          "cue": {
+            "slot": [
+              "sidebar-menu-sub"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "sidebar-trigger"
+            ]
+          }
+        },
+        {
+          "name": "rail",
+          "cue": {
+            "slot": [
+              "sidebar-rail"
+            ]
+          }
+        },
+        {
+          "name": "inset",
+          "cue": {
+            "slot": [
+              "sidebar-inset"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "paddingX",
+        "paddingY",
+        "width",
+        "gap",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "current",
+        "expanded",
+        "collapsed"
+      ],
+      "axes": {
+        "variant": [
+          "sidebar",
+          "floating",
+          "inset"
+        ],
+        "side": [
+          "left",
+          "right"
+        ],
+        "collapsible": [
+          "offcanvas",
+          "icon",
+          "none"
+        ]
+      },
+      "stateCues": {
+        "expanded": {
+          "attrs": {
+            "data-state": "expanded"
+          },
+          "slot": [
+            "sidebar"
+          ]
+        },
+        "collapsed": {
+          "attrs": {
+            "data-state": "collapsed"
+          },
+          "slot": [
+            "sidebar"
+          ]
+        },
+        "current": {
+          "attrs": {
+            "data-active": "true"
+          },
+          "slot": [
+            "sidebar-menu-button"
+          ]
+        }
+      },
+      "hintWhenMissing": "Sidebars are used by app/docs layouts; on mobile it becomes a sheet that exists only when open."
+    },
+    {
+      "name": "skeleton",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/skeleton",
+      "summary": "Placeholder shaped like content while it loads.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "skeleton"
+          ]
+        },
+        {
+          "hint": [
+            "skeleton",
+            "pulse"
+          ]
+        }
+      ],
+      "structure": "skeleton",
+      "props": [
+        "background",
+        "radius",
+        "height",
+        "width"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Skeletons only exist while data loads; crawl early or throttle the network to see them."
+    },
+    {
+      "name": "slider",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/slider",
+      "summary": "Draggable control for picking a value or range.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "slider"
+          ]
+        },
+        {
+          "role": [
+            "slider"
+          ]
+        },
+        {
+          "attrs": {
+            "type": "range"
+          },
+          "tag": [
+            "input"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "track",
+          "cue": {
+            "slot": [
+              "slider-track"
+            ]
+          }
+        },
+        {
+          "name": "range",
+          "cue": {
+            "slot": [
+              "slider-range"
+            ]
+          }
+        },
+        {
+          "name": "thumb",
+          "cue": {
+            "slot": [
+              "slider-thumb"
+            ]
+          }
+        },
+        {
+          "name": "thumb",
+          "cue": {
+            "role": [
+              "slider"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "radius",
+        "height",
+        "width",
+        "border",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "data-disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "Sliders appear in settings, filters and media players; pages without numeric ranges have none."
+    },
+    {
+      "name": "sonner",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/sonner",
+      "summary": "Toast notifications (Sonner).",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "attrs": {
+            "data-sonner-toast": true
+          }
+        },
+        {
+          "attrs": {
+            "data-sonner-toaster": true
+          }
+        },
+        {
+          "hint": [
+            "sonner",
+            "toast"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Toasts appear only after an action and vanish; trigger one with a pass-through page or crawl with --reveal."
+    },
+    {
+      "name": "spinner",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/spinner",
+      "summary": "Rotating indicator for loading.",
+      "detectable": "static",
+      "cues": [
+        {
+          "attrs": {
+            "aria-label": "Loading"
+          },
+          "role": [
+            "status"
+          ]
+        },
+        {
+          "hint": [
+            "spinner",
+            "spin"
+          ]
+        }
+      ],
+      "structure": "spinner",
+      "props": [
+        "color",
+        "width",
+        "height"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Spinners exist only while something loads."
+    },
+    {
+      "name": "switch",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/switch",
+      "summary": "Toggle control for turning a setting on or off.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "switch"
+          ]
+        },
+        {
+          "role": [
+            "switch"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "thumb",
+          "cue": {
+            "slot": [
+              "switch-thumb"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "border",
+        "borderWidth",
+        "radius",
+        "width",
+        "height",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "checked",
+        "unchecked",
+        "on",
+        "off"
+      ],
+      "axes": {
+        "size": [
+          "default",
+          "sm"
+        ]
+      },
+      "stateCues": {
+        "checked": {
+          "attrs": {
+            "aria-checked": "true"
+          }
+        },
+        "unchecked": {
+          "attrs": {
+            "aria-checked": "false"
+          }
+        },
+        "on": {
+          "attrs": {
+            "aria-checked": "true"
+          }
+        },
+        "off": {
+          "attrs": {
+            "aria-checked": "false"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "Switches appear in settings and forms; pages without preferences have none."
+    },
+    {
+      "name": "table",
+      "category": "data",
+      "docs": "https://ui.shadcn.com/docs/components/table",
+      "summary": "Semantic table of rows and columns.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "table"
+          ]
+        },
+        {
+          "tag": [
+            "table"
+          ]
+        },
+        {
+          "role": [
+            "table"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "container",
+          "cue": {
+            "slot": [
+              "table-container"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "slot": [
+              "table-header"
+            ]
+          }
+        },
+        {
+          "name": "header",
+          "cue": {
+            "tag": [
+              "thead"
+            ]
+          }
+        },
+        {
+          "name": "body",
+          "cue": {
+            "slot": [
+              "table-body"
+            ]
+          }
+        },
+        {
+          "name": "body",
+          "cue": {
+            "tag": [
+              "tbody"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "slot": [
+              "table-footer"
+            ]
+          }
+        },
+        {
+          "name": "footer",
+          "cue": {
+            "tag": [
+              "tfoot"
+            ]
+          }
+        },
+        {
+          "name": "row",
+          "cue": {
+            "slot": [
+              "table-row"
+            ]
+          }
+        },
+        {
+          "name": "row",
+          "cue": {
+            "tag": [
+              "tr"
+            ]
+          }
+        },
+        {
+          "name": "head",
+          "cue": {
+            "slot": [
+              "table-head"
+            ]
+          }
+        },
+        {
+          "name": "head",
+          "cue": {
+            "tag": [
+              "th"
+            ]
+          }
+        },
+        {
+          "name": "cell",
+          "cue": {
+            "slot": [
+              "table-cell"
+            ]
+          }
+        },
+        {
+          "name": "cell",
+          "cue": {
+            "tag": [
+              "td"
+            ]
+          }
+        },
+        {
+          "name": "caption",
+          "cue": {
+            "slot": [
+              "table-caption"
+            ]
+          }
+        },
+        {
+          "name": "caption",
+          "cue": {
+            "tag": [
+              "caption"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "selected"
+      ],
+      "stateCues": {
+        "selected": {
+          "attrs": {
+            "data-state": "selected"
+          },
+          "slot": [
+            "table-row"
+          ]
+        }
+      },
+      "hintWhenMissing": "Pages without tabular data have none; div-based grids without table roles are not matched."
+    },
+    {
+      "name": "tabs",
+      "category": "navigation",
+      "docs": "https://ui.shadcn.com/docs/components/tabs",
+      "summary": "Tabbed views where one panel shows at a time.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "tabs"
+          ]
+        },
+        {
+          "slot": [
+            "tabs-list"
+          ]
+        },
+        {
+          "role": [
+            "tablist"
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "name": "list",
+          "cue": {
+            "slot": [
+              "tabs-list"
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "cue": {
+            "role": [
+              "tablist"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "slot": [
+              "tabs-trigger"
+            ]
+          }
+        },
+        {
+          "name": "trigger",
+          "cue": {
+            "role": [
+              "tab"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "slot": [
+              "tabs-content"
+            ]
+          }
+        },
+        {
+          "name": "content",
+          "cue": {
+            "role": [
+              "tabpanel"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "gap",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "selected",
+        "disabled"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "line"
+        ],
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "stateCues": {
+        "selected": {
+          "attrs": {
+            "aria-selected": "true"
+          },
+          "role": [
+            "tab"
+          ]
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          },
+          "role": [
+            "tab"
+          ]
+        }
+      },
+      "hintWhenMissing": "Tabs appear where content is split into views; hidden tab panels are not visible, so only the active one can be measured."
+    },
+    {
+      "name": "textarea",
+      "category": "form",
+      "docs": "https://ui.shadcn.com/docs/components/textarea",
+      "summary": "Multi-line text field.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "textarea"
+          ]
+        },
+        {
+          "tag": [
+            "textarea"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "height",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "stateCues": {
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        },
+        "invalid": {
+          "attrs": {
+            "aria-invalid": "true"
+          }
+        }
+      },
+      "hintWhenMissing": "Textareas appear in forms, comment boxes and chat composers."
+    },
+    {
+      "name": "toast",
+      "category": "feedback",
+      "docs": "https://ui.shadcn.com/docs/components/toast",
+      "summary": "Notification that appears briefly after an action (Base UI toast).",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "role": [
+            "status"
+          ]
+        },
+        {
+          "attrs": {
+            "data-base-ui-toast": true
+          }
+        },
+        {
+          "hint": [
+            "toast"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-open": true
+          }
+        },
+        "closed": {
+          "attrs": {
+            "data-ending-style": true
+          }
+        }
+      },
+      "hintWhenMissing": "Toasts appear only after an action and vanish; trigger one or crawl with --reveal."
+    },
+    {
+      "name": "toggle",
+      "category": "action",
+      "docs": "https://ui.shadcn.com/docs/components/toggle",
+      "summary": "Two-state button that can be pressed on or off.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "toggle"
+          ]
+        },
+        {
+          "attrs": {
+            "aria-pressed": true
+          },
+          "tag": [
+            "button"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "height",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "pressed",
+        "on",
+        "off"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "outline"
+        ],
+        "size": [
+          "default",
+          "sm",
+          "lg"
+        ]
+      },
+      "stateCues": {
+        "pressed": {
+          "attrs": {
+            "aria-pressed": "true"
+          }
+        },
+        "on": {
+          "attrs": {
+            "data-state": "on"
+          }
+        },
+        "off": {
+          "attrs": {
+            "data-state": "off"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "Toggles appear in toolbars and editors; pages without formatting controls have none."
+    },
+    {
+      "name": "toggle-group",
+      "category": "action",
+      "docs": "https://ui.shadcn.com/docs/components/toggle-group",
+      "summary": "Set of toggle buttons where one or several can be on.",
+      "detectable": "static",
+      "cues": [
+        {
+          "slot": [
+            "toggle-group"
+          ]
+        },
+        {
+          "attrs": {},
+          "role": [
+            "group",
+            "radiogroup"
+          ],
+          "hint": [
+            "toggle"
+          ]
+        }
+      ],
+      "structure": "toggle-group",
+      "parts": [
+        {
+          "name": "item",
+          "cue": {
+            "slot": [
+              "toggle-group-item"
+            ]
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "attrs": {
+              "aria-pressed": true
+            }
+          }
+        },
+        {
+          "name": "item",
+          "cue": {
+            "role": [
+              "radio"
+            ]
+          }
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "radius",
+        "paddingX",
+        "height",
+        "gap",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "pressed",
+        "on",
+        "off"
+      ],
+      "axes": {
+        "variant": [
+          "default",
+          "outline"
+        ],
+        "size": [
+          "default",
+          "sm",
+          "lg"
+        ],
+        "type": [
+          "single",
+          "multiple"
+        ]
+      },
+      "stateCues": {
+        "pressed": {
+          "attrs": {
+            "aria-pressed": "true"
+          }
+        },
+        "on": {
+          "attrs": {
+            "data-state": "on"
+          }
+        },
+        "off": {
+          "attrs": {
+            "data-state": "off"
+          }
+        },
+        "disabled": {
+          "attrs": {
+            "disabled": true
+          }
+        }
+      },
+      "hintWhenMissing": "Used in toolbars and view switchers; pages without such controls have none."
+    },
+    {
+      "name": "tooltip",
+      "category": "overlay",
+      "docs": "https://ui.shadcn.com/docs/components/tooltip",
+      "summary": "Small hint shown on hover or focus.",
+      "detectable": "on-interaction",
+      "cues": [
+        {
+          "slot": [
+            "tooltip-content"
+          ]
+        },
+        {
+          "role": [
+            "tooltip"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "typeStyle",
+        "shadow"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "delayed-open"
+          },
+          "role": [
+            "tooltip"
+          ]
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          },
+          "role": [
+            "tooltip"
+          ]
+        }
+      },
+      "hintWhenMissing": "Only exists while hovered or focused: crawl with --reveal or pass a page that shows one."
+    },
+    {
+      "name": "trace",
+      "category": "ai",
+      "docs": "https://ui.shadcn.com/docs/components/trace",
+      "summary": "Collapsible record of an AI agent's steps or tool calls.",
+      "detectable": "rare",
+      "cues": [
+        {
+          "slot": [
+            "trace"
+          ]
+        }
+      ],
+      "props": [
+        "background",
+        "color",
+        "border",
+        "borderWidth",
+        "radius",
+        "paddingX",
+        "paddingY",
+        "shadow",
+        "typeStyle"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed"
+      ],
+      "stateCues": {
+        "open": {
+          "attrs": {
+            "data-state": "open"
+          }
+        },
+        "closed": {
+          "attrs": {
+            "data-state": "closed"
+          }
+        }
+      },
+      "hintWhenMissing": "Only in AI/agent interfaces that show reasoning or tool traces."
+    },
+    {
+      "name": "typography",
+      "category": "display",
+      "docs": "https://ui.shadcn.com/docs/components/typography",
+      "summary": "Styles for headings, paragraphs, lists, quotes and inline code.",
+      "detectable": "static",
+      "cues": [
+        {
+          "tag": [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "blockquote",
+            "code"
+          ]
+        }
+      ],
+      "structure": "typography",
+      "props": [
+        "color",
+        "typeStyle",
+        "gap"
+      ],
+      "states": [
+        "default"
+      ],
+      "hintWhenMissing": "Not a component; it is a set of text styles. If no headings or prose are found the page has no text content."
+    }
+  ]
+}

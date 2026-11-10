@@ -62,6 +62,8 @@ export function report(x: Extraction): string {
     out.push('');
   }
 
+  if (x.inferred.catalog) out.push(...catalogSection(x));
+
   // ② 신뢰도 낮은 항목
   out.push('## 신뢰도 낮은 항목', '');
   if (s.lowConfidence.length) for (const p of s.lowConfidence) out.push(`- \`${p}\``);
@@ -105,4 +107,31 @@ function guardrails(x: Extraction): string[] {
     '- 저장 안 함: CSS 원문 · 폰트 파일 · 이미지 · 본문 텍스트 · 스크린샷',
     '',
   ];
+}
+
+/** 기준표(shadcn/ui) 대비 찾음 / 못 찾음, then the variants and states of what was found. */
+function catalogSection(x: Extraction): string[] {
+  const cat = x.inferred.catalog!;
+  const hex = new Map(x.observed.color.map((c) => [c.id, c.value.hex + (c.value.alpha < 1 ? ` (α ${c.value.alpha})` : '')]));
+  const out: string[] = [];
+  const found = cat.coverage.filter((c) => c.found).length;
+  out.push(`### 기준표(${cat.reference.name}, ${cat.reference.snapshot}) 대비 컴포넌트 — ${found} / ${cat.reference.count}종 찾음`, '', `기준표: ${cat.reference.source}`, '');
+  out.push('| 컴포넌트 | 찾음 | 개수 | 변형 | 못 찾은 이유·찾는 법 |', '|---|---|---|---|---|');
+  for (const c of cat.coverage) out.push(`| ${c.name} | ${c.found ? '✓' : '·'} | ${c.instances || ''} | ${c.variants || ''} | ${c.found ? '' : esc(c.note ?? '')} |`);
+  out.push('');
+  out.push('#### 찾은 컴포넌트의 변형과 상태', '', '| 컴포넌트 | 변형 | 개수 | 값(토큰 역할) | 상태 |', '|---|---|---|---|---|');
+  for (const c of cat.components) {
+    for (const v of c.variants) {
+      const props = v.props
+        .map((p) => {
+          const val = p.color ? (hex.get(p.color) ?? p.color) : p.length ? `${p.length.value}px` : p.number !== undefined ? String(p.number) : p.typeStyle ? p.typeStyle : '';
+          return `${p.prop} ${val}${p.role ? `→${p.role}${p.match === 'nearest' ? '≈' : ''}` : ''}`;
+        })
+        .join(', ');
+      const st = v.states.map((s) => `${s.name}${s.observed ? '✓' : '·'}`).join(' ');
+      out.push(`| ${c.name} | ${v.suggestedName}${v.dataVariant ? ` (${v.dataVariant})` : ''} | ${v.count} | ${esc(props)} | ${st} |`);
+    }
+  }
+  out.push('');
+  return out;
 }
