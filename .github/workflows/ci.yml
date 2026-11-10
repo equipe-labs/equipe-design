@@ -25,6 +25,24 @@ jobs:
       - run: npm test
       - run: npx equipe-design --help
 
+  kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: fwilhe2/setup-kotlin@b325539ca8f6e1d9ee04efed06f49bdbf5426dbb # v2.1
+      # the kotlinc test is skipped when kotlinc is missing, so fail early instead
+      - run: kotlinc -version
+      - run: npm ci
+      - run: npx vitest run packages/emit -t kotlin
+
   swift:
     runs-on: macos-latest
     steps:
