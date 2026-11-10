@@ -1,0 +1,30 @@
+{
+  "name": "@equipe-design/api-contract",
+  "version": "0.1.0",
+  "description": "Design library API v1 contract: OpenAPI, zod request/response types and fixtures.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./openapi.yaml": "./openapi.yaml",
+    "./fixtures/*": "./fixtures/*"
+  },
+  "files": [
+    "src",
+    "fixtures",
+    "openapi.yaml"
+  ],
+  "scripts": {
+    "lint:openapi": "redocly lint openapi.yaml",
+    "gen:fixtures": "node test/build-fixtures.ts"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.14",
+    "@redocly/cli": "^2.72.1",
+    "ajv": "^8.20.0",
+    "yaml": "^2.9.1"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

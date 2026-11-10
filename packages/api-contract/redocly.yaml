@@ -1,0 +1,5 @@
+extends:
+  - recommended
+rules:
+  # GET /styles/{slug}/tokens/{format} only ever answers 302.
+  operation-2xx-response: off

@@ -1,0 +1,52 @@
+{
+  "host": "atlassian.design",
+  "url": "https://atlassian.design/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {"label": "@atlaskit/tokens 20.9.0 light theme", "url": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-light.js"},
+    {"label": "@atlaskit/tokens 20.9.0 dark theme", "url": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-dark.js"},
+    {"label": "@atlaskit/tokens 20.9.0 spacing", "url": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-spacing.js"},
+    {"label": "@atlaskit/tokens 20.9.0 shape", "url": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-shape.js"},
+    {"label": "home page HTML (inline <style data-theme=...> token blocks)", "url": "https://atlassian.design/"}
+  ],
+  "dark": {"method": "attribute", "toggle": "html[data-color-mode=dark][data-theme~=\"dark:dark\"] (set by JS from prefers-color-scheme or the 'Set website theme' button)", "source": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-dark.js"},
+  "colors": {
+    "source": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-light.js",
+    "items": [
+      {"name": "ds-surface", "role": "background", "light": "#ffffff", "dark": "#1f1f21"},
+      {"name": "ds-surface-sunken", "role": "surface", "light": "#f8f8f8", "dark": "#18191a"},
+      {"name": "ds-surface-raised", "role": "raised", "light": "#ffffff", "dark": "#242528"},
+      {"name": "ds-surface-overlay", "light": "#ffffff", "dark": "#2b2c2f"},
+      {"name": "ds-text", "role": "text", "light": "#292a2e", "dark": "#cecfd2"},
+      {"name": "ds-text-subtle", "role": "muted-text", "light": "#505258", "dark": "#a9abaf"},
+      {"name": "ds-text-subtlest", "light": "#6b6e76", "dark": "#96999e"},
+      {"name": "ds-background-brand-bold", "role": "primary", "light": "#1868db", "dark": "#669df1"},
+      {"name": "ds-text-inverse", "role": "on-primary", "light": "#ffffff", "dark": "#1f1f21"},
+      {"name": "ds-link", "light": "#1868db", "dark": "#669df1"},
+      {"name": "ds-background-neutral", "role": "secondary", "light": "#0515240f", "dark": "#ceced912"},
+      {"name": "ds-background-selected", "light": "#e9f2fe", "dark": "#1c2b42"},
+      {"name": "ds-border", "role": "border", "light": "#0b120e24", "dark": "#e3e4f21f"},
+      {"name": "ds-border-bold", "role": "border-strong", "light": "#7d818a", "dark": "#7e8188"},
+      {"name": "ds-border-focused", "role": "ring", "light": "#4688ec", "dark": "#8fb8f6"},
+      {"name": "ds-background-danger-bold", "role": "destructive", "light": "#c9372c", "dark": "#f87168"},
+      {"name": "ds-background-success-bold", "role": "success", "light": "#5b7f24", "dark": "#94c748"},
+      {"name": "ds-background-warning-bold", "role": "warning", "light": "#fbc828", "dark": "#fbc828"},
+      {"name": "ds-text-danger", "light": "#ae2e24", "dark": "#fd9891"},
+      {"name": "ds-text-success", "light": "#4c6b1f", "dark": "#b3df72"}
+    ]
+  },
+  "spacing": {"source": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-spacing.js", "px": [2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 64]},
+  "radius": {"source": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-shape.js", "px": [2, 4, 6, 8, 16]},
+  "typography": {"source": "https://atlassian.design/", "families": ["Atlassian Sans", "Atlassian Mono", "Charlie Display"], "fontSizesPx": [12, 14, 16, 20, 24, 28, 32]},
+  "brand": {"source": "https://unpkg.com/@atlaskit/tokens@20.9.0/dist/esm/artifacts/themes/atlassian-light.js", "value": "#1868db"},
+  "notes": [
+    "Gatsby site. The home page HTML inlines the @atlaskit/tokens theme CSS as <style data-theme=light|dark|spacing|shape|typography|motion>. Diff against @atlaskit/tokens 20.9.0: light 466/466, dark 466/466, spacing 38/38, shape 11/11 declarations identical.",
+    "html carries data-color-mode=light in the static HTML; a head script switches it to dark when prefers-color-scheme: dark (verified: with emulated dark, data-color-mode=dark and body bg #1f1f21). There is also a 'Set website theme' button. So both attribute and media preference drive dark mode.",
+    "Tokens with alpha are 8-digit hex (ds-border #0b120e24, ds-background-neutral #0515240f).",
+    "Many decorative backgrounds on the home page are accent tokens (lime/orange/red/purple, e.g. #94c748, #fca700, #f87168, #eed7fc) used in illustrations/cards; not listed as roles.",
+    "Radius: home page also computes 9999px (= --ds-radius-full 624.9375rem, pills) and 25% (= --ds-radius-tile); 24/27/28px radii are not tokens. Spacing 1px is not a token.",
+    "Font sizes 48px and 88px (Charlie Display hero headings) are not defined by the typography tokens and are excluded; typography source is the inline data-theme=typography block (the font-family tokens; sizes 0.75-2rem).",
+    "Values measured at default Playwright viewport.",
+    "robots.txt: https://atlassian.design/robots.txt returns 404 → no restrictions; home page allowed."
+  ]
+}

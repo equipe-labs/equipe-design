@@ -6,8 +6,8 @@ export type { Command };
 const COMMANDS_DIR = new URL('./commands/', import.meta.url);
 
 export const INTENDED_USE =
-  "Intended use: analysing your own sites, learning and inspiration. Don't use it to reproduce someone else's brand. " +
-  "You are responsible for following each site's terms. This is not legal advice.";
+  "Intended use: analysing your own sites and services, learning and inspiration. Don't use it to reproduce someone else's brand. " +
+  "Signing in for a crawl is your own account and responsibility, as is following each site's terms. This is not legal advice.";
 
 /** Every `commands/*.ts` (or built `.js`) that exports `command`, sorted by name. */
 export async function loadCommands(dir: URL = COMMANDS_DIR): Promise<Command[]> {

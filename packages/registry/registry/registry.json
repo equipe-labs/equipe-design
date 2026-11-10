@@ -1,0 +1,1195 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "equipe",
+  "homepage": "https://design.equipe.im",
+  "items": [
+    {
+      "name": "accordion",
+      "title": "Accordion",
+      "description": "equipe Accordion component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/accordion",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "alert",
+      "title": "Alert",
+      "description": "equipe Alert component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/alert",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "alert-dialog",
+      "title": "Alert Dialog",
+      "description": "equipe Alert Dialog component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/alert-dialog",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "description": "equipe Aspect Ratio component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/aspect-ratio",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "attachment",
+      "title": "Attachment",
+      "description": "equipe Attachment component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/attachment",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "avatar",
+      "title": "Avatar",
+      "description": "equipe Avatar component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/avatar",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "badge",
+      "title": "Badge",
+      "description": "equipe Badge component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/badge",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "description": "equipe Breadcrumb component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/breadcrumb",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "bubble-button",
+      "title": "Bubble Button",
+      "description": "equipe Bubble Button component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/bubble",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "button",
+      "title": "Button",
+      "description": "equipe Button component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/button",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "button-group",
+      "title": "Button Group",
+      "description": "equipe Button Group component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/button-group",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "calendar",
+      "title": "Calendar",
+      "description": "equipe Calendar component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/calendar",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "card",
+      "title": "Card",
+      "description": "equipe Card component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/card",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "carousel",
+      "title": "Carousel",
+      "description": "equipe Carousel component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/carousel",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "chart",
+      "title": "Chart",
+      "description": "equipe Chart component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/chart",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "checkbox",
+      "title": "Checkbox",
+      "description": "equipe Checkbox component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/checkbox",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "code-block",
+      "title": "Code Block",
+      "description": "equipe Code Block component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/code-block",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "collapsible",
+      "title": "Collapsible",
+      "description": "equipe Collapsible component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/collapsible",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "combobox",
+      "title": "Combobox",
+      "description": "equipe Combobox component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/combobox",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "command",
+      "title": "Command",
+      "description": "equipe Command component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/command",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "context-menu",
+      "title": "Context Menu",
+      "description": "equipe Context Menu component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/context-menu",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "data-table",
+      "title": "Data Table",
+      "description": "equipe Data Table component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/data-table",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "date-picker",
+      "title": "Date Picker",
+      "description": "equipe Date Picker component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/date-picker",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "dialog",
+      "title": "Dialog",
+      "description": "equipe Dialog component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/dialog",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "direction",
+      "title": "Direction",
+      "description": "equipe Direction component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/direction",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "drawer",
+      "title": "Drawer",
+      "description": "equipe Drawer component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/drawer",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "description": "equipe Dropdown Menu component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/dropdown-menu",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "empty",
+      "title": "Empty",
+      "description": "equipe Empty component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/empty",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "field",
+      "title": "Field",
+      "description": "equipe Field component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/field",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "hover-card",
+      "title": "Hover Card",
+      "description": "equipe Hover Card component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/hover-card",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "input",
+      "title": "Input",
+      "description": "equipe Input component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/input",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "input-group",
+      "title": "Input Group",
+      "description": "equipe Input Group component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/input-group",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "input-otp",
+      "title": "Input OTP",
+      "description": "equipe Input OTP component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/input-otp",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "item",
+      "title": "Item",
+      "description": "equipe Item component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/item",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "kbd",
+      "title": "Kbd",
+      "description": "equipe Kbd component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/kbd",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "label",
+      "title": "Label",
+      "description": "equipe Label component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/label",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "marker",
+      "title": "Marker",
+      "description": "equipe Marker component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/marker",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "menubar",
+      "title": "Menubar",
+      "description": "equipe Menubar component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/menubar",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "message",
+      "title": "Message",
+      "description": "equipe Message component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/message",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "message-scroller",
+      "title": "Message Scroller",
+      "description": "equipe Message Scroller component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/message-scroller",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "native-select",
+      "title": "Native Select",
+      "description": "equipe Native Select component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/native-select",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "navigation-menu",
+      "title": "Navigation Menu",
+      "description": "equipe Navigation Menu component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/navigation-menu",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "pagination",
+      "title": "Pagination",
+      "description": "equipe Pagination component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/pagination",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "popover",
+      "title": "Popover",
+      "description": "equipe Popover component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/popover",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "progress",
+      "title": "Progress",
+      "description": "equipe Progress component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/progress",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "questionnaire",
+      "title": "Questionnaire",
+      "description": "equipe Questionnaire component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/questionnaire",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "radio-group",
+      "title": "Radio Group",
+      "description": "equipe Radio Group component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/radio-group",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "resizable",
+      "title": "Resizable",
+      "description": "equipe Resizable component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/resizable",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "scroll-area",
+      "title": "Scroll Area",
+      "description": "equipe Scroll Area component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/scroll-area",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "select",
+      "title": "Select",
+      "description": "equipe Select component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/select",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "separator",
+      "title": "Separator",
+      "description": "equipe Separator component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/separator",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "sheet",
+      "title": "Sheet",
+      "description": "equipe Sheet component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/sheet",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "sidebar",
+      "title": "Sidebar",
+      "description": "equipe Sidebar component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/sidebar",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "skeleton",
+      "title": "Skeleton",
+      "description": "equipe Skeleton component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/skeleton",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "slider",
+      "title": "Slider",
+      "description": "equipe Slider component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/slider",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "spinner",
+      "title": "Spinner",
+      "description": "equipe Spinner component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/spinner",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "switch",
+      "title": "Switch",
+      "description": "equipe Switch component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/switch",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "table",
+      "title": "Table",
+      "description": "equipe Table component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/table",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "tabs",
+      "title": "Tabs",
+      "description": "equipe Tabs component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/tabs",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "textarea",
+      "title": "Textarea",
+      "description": "equipe Textarea component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/textarea",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "toast",
+      "title": "Toast",
+      "description": "equipe Toast component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/toast",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "toggle",
+      "title": "Toggle",
+      "description": "equipe Toggle component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/toggle",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "description": "equipe Toggle Group component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/toggle-group",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "tooltip",
+      "title": "Tooltip",
+      "description": "equipe Tooltip component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/tooltip",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "trace",
+      "title": "Trace",
+      "description": "equipe Trace component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/trace",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
+      "name": "typography",
+      "title": "Typography",
+      "description": "equipe Typography component manifest.",
+      "files": [],
+      "meta": {
+        "provenance": {
+          "upstreamUrl": "https://ui.shadcn.com/docs/components/base/typography",
+          "upstreamRevision": "8ab27715521cbd4f87ae6886cd989cbb678f6de7",
+          "license": {
+            "spdx": "MIT",
+            "file": "LICENSES/shadcn-ui-MIT.txt"
+          },
+          "changeReason": "Restyle the shadcn/ui base with equipe tokens while preserving its public behavior and accessibility contract."
+        }
+      },
+      "type": "registry:ui"
+    }
+  ]
+}

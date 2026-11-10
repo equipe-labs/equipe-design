@@ -127,3 +127,11 @@ export function ensureContrast(fg: string, bgs: string[], min: number): { hex: s
   const end = dir < 0 ? '#000000' : '#ffffff';
   return { hex: end, ok: worst(end) >= min };
 }
+
+/** `fg` at `alpha` laid over the opaque `bg` in sRGB, as a browser draws a translucent fill (each channel rounded). */
+export function over(fg: string, alpha: number, bg: string): string {
+  const f = parseHex(fg);
+  const b = parseHex(bg);
+  const ch = (x: number, y: number) => Math.round(x * alpha + y * (1 - alpha));
+  return toHex(ch(f.r, b.r), ch(f.g, b.g), ch(f.b, b.b));
+}

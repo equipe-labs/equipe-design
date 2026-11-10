@@ -1,0 +1,33 @@
+{
+  "host": "linear.app",
+  "url": "https://linear.app/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {
+      "label": "T-218 landing research notes",
+      "url": "outputs/T-218 랜딩 리서치/sites/linear/notes.md"
+    },
+    {
+      "label": "T-257 README (answers)",
+      "url": "outputs/T-257 추출 엔진 비교/README.md"
+    }
+  ],
+  "dark": {
+    "method": "dark-only",
+    "source": "outputs/T-218 랜딩 리서치/sites/linear/notes.md"
+  },
+  "brand": {
+    "source": "outputs/T-218 랜딩 리서치/sites/linear/notes.md",
+    "value": "none",
+    "note": "No brand colour on hero or body; colour only in mockup status icons and two quote cards (yellow card ~#e6f21f is decoration, not brand)."
+  },
+  "notes": [
+    "Paths in sources are in the squad folder (/Users/abel/.equipe/squads/equipe-squad/home/); the notes were taken by eye in the browser on 2026-10-31, not from a token file."
+  ],
+  "typography": {
+    "source": "outputs/T-218 랜딩 리서치/sites/linear/notes.md",
+    "families": [
+      "Inter Variable"
+    ]
+  }
+}

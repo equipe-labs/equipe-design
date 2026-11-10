@@ -16,7 +16,10 @@
   },
   "dependencies": {
     "@equipe-design/schema": "0.1.0",
+    "@equipe-design/engine": "0.1.0",
     "@equipe-design/remix": "0.1.0",
-    "@equipe-design/emit": "0.1.0"
+    "@equipe-design/emit": "0.1.0",
+    "@equipe-design/mcp": "0.1.0",
+    "@equipe-design/client": "0.1.0"
   }
 }

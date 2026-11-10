@@ -1,0 +1,341 @@
+{
+  "capturedAt": "2026-11-08",
+  "count": 66,
+  "upstream": {
+    "componentsPage": "https://ui.shadcn.com/docs/components",
+    "repository": "https://github.com/shadcn-ui/ui",
+    "commit": "8ab27715521cbd4f87ae6886cd989cbb678f6de7"
+  },
+  "items": [
+    {
+      "name": "accordion",
+      "title": "Accordion",
+      "docsPath": "/docs/components/base/accordion"
+    },
+    {
+      "name": "alert",
+      "title": "Alert",
+      "docsPath": "/docs/components/base/alert"
+    },
+    {
+      "name": "alert-dialog",
+      "title": "Alert Dialog",
+      "docsPath": "/docs/components/base/alert-dialog"
+    },
+    {
+      "name": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "docsPath": "/docs/components/base/aspect-ratio"
+    },
+    {
+      "name": "attachment",
+      "title": "Attachment",
+      "docsPath": "/docs/components/base/attachment"
+    },
+    {
+      "name": "avatar",
+      "title": "Avatar",
+      "docsPath": "/docs/components/base/avatar"
+    },
+    {
+      "name": "badge",
+      "title": "Badge",
+      "docsPath": "/docs/components/base/badge"
+    },
+    {
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "docsPath": "/docs/components/base/breadcrumb"
+    },
+    {
+      "name": "bubble-button",
+      "title": "Bubble Button",
+      "docsPath": "/docs/components/base/bubble"
+    },
+    {
+      "name": "button",
+      "title": "Button",
+      "docsPath": "/docs/components/base/button"
+    },
+    {
+      "name": "button-group",
+      "title": "Button Group",
+      "docsPath": "/docs/components/base/button-group"
+    },
+    {
+      "name": "calendar",
+      "title": "Calendar",
+      "docsPath": "/docs/components/base/calendar"
+    },
+    {
+      "name": "card",
+      "title": "Card",
+      "docsPath": "/docs/components/base/card"
+    },
+    {
+      "name": "carousel",
+      "title": "Carousel",
+      "docsPath": "/docs/components/base/carousel"
+    },
+    {
+      "name": "chart",
+      "title": "Chart",
+      "docsPath": "/docs/components/base/chart"
+    },
+    {
+      "name": "checkbox",
+      "title": "Checkbox",
+      "docsPath": "/docs/components/base/checkbox"
+    },
+    {
+      "name": "code-block",
+      "title": "Code Block",
+      "docsPath": "/docs/components/base/code-block"
+    },
+    {
+      "name": "collapsible",
+      "title": "Collapsible",
+      "docsPath": "/docs/components/base/collapsible"
+    },
+    {
+      "name": "combobox",
+      "title": "Combobox",
+      "docsPath": "/docs/components/base/combobox"
+    },
+    {
+      "name": "command",
+      "title": "Command",
+      "docsPath": "/docs/components/base/command"
+    },
+    {
+      "name": "context-menu",
+      "title": "Context Menu",
+      "docsPath": "/docs/components/base/context-menu"
+    },
+    {
+      "name": "data-table",
+      "title": "Data Table",
+      "docsPath": "/docs/components/base/data-table"
+    },
+    {
+      "name": "date-picker",
+      "title": "Date Picker",
+      "docsPath": "/docs/components/base/date-picker"
+    },
+    {
+      "name": "dialog",
+      "title": "Dialog",
+      "docsPath": "/docs/components/base/dialog"
+    },
+    {
+      "name": "direction",
+      "title": "Direction",
+      "docsPath": "/docs/components/base/direction"
+    },
+    {
+      "name": "drawer",
+      "title": "Drawer",
+      "docsPath": "/docs/components/base/drawer"
+    },
+    {
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "docsPath": "/docs/components/base/dropdown-menu"
+    },
+    {
+      "name": "empty",
+      "title": "Empty",
+      "docsPath": "/docs/components/base/empty"
+    },
+    {
+      "name": "field",
+      "title": "Field",
+      "docsPath": "/docs/components/base/field"
+    },
+    {
+      "name": "hover-card",
+      "title": "Hover Card",
+      "docsPath": "/docs/components/base/hover-card"
+    },
+    {
+      "name": "input",
+      "title": "Input",
+      "docsPath": "/docs/components/base/input"
+    },
+    {
+      "name": "input-group",
+      "title": "Input Group",
+      "docsPath": "/docs/components/base/input-group"
+    },
+    {
+      "name": "input-otp",
+      "title": "Input OTP",
+      "docsPath": "/docs/components/base/input-otp"
+    },
+    {
+      "name": "item",
+      "title": "Item",
+      "docsPath": "/docs/components/base/item"
+    },
+    {
+      "name": "kbd",
+      "title": "Kbd",
+      "docsPath": "/docs/components/base/kbd"
+    },
+    {
+      "name": "label",
+      "title": "Label",
+      "docsPath": "/docs/components/base/label"
+    },
+    {
+      "name": "marker",
+      "title": "Marker",
+      "docsPath": "/docs/components/base/marker"
+    },
+    {
+      "name": "menubar",
+      "title": "Menubar",
+      "docsPath": "/docs/components/base/menubar"
+    },
+    {
+      "name": "message",
+      "title": "Message",
+      "docsPath": "/docs/components/base/message"
+    },
+    {
+      "name": "message-scroller",
+      "title": "Message Scroller",
+      "docsPath": "/docs/components/base/message-scroller"
+    },
+    {
+      "name": "native-select",
+      "title": "Native Select",
+      "docsPath": "/docs/components/base/native-select"
+    },
+    {
+      "name": "navigation-menu",
+      "title": "Navigation Menu",
+      "docsPath": "/docs/components/base/navigation-menu"
+    },
+    {
+      "name": "pagination",
+      "title": "Pagination",
+      "docsPath": "/docs/components/base/pagination"
+    },
+    {
+      "name": "popover",
+      "title": "Popover",
+      "docsPath": "/docs/components/base/popover"
+    },
+    {
+      "name": "progress",
+      "title": "Progress",
+      "docsPath": "/docs/components/base/progress"
+    },
+    {
+      "name": "questionnaire",
+      "title": "Questionnaire",
+      "docsPath": "/docs/components/base/questionnaire"
+    },
+    {
+      "name": "radio-group",
+      "title": "Radio Group",
+      "docsPath": "/docs/components/base/radio-group"
+    },
+    {
+      "name": "resizable",
+      "title": "Resizable",
+      "docsPath": "/docs/components/base/resizable"
+    },
+    {
+      "name": "scroll-area",
+      "title": "Scroll Area",
+      "docsPath": "/docs/components/base/scroll-area"
+    },
+    {
+      "name": "select",
+      "title": "Select",
+      "docsPath": "/docs/components/base/select"
+    },
+    {
+      "name": "separator",
+      "title": "Separator",
+      "docsPath": "/docs/components/base/separator"
+    },
+    {
+      "name": "sheet",
+      "title": "Sheet",
+      "docsPath": "/docs/components/base/sheet"
+    },
+    {
+      "name": "sidebar",
+      "title": "Sidebar",
+      "docsPath": "/docs/components/base/sidebar"
+    },
+    {
+      "name": "skeleton",
+      "title": "Skeleton",
+      "docsPath": "/docs/components/base/skeleton"
+    },
+    {
+      "name": "slider",
+      "title": "Slider",
+      "docsPath": "/docs/components/base/slider"
+    },
+    {
+      "name": "spinner",
+      "title": "Spinner",
+      "docsPath": "/docs/components/base/spinner"
+    },
+    {
+      "name": "switch",
+      "title": "Switch",
+      "docsPath": "/docs/components/base/switch"
+    },
+    {
+      "name": "table",
+      "title": "Table",
+      "docsPath": "/docs/components/base/table"
+    },
+    {
+      "name": "tabs",
+      "title": "Tabs",
+      "docsPath": "/docs/components/base/tabs"
+    },
+    {
+      "name": "textarea",
+      "title": "Textarea",
+      "docsPath": "/docs/components/base/textarea"
+    },
+    {
+      "name": "toast",
+      "title": "Toast",
+      "docsPath": "/docs/components/base/toast"
+    },
+    {
+      "name": "toggle",
+      "title": "Toggle",
+      "docsPath": "/docs/components/base/toggle"
+    },
+    {
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "docsPath": "/docs/components/base/toggle-group"
+    },
+    {
+      "name": "tooltip",
+      "title": "Tooltip",
+      "docsPath": "/docs/components/base/tooltip"
+    },
+    {
+      "name": "trace",
+      "title": "Trace",
+      "docsPath": "/docs/components/base/trace"
+    },
+    {
+      "name": "typography",
+      "title": "Typography",
+      "docsPath": "/docs/components/base/typography"
+    }
+  ]
+}

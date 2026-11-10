@@ -1,0 +1,49 @@
+{
+  "host": "carbondesignsystem.com",
+  "url": "https://carbondesignsystem.com/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {"label": "@carbon/themes 11.84.0 g10 theme", "url": "https://unpkg.com/@carbon/themes@11.84.0/js/generated/themes/g10.js"},
+    {"label": "@carbon/themes 11.84.0 button component tokens", "url": "https://unpkg.com/@carbon/themes@11.84.0/js/generated/component-tokens/button.js"},
+    {"label": "@carbon/layout 11.62.0 spacing", "url": "https://unpkg.com/@carbon/layout@11.62.0/scss/generated/_spacing.scss"},
+    {"label": "@carbon/type 11.70.0", "url": "https://unpkg.com/@carbon/type@11.70.0/es/index.js"},
+    {"label": "site CSS (:root g10 token block)", "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/cxp-prod-payload-cms/_next/static/css/dee0f854470ec1de.css"}
+  ],
+  "colors": {
+    "source": "https://unpkg.com/@carbon/themes@11.84.0/js/generated/themes/g10.js",
+    "items": [
+      {"name": "cds-background", "role": "background", "light": "#f4f4f4", "dark": null},
+      {"name": "cds-layer-01", "role": "surface", "light": "#ffffff", "dark": null},
+      {"name": "cds-layer-02", "light": "#f4f4f4", "dark": null},
+      {"name": "cds-text-primary", "role": "text", "light": "#161616", "dark": null},
+      {"name": "cds-text-secondary", "role": "muted-text", "light": "#525252", "dark": null},
+      {"name": "cds-button-primary", "role": "primary", "light": "#0f62fe", "dark": null},
+      {"name": "cds-text-on-color", "role": "on-primary", "light": "#ffffff", "dark": null},
+      {"name": "cds-link-primary", "light": "#0f62fe", "dark": null},
+      {"name": "cds-border-subtle-01", "role": "border", "light": "#e0e0e0", "dark": null},
+      {"name": "cds-border-subtle-00", "light": "#c6c6c6", "dark": null},
+      {"name": "cds-border-strong-01", "role": "border-strong", "light": "#8d8d8d", "dark": null},
+      {"name": "cds-focus", "role": "ring", "light": "#0f62fe", "dark": null},
+      {"name": "cds-support-error", "role": "destructive", "light": "#da1e28", "dark": null},
+      {"name": "cds-support-success", "role": "success", "light": "#24a148", "dark": null},
+      {"name": "cds-support-warning", "role": "warning", "light": "#f1c21b", "dark": null},
+      {"name": "cds-background-inverse", "light": "#393939", "dark": null},
+      {"name": "cds-layer-accent-01", "light": "#e0e0e0", "dark": null},
+      {"name": "cds-highlight", "light": "#d0e2ff", "dark": null}
+    ]
+  },
+  "spacing": {"source": "https://unpkg.com/@carbon/layout@11.62.0/scss/generated/_spacing.scss", "px": [2, 8, 16, 24, 32, 40, 48, 80, 160]},
+  "typography": {"source": "https://unpkg.com/@carbon/type@11.70.0/es/index.js", "families": ["IBM Plex Sans", "IBM Plex Serif"], "fontSizesPx": [12, 14, 16, 18, 20, 28, 42]},
+  "brand": {"source": "https://unpkg.com/@carbon/themes@11.84.0/js/generated/component-tokens/button.js", "value": "#0f62fe"},
+  "notes": [
+    "https://carbondesignsystem.com/ redirects (200 after redirect) to https://www.carbondesignsystem.com/ — a Next.js/Payload CMS site whose CSS ships Carbon v11 tokens as --cds-* custom properties.",
+    ":root declares the g10 theme; all 235 :root --cds-* color tokens that exist in @carbon/themes g10 match exactly (0 diffs). Page body background is --cds-background #f4f4f4; header/cards use layer-01 #ffffff.",
+    "No site-wide dark mode: no prefers-color-scheme rule for tokens, no toggle, emulating dark changes nothing. But the CTA statement block and the footer are wrapped in .cds--g100, so g100 colors (#161616 bg, #f4f4f4 text, #c6c6c6 secondary text, #525252 border, #78a9ff link) are rendered in those zones — an extractor that reports them as 'dark' values is reading theme zones, not a dark mode.",
+    "The CSS also contains .cds--white/.cds--g10/.cds--g90/.cds--g100 and .cds--chart-holder[data-carbon-theme=*] theme classes; only g10 (root), white (one header popover wrapper) and g100 (CTA, footer) appear in the home page HTML.",
+    "Radius omitted: Carbon is square; no element on the home page computed a non-zero border-radius.",
+    "Spacing/font sizes measured from computed styles at the default Playwright viewport; responsive values may differ. Used-but-not-token values excluded: spacing 7/10/14/15/20/26px, font size 64px (hero heading; not in the Carbon type scale).",
+    "Link text often renders #002d9c (blue-80) and some backgrounds #bae6ff (cyan-20) / #001d6c — these are Carbon palette colors applied by site CSS, not g10 theme tokens.",
+    "A stray Tailwind/shadcn-style rule body{background-color:var(--background)} with --background:oklch(...) exists in an earlier stylesheet but is overridden by Carbon's body rule; ignore --background/--foreground.",
+    "robots.txt: User-agent * Disallow: /admin/* only — home page allowed. Note it carries Content-Signal: ai-train=no, search=yes, ai-input=yes."
+  ]
+}

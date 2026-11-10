@@ -1,0 +1,27 @@
+{
+  "host": "raycast.com",
+  "url": "https://raycast.com/",
+  "checkedAt": "2026-11-02",
+  "sources": [
+    {
+      "label": "T-218 landing research notes",
+      "url": "outputs/T-218 랜딩 리서치/sites/raycast/notes.md"
+    },
+    {
+      "label": "T-257 README (answers)",
+      "url": "outputs/T-257 추출 엔진 비교/README.md"
+    }
+  ],
+  "dark": {
+    "method": "dark-only",
+    "source": "outputs/T-218 랜딩 리서치/sites/raycast/notes.md"
+  },
+  "brand": {
+    "source": "outputs/T-218 랜딩 리서치/sites/raycast/notes.md",
+    "value": "#ff6363",
+    "note": "Raycast red (#FF6363) fills 30–40% of the hero light beams and returns above the footer."
+  },
+  "notes": [
+    "Paths in sources are in the squad folder (/Users/abel/.equipe/squads/equipe-squad/home/); the notes were taken by eye in the browser on 2026-10-31, not from a token file."
+  ]
+}

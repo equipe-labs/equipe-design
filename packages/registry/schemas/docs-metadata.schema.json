@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design.equipe.im/schema/docs-metadata.json",
+  "title": "equipe registry documentation metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "examples",
+    "variantsAndSizes",
+    "states",
+    "usage",
+    "keyboard",
+    "accessibility",
+    "sourceAndLicense"
+  ],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "examples": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "variantsAndSizes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "expectation"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "expectation": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "usage": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "keyboard": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "accessibility": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "sourceAndLicense": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upstream", "revision", "license"],
+      "properties": {
+        "upstream": { "type": "string", "format": "uri" },
+        "revision": { "type": "string", "minLength": 1 },
+        "license": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "sources": [
+    {
+      "style": "hush"
+    }
+  ],
+  "brand": {
+    "color": "#0f766e"
+  },
+  "prefix": "acme",
+  "variants": 2,
+  "fontAlt": true,
+  "formats": [
+    "css",
+    "dtcg"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$comment": "The accuracy set (design README 5.1). `metrics` picks the scoreboard rows for a site; `goals` is the target column. primer.style was replaced by atlassian.design and carbondesignsystem.com kept — see eval/notes/primer-carbon.md.",
+  "sites": [
+    {
+      "host": "equipe.im",
+      "metrics": ["spacing", "radius", "darkPairs", "colors", "typography", "brand"],
+      "goals": {
+        "spacing": "9/9 · ≥ 0.75",
+        "radius": "≥ 4/5 · ≥ 0.6",
+        "darkPairs": "≥ 88% (페이지 쌍)",
+        "colors": "21/21 + 페이지의 다크 짝 전부",
+        "typography": "2/2",
+        "brand": "✓"
+      }
+    },
+    {
+      "host": "ui.shadcn.com",
+      "metrics": ["darkRoles", "darkPairs", "colors", "radius", "typography"],
+      "goals": { "darkRoles": "정답 쌍 ≥ 90%", "darkPairs": "≥ 90%", "radius": "≥ 3/4 · ≥ 0.6" }
+    },
+    { "host": "atlassian.design", "replaces": "primer.style", "metrics": ["colors", "darkPairs", "spacing", "radius", "typography", "brand"], "goals": { "brand": "✓" } },
+    { "host": "carbondesignsystem.com", "metrics": ["colors", "spacing", "typography", "brand"], "goals": { "brand": "✓" } },
+    { "host": "linear.app", "metrics": ["brand", "darkOnly"], "goals": { "brand": "✓ none", "darkOnly": "✓" } },
+    { "host": "raycast.com", "metrics": ["brand", "darkOnly"], "goals": { "brand": "✓ #ff6363", "darkOnly": "✓" } },
+    { "host": "vercel.com", "spare": true, "metrics": ["colors", "typography"], "goals": {} }
+  ],
+  "goals": { "secondsPerPage": 30 }
+}

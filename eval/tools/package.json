@@ -1,0 +1,14 @@
+{
+  "name": "equipe-design-eval-tools",
+  "private": true,
+  "description": "Competitor extractors pinned for the accuracy eval (T-257 versions). Not a workspace member; install with `npm install --prefix eval/tools`.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "dembrandt": "0.39.2",
+    "designlang": "13.3.2"
+  },
+  "overrides": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  }
+}

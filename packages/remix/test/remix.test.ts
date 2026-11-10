@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { contrast, loadSource, remix, RemixError, toOklch } from '../src/index.ts';
+import { contrast, loadSource, over, remix, RemixError, sunkenOf, tintAlpha, TINT_FLOOR, toOklch } from '../src/index.ts';
+import { fixContrast } from '../src/contrast.ts';
 
 const example = JSON.parse(readFileSync(new URL('../../schema/examples/equipe.im.json', import.meta.url), 'utf8'));
 const lib = (n: string) => JSON.parse(readFileSync(new URL(`./fixtures/${n}.tokens.json`, import.meta.url), 'utf8'));
@@ -25,6 +26,52 @@ describe('remix', () => {
   it('composites a translucent border over the background instead of using its raw colour', () => {
     const r = remix([loadSource(example)], { color: BRAND, name: 'acme' })[0]!;
     expect(contrast(r.model.colors.light.border, r.model.colors.light.background)).toBeLessThan(2);
+  });
+
+  it("measures badge and chip text on its own tint and the sunken well, and moves the colour until it reads", () => {
+    for (const r of remix([loadSource(example)], { color: BRAND, name: 'acme' })) {
+      for (const mode of ['light', 'dark'] as const) {
+        const c = r.model.colors[mode]!;
+        for (const role of ['accent', 'success', 'warning', 'destructive'] as const) {
+          const a = tintAlpha(c, role);
+          expect(a).toBeGreaterThanOrEqual(TINT_FLOOR);
+          for (const bg of [c.background]) expect(contrast(c[role], over(c[role], Math.round(a * 255) / 255, bg)), `${r.id} ${mode} ${role}`).toBeGreaterThanOrEqual(4.5);
+        }
+        expect(contrast(c['muted-text'], sunkenOf(c, mode))).toBeGreaterThanOrEqual(4.5);
+      }
+      expect(r.contrast.pairs.some((p) => p.bg === 'success tint on background')).toBe(true);
+    }
+    // The brand colour reads on white but not on its own 14% tint: the tint lightens, the colour stays.
+    const a = remix([loadSource(example)], { color: BRAND, name: 'acme' })[0]!;
+    expect(a.model.colors.light.accent).toBe(BRAND);
+    expect(tintAlpha(a.model.colors.light, 'accent')).toBeLessThan(0.14);
+  });
+
+  it('moves the colour only when even the lightest tint is not enough', () => {
+    const c = { ...remix([loadSource(example)], { color: BRAND, name: 'acme' })[0]!.model.colors.light, background: '#ffffff', surface: '#ffffff' };
+    c.success = '#767676'; // 4.54:1 on white: passes the page, not a 6% tint of itself
+    expect(tintAlpha(c, 'success')).toBe(TINT_FLOOR);
+    const moved = fixContrast(c, {}, 'light').find((x) => x.role === 'success');
+    expect(moved?.reason).toMatch(/success tint on background/);
+    expect(contrast(c.success, over(c.success, Math.round(TINT_FLOOR * 255) / 255, '#ffffff'))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('moves text on the brand fill to the new brand hue when it carried the old one, and keeps white / black', () => {
+    const tinted = structuredClone(example);
+    const src = loadSource(tinted);
+    src.model.colors.dark!['on-primary'] = '#0b1226'; // navy from the blue brand, as equipe.im's dark mode has it
+    const oldHue = toOklch('#0b1226').h;
+    for (const r of remix([src], { color: BRAND, name: 'acme' }, { variants: 2 })) {
+      const on = toOklch(r.model.colors.dark!['on-primary']);
+      const gap = Math.min(Math.abs(on.h - oldHue), 360 - Math.abs(on.h - oldHue));
+      expect(on.c < 0.02 || gap > 30, `${r.id} dark on-primary ${r.model.colors.dark!['on-primary']}`).toBe(true);
+      expect(r.model.colors.light['on-primary']).toBe(src.model.colors.light['on-primary']);
+      expect(r.contrast.fails).toEqual([]);
+    }
+    for (const r of remix([src], { name: 'acme' }, { keepBrand: true, ownSite: true, variants: 2 })) {
+      expect(r.model.colors.dark!['on-primary']).toBe('#0b1226');
+      expect(r.model.colors.light['on-primary']).toBe(src.model.colors.light['on-primary']);
+    }
   });
 
   it('refuses --keep-brand without --own-site, and with both keeps the colour and records it', () => {
